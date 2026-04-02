@@ -1,0 +1,289 @@
+---
+title: "The Opening of Surat al-Tawbah — A Diplomatic Declaration, Not a Blanket Command"
+category: "Revelation & passage context"
+prompt: "What's the full context around the passages in the beginning of Surat al-Tawbah regarding the call to fight?"
+date: "2026-03-17"
+model: "Claude Opus 4.6"
+tools_used:
+  - fetch_quran(9:1-14, ar-simple-clean)
+  - fetch_translation(9:1-14, en-abdel-haleem)
+  - fetch_tafsir(9:1, ar-nathm-aldurar)
+  - fetch_tafsir(9:4-6, ar-tabari)
+  - fetch_tafsir(9:7-8, ar-nathm-aldurar)
+  - fetch_tafsir(9:12-13, ar-tabari, ar-tahrir-wa-tanwir)
+---
+
+Surat al-Tawbah ([9](https://quran.com/9)) is the only surah in the Qur'an that does not begin with *Bismillah al-Rahman al-Rahim*. This is not an accident. **'Ali ibn Abi Talib**, when asked why by **Ibn Abbas**, answered: "Because *Bismillah* is a declaration of safety (`aman`), and Bara'ah was sent down with the sword." The surah opens not with mercy but with a formal diplomatic severance — a `bara'ah` (*bara'ah*, disassociation) from treaties that had been violated.
+
+What follows in the first fourteen verses is not a blanket command to violence. It is a structured legal-diplomatic document — with a declaration, an exception, a deadline, conditions for cessation, an asylum provision, an indictment of the treaty violators, and a reconciliation clause. Reading any single verse without the others distorts the entire passage.
+
+---
+
+## The Historical Setting
+
+:::quote
+source: Nazm al-Durar fi Tanasub al-Ayat wa al-Suwar
+attribution: Al-Biqa'i
+
+لَمّا خَرَجَ رَسُولُ اللَّهِ ﷺ إلى تَبُوكَ كانَ المُنافِقُونَ يَرْجُفُونَ الأراجِيفَ، وجَعَلَ المُشْرِكُونَ يَنْقُضُونَ عُهُودًا كانَتْ بَيْنَهم وبَيْنَ رَسُولِ اللَّهِ ﷺ، فَأمَرَ اللَّهُ بِنَقْضِ عُهُودِهِمْ
+---
+When the Messenger of Allah ﷺ departed for the expedition of Tabuk, the hypocrites were spreading false rumors, and the mushrikun began violating treaties that had been between them and the Messenger of Allah ﷺ. So Allah commanded the annulment of their treaties.
+:::
+
+:::commentary
+The background is the Treaty of Hudaybiyyah (6 AH / 628 CE) — a general peace agreement that included the provision that no one would be barred from the Ka'bah and no one would be harmed during the sacred months. **Quraysh and their allies violated this treaty** by supporting Banu Bakr against the Prophet's allies from Khuza'ah. This violation led to the conquest of Makkah in 8 AH. After that, a period of transition followed in which various Arab tribes still held treaties of varying status.
+:::
+
+---
+
+## 9:1-3: The Declaration
+
+:::verse
+ref: 9:1
+link: https://quran.com/9/1
+attribution: Abdel Haleem
+
+بَرَاءَةٌ مِّنَ اللَّهِ وَرَسُولِهِ إِلَى الَّذِينَ عَاهَدتُّم مِّنَ الْمُشْرِكِينَ
+---
+A release by God and His Messenger from the treaty you believers made with the idolaters.
+:::
+
+:::verse
+ref: 9:2
+link: https://quran.com/9/2
+attribution: Abdel Haleem
+
+فَسِيحُوا فِي الْأَرْضِ أَرْبَعَةَ أَشْهُرٍ وَاعْلَمُوا أَنَّكُمْ غَيْرُ مُعْجِزِي اللَّهِ ۙ وَأَنَّ اللَّهَ مُخْزِي الْكَافِرِينَ
+---
+You idolaters may move freely about the land for four months, but you should bear in mind both that you will not escape God, and that God will disgrace those who defy Him.
+:::
+
+:::commentary
+**Al-Biqa'i** narrates that when these verses were revealed, the Prophet ﷺ sent **Abu Bakr** to lead the pilgrimage in year 9 AH, then dispatched **'Ali ibn Abi Talib** to announce the opening of Bara'ah at Mina on the Day of Sacrifice. 'Ali proclaimed four things: (1) no disbeliever enters Paradise, (2) no mushrik performs Hajj after this year, (3) no one circumambulates the Ka'bah naked, and (4) whoever has a treaty with the Messenger of Allah ﷺ — it holds until its term.
+:::
+
+:::quote
+source: Nazm al-Durar (citing al-Tirmidhi)
+attribution: 'Ali ibn Abi Talib
+
+بِأرْبَعٍ: لا يَدْخُلُ الجَنَّةَ إلّا نَفْسٌ مُسْلِمَةٌ، ولا يَطُوفَ بِالبَيْتِ عُرْيانٌ، ولا يَجْتَمِعُ المُسْلِمُونَ والمُشْرِكُونَ بَعْدَ عامِهِمْ هَذا، ومَن كانَ بَيْنَهُ وبَيْنَ النَّبِيِّ ﷺ عَهْدٌ فَعَهْدُهُ إلى مُدَّتِهِ ومَن لا مُدَّةَ لَهُ فَأرْبَعَةُ أشْهُرٍ
+---
+"With four things: no soul enters Paradise except a Muslim soul, no one circumambulates the House naked, Muslims and mushrikin shall not gather [at Hajj] after this year, and whoever has a treaty with the Prophet ﷺ — his treaty holds until its term; whoever has no set term — four months."
+:::
+
+:::insight
+title: A formal notice period, not a surprise attack
+
+The passage opens with a *notice period* — four months of safe conduct — not an ambush. The mushrikin are explicitly told: you have time to travel safely, settle your affairs, and decide. This is the opposite of treachery — it is a formal, public, announced termination of a treaty that one party had already violated.
+:::
+
+---
+
+## 9:4: The Exception — Honor Your Treaties
+
+:::verse
+ref: 9:4
+link: https://quran.com/9/4
+attribution: Abdel Haleem
+
+إِلَّا الَّذِينَ عَاهَدتُّم مِّنَ الْمُشْرِكِينَ ثُمَّ لَمْ يَنقُصُوكُمْ شَيْئًا وَلَمْ يُظَاهِرُوا عَلَيْكُمْ أَحَدًا فَأَتِمُّوا إِلَيْهِمْ عَهْدَهُمْ إِلَىٰ مُدَّتِهِمْ ۚ إِنَّ اللَّهَ يُحِبُّ الْمُتَّقِينَ
+---
+As for those who have honoured the treaty you made with them and who have not supported anyone against you: fulfil your agreement with them to the end of their term. God loves those who are mindful of Him.
+:::
+
+:::quote
+source: Jami' al-Bayan
+attribution: Al-Tabari (from Qatada)
+
+هم مشركو قريش، الذين عاهدهم رسول الله صلى الله عليه وسلم زمن الحديبية، وكان بقي من مدتهم أربعة أشهر بعد يوم النحر. فأمر الله نبيه أن يوفي لهم بعهدهم إلى مدتهم, ومن لا عهد له إلى انسلاخ المحرم
+---
+They are the mushrikun of Quraysh, whom the Messenger of Allah ﷺ had treated with at the time of Hudaybiyyah, and four months remained of their term after the Day of Sacrifice. So Allah commanded His Prophet to honour their treaty until its term, and for those without a treaty — until the end of Muharram.
+:::
+
+:::commentary
+**Al-Biqa'i** identifies the specific tribes who honored their treaties from **al-Suddi**, **al-Kalbi**, and **Ibn Ishaq**: Banu Khuzaymah, Banu Mudlij, Banu Damra, and Banu al-Dil — sub-clans of Bakr who had entered the Hudaybiyyah treaty through Quraysh but had not themselves violated it. The verse commands: *fulfil your agreement with them to the end of their term*.
+:::
+
+:::insight
+title: Treaty-keeping is taqwa
+
+The very next verse after the declaration contains a blanket exception: if you kept your word, *we keep ours*. The passage does not abrogate treaties indiscriminately — it distinguishes between violators and non-violators, and commands Muslims to honor their commitments to the latter. The phrase "God loves those who are mindful of Him" (`inna Allaha yuhibbu al-muttaqin`) ties treaty-keeping to *taqwa* — consciousness of God.
+:::
+
+---
+
+## 9:5: The Verse in Context
+
+:::verse
+ref: 9:5
+link: https://quran.com/9/5
+attribution: Abdel Haleem
+
+فَإِذَا انسَلَخَ الْأَشْهُرُ الْحُرُمُ فَاقْتُلُوا الْمُشْرِكِينَ حَيْثُ وَجَدتُّمُوهُمْ وَخُذُوهُمْ وَاحْصُرُوهُمْ وَاقْعُدُوا لَهُمْ كُلَّ مَرْصَدٍ ۚ فَإِن تَابُوا وَأَقَامُوا الصَّلَاةَ وَآتَوُا الزَّكَاةَ فَخَلُّوا سَبِيلَهُمْ ۚ إِنَّ اللَّهَ غَفُورٌ رَّحِيمٌ
+---
+When the four forbidden months are over, wherever you encounter the idolaters, kill them, seize them, besiege them, wait for them at every lookout post; but if they turn to God, maintain the prayer, and pay the prescribed alms, let them go on their way, for God is most forgiving and merciful.
+:::
+
+:::quote
+source: Jami' al-Bayan
+attribution: Al-Tabari (from Ibn Zayd)
+
+ضُرِب لهم أجلُ أربعة أشهر, وتبرأ من كل مشرك. ثم أمر إذا انسلخت تلك الأشهر الحرم فاقتلوا المشركين حيث وجدتموهم... ضَيِّقوا عليهم بعدها. ثم أمر بالعفو: فإن تابوا وأقاموا الصلاة وآتوا الزكاة فخلوا سبيلهم إن الله غفور رحيم
+---
+He set them a deadline of four months and disassociated from every mushrik. Then He commanded: when those sacred months expire — fight the mushrikin wherever you find them... tighten the pressure on them after that. **Then He commanded pardon**: "If they repent, establish prayer, and give zakah — let them go on their way. Truly God is Most Forgiving, Most Merciful."
+:::
+
+:::commentary
+**Al-Tabari** then makes a critical judgment: "The correct view, in my opinion, is the view of those who say: **this is not abrogated.**" He argues that the verse stands alongside [47:4](https://quran.com/47/4) ("either grace or ransom after that") — both are operative. The command to fight is not unconditional; it always coexists with the option to accept repentance, grant asylum ([9:6](https://quran.com/9/6)), or extend mercy.
+:::
+
+---
+
+## 9:6: The Asylum Provision — The Verse Almost Nobody Quotes
+
+:::verse
+ref: 9:6
+link: https://quran.com/9/6
+attribution: Abdel Haleem
+
+وَإِنْ أَحَدٌ مِّنَ الْمُشْرِكِينَ اسْتَجَارَكَ فَأَجِرْهُ حَتَّىٰ يَسْمَعَ كَلَامَ اللَّهِ ثُمَّ أَبْلِغْهُ مَأْمَنَهُ ۚ ذَٰلِكَ بِأَنَّهُمْ قَوْمٌ لَّا يَعْلَمُونَ
+---
+If any one of the idolaters should seek your protection, grant it to him so that he may hear the word of God, then take him to a place safe for him, for they are people with no knowledge of it.
+:::
+
+:::quote
+source: Jami' al-Bayan
+attribution: Al-Tabari
+
+وإن استأمنك من المشركين الذين أمرتك بقتالهم وقتلهم بعد انسلاخ الأشهر الحرم أحدٌ ليسمع كلام الله منك — وهو القرآن — فأمّنه حتى يسمع كلام الله وتتلوه عليه. ثم رُدَّه بعد سماعه كلام الله إن هو أبى أن يسلم ولم يتعظ لما تلوته عليه من كلام الله فيؤمن — إلى حيث يأمن منك وممن في طاعتك
+---
+If one of the mushrikin whom you have been commanded to fight and kill after the sacred months has expired seeks your protection — to hear the word of God, meaning the Qur'an — then grant him safety until he hears it and you recite it to him. Then, **if he refuses to accept Islam**, return him to his place of safety — to where he is secure from you and from those under your authority — until he reaches his people and homeland.
+:::
+
+:::commentary
+**Ibn Zayd** confirms: "This is **not abrogated** (`laysa hadha bi-mansukh`)." The asylum provision stands permanently alongside the command to fight. Even after the sacred months expire, even after all treaties have been dissolved — a single individual who asks for protection *must receive it*, must be allowed to hear the Qur'an, and if he declines Islam, must be **escorted to safety**. Not killed. Not imprisoned. Escorted home.
+:::
+
+:::insight
+title: An asylum right embedded in the text of war
+
+Immediately after the command to fight ([9:5](https://quran.com/9/5)), the Qur'an establishes an individual asylum right ([9:6](https://quran.com/9/6)) — literally in the next verse. A mushrik who seeks protection must be given it, allowed to hear the Qur'an, and if he declines, escorted to a place where he is safe. Al-Tabari explicitly states this is not abrogated. The Qur'an builds the escape hatch into the very structure of the war command.
+:::
+
+---
+
+## 9:7-10: The Indictment — Why the Treaties Failed
+
+:::quote
+source: Nazm al-Durar
+attribution: Al-Biqa'i
+
+كَيْفَ يَكُونُ لِلْمُشْرِكِينَ — أهْلِ العَراقَةِ في الشِّرْكِ الَّذِينَ تُوجِبُ عَراقَتُهم فِيهِ ومَحَبَّتُهم لِظُهُورِهِ نَكْثَ العَهْدِ الَّذِي لا أقْبَحَ مِنهُ عِنْدَ العَرَبِ ولا أشْنَعَ — عَهْدٌ عِنْدَ اللَّهِ
+---
+How can there be a treaty for the mushrikin — people deeply entrenched in polytheism, whose very entrenchment and love for its triumph necessitate the violation of treaties, which is the ugliest and most disgraceful thing among the Arabs — a treaty binding before God?
+:::
+
+:::verse
+ref: 9:8
+link: https://quran.com/9/8
+attribution: Abdel Haleem
+
+كَيْفَ وَإِن يَظْهَرُوا عَلَيْكُمْ لَا يَرْقُبُوا فِيكُمْ إِلًّا وَلَا ذِمَّةً ۚ يُرْضُونَكُم بِأَفْوَاهِهِمْ وَتَأْبَىٰ قُلُوبُهُمْ وَأَكْثَرُهُمْ فَاسِقُونَ
+---
+How, when, if they were to get the upper hand over you, they would not respect any tie with you, of kinship or of treaty? They please you with their tongues, but their hearts are against you and most of them are lawbreakers.
+:::
+
+:::commentary
+**Al-Biqa'i** explains the word `ill` (إلّ): it means kinship — from the root meaning a spearhead with a broad blade, which connotes clarity, sharpness, and firmness. The verse says: if they gained power over you, they would honor neither blood ties nor treaty obligations. They tell you what you want to hear; their hearts intend the opposite. The Qur'an is building a prosecutorial case: these people are *structurally incapable* of keeping faith.
+:::
+
+---
+
+## 9:11: The Reconciliation — "They Are Your Brothers"
+
+:::verse
+ref: 9:11
+link: https://quran.com/9/11
+attribution: Abdel Haleem
+
+فَإِن تَابُوا وَأَقَامُوا الصَّلَاةَ وَآتَوُا الزَّكَاةَ فَإِخْوَانُكُمْ فِي الدِّينِ ۗ وَنُفَصِّلُ الْآيَاتِ لِقَوْمٍ يَعْلَمُونَ
+---
+If they turn to God, keep up the prayer, and pay the prescribed alms, then they are your brothers in faith: We make the messages clear for people who are willing to learn.
+:::
+
+:::commentary
+The transition from "fight them" ([9:5](https://quran.com/9/5)) to "they are your brothers" ([9:11](https://quran.com/9/11)) — separated by only six verses — is one of the most dramatic reversals in the Qur'an. The same people who were the target of a military command become *brothers in faith* (`ikhwanukum fi al-din`) the moment they accept Islam. **Al-Tabari** records from **Anas** that the Prophet ﷺ said: "Their repentance is the abandonment of idols and the worship of their Lord, the establishment of prayer, and the giving of zakah."
+:::
+
+---
+
+## 9:12-13: The Causation — "They Started It"
+
+:::verse
+ref: 9:12
+link: https://quran.com/9/12
+attribution: Abdel Haleem
+
+وَإِن نَّكَثُوا أَيْمَانَهُم مِّن بَعْدِ عَهْدِهِمْ وَطَعَنُوا فِي دِينِكُمْ فَقَاتِلُوا أَئِمَّةَ الْكُفْرِ ۙ إِنَّهُمْ لَا أَيْمَانَ لَهُمْ لَعَلَّهُمْ يَنتَهُونَ
+---
+But if they break their oath after having made an agreement with you, if they revile your religion, then fight the leaders of disbelief — oaths mean nothing to them — so that they may stop.
+:::
+
+:::verse
+ref: 9:13
+link: https://quran.com/9/13
+attribution: Abdel Haleem
+
+أَلَا تُقَاتِلُونَ قَوْمًا نَّكَثُوا أَيْمَانَهُمْ وَهَمُّوا بِإِخْرَاجِ الرَّسُولِ وَهُم بَدَءُوكُمْ أَوَّلَ مَرَّةٍ ۚ أَتَخْشَوْنَهُمْ ۚ فَاللَّهُ أَحَقُّ أَن تَخْشَوْهُ إِن كُنتُم مُّؤْمِنِينَ
+---
+How could you not fight a people who have broken their oaths, who tried to drive the Messenger out, who attacked you first? Do you fear them? It is God you should fear if you are true believers.
+:::
+
+:::quote
+source: Jami' al-Bayan
+attribution: Al-Tabari (from Qatada)
+
+فَكانَ مِن أئمَّةِ الكُفرِ: أبو جهلِ بنُ هشامٍ, وأميَّةُ بنُ خلفٍ, وعُتبةُ بنُ ربيعةَ, وأبو سفيانَ, وسهيلُ بنُ عمرٍو, وهم الذين همُّوا بإخراجه
+---
+Among the leaders of disbelief were: Abu Jahl ibn Hisham, Umayya ibn Khalaf, 'Utba ibn Rabi'a, Abu Sufyan, and Suhayl ibn 'Amr — and they are the ones who plotted to expel him.
+:::
+
+:::commentary
+**Ibn Ashur** explains why the Qur'an says "fight the *leaders of disbelief*" (`a'immat al-kufr`) instead of simply "fight *them*": it is a deliberate substitution to add moral gravity (*tashni'*). They are not merely treaty-breakers; they are **role models in disbelief** whose public defiance emboldens others to follow.
+:::
+
+:::commentary
+**Hudhayfah** said: "The people of this verse have not yet been fought" — indicating he understood `a'immat al-kufr` as referring to a specific future confrontation, not a universal permanent command. **Al-Tabari** reports this through al-A'mash from Zayd ibn Wahb.
+:::
+
+:::commentary
+[9:13](https://quran.com/9/13) lays out the complete justification — three specific charges: (1) **نَكَثُوا أَيْمَانَهُمْ** — they broke their oaths; (2) **وَهَمُّوا بِإِخْرَاجِ الرَّسُولِ** — they plotted to expel the Messenger; (3) **وَهُم بَدَءُوكُمْ أَوَّلَ مَرَّةٍ** — *they* started it first. **Mujahid** says "they started it" refers to Quraysh fighting the Prophet's allies from Khuza'ah, which violated the Hudaybiyyah treaty.
+:::
+
+---
+
+## Summary: The Structure of 9:1-14 as a Legal Document
+
+| Verse | Function | Content |
+|-------|----------|---------|
+| [9:1](https://quran.com/9/1) | **Declaration** | Treaty dissolution announced by God and His Messenger |
+| [9:2](https://quran.com/9/2) | **Safe conduct** | Four months to move freely — no surprise attacks |
+| [9:3](https://quran.com/9/3) | **Public proclamation** | Announced at Hajj to all people |
+| [9:4](https://quran.com/9/4) | **Exception** | Those who honored their treaties — honor yours to the end |
+| [9:5](https://quran.com/9/5) | **Military instruction** | After the deadline: fight — but if they repent, let them go |
+| [9:6](https://quran.com/9/6) | **Asylum right** | Any individual seeking protection: grant it, escort to safety |
+| [9:7-10](https://quran.com/9/7-10) | **Indictment** | Why treaties failed: they honored nothing — kinship, covenant, or word |
+| [9:11](https://quran.com/9/11) | **Reconciliation** | If they repent and pray and give zakah — "they are your brothers" |
+| [9:12](https://quran.com/9/12) | **Conditional war** | Only if they break oaths AND revile your religion — fight the leaders |
+| [9:13](https://quran.com/9/13) | **Justification** | Three specific charges: oath-breaking, plotting expulsion, initiating aggression |
+| [9:14](https://quran.com/9/14) | **Command with purpose** | Fight them — God will punish them through your hands and heal believers' hearts |
+
+:::insight
+title: A legal framework with more safeguards than most modern declarations of war
+
+When [9:5](https://quran.com/9/5) is quoted alone — "kill the mushrikin wherever you find them" — it reads as an unconditional command of total war. When read within its fourteen-verse context, it is one clause within a diplomatic framework that includes: a four-month notice period ([9:2](https://quran.com/9/2)), an explicit exception for treaty-honoring parties ([9:4](https://quran.com/9/4)), a cessation clause conditioned on repentance ([9:5](https://quran.com/9/5)), an individual asylum right ([9:6](https://quran.com/9/6)), a reconciliation pathway to full brotherhood ([9:11](https://quran.com/9/11)), and a justification that names specific grievances — including that *they started it first* ([9:13](https://quran.com/9/13)). **Al-Tabari** concludes that the verse is **not abrogated** — meaning the conditions, exceptions, and asylum provision remain permanently operative.
+:::
+
+:::grounding
+fetch_quran(9:1-14, ar-simple-clean), fetch_translation(9:1-14, en-abdel-haleem), fetch_tafsir(9:1, ar-nathm-aldurar), fetch_tafsir(9:4-6, ar-tabari), fetch_tafsir(9:7-8, ar-nathm-aldurar), fetch_tafsir(9:12-13, ar-tabari, ar-tahrir-wa-tanwir)
+:::

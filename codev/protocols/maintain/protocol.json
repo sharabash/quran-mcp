@@ -1,0 +1,114 @@
+{
+  "$schema": "../../protocol-schema.json",
+  "name": "maintain",
+  "version": "1.0.0",
+  "description": "Codebase maintenance - dead code removal, doc sync, hygiene",
+  "input": {
+    "type": "none",
+    "required": false,
+    "default_for": []
+  },
+  "hooks": {
+    "pre-spawn": {}
+  },
+  "phases": [
+    {
+      "id": "audit",
+      "name": "Audit",
+      "description": "Analyze codebase for dead code, unused dependencies, stale docs",
+      "type": "once",
+      "steps": [
+        "scan_unused_exports",
+        "scan_unused_dependencies",
+        "scan_stale_documentation",
+        "generate_report"
+      ],
+      "transition": {
+        "on_complete": "clean"
+      }
+    },
+    {
+      "id": "clean",
+      "name": "Clean",
+      "description": "Remove identified dead code and unused dependencies",
+      "type": "once",
+      "steps": [
+        "remove_dead_code",
+        "remove_unused_deps",
+        "verify_build",
+        "commit"
+      ],
+      "checks": {
+        "build": {
+          "command": "npm run build",
+          "on_fail": "retry",
+          "max_retries": 2
+        }
+      },
+      "transition": {
+        "on_complete": "sync"
+      }
+    },
+    {
+      "id": "sync",
+      "name": "Sync Documentation",
+      "description": "Update documentation to match current codebase",
+      "type": "once",
+      "steps": [
+        "update_arch_md",
+        "update_lessons_learned",
+        "update_claude_md",
+        "commit"
+      ],
+      "transition": {
+        "on_complete": "verify"
+      }
+    },
+    {
+      "id": "verify",
+      "name": "Verify",
+      "description": "Run tests and verify codebase health",
+      "type": "once",
+      "steps": [
+        "run_tests",
+        "run_build",
+        "create_summary"
+      ],
+      "checks": {
+        "tests": {
+          "command": "npm test",
+          "on_fail": "clean",
+          "max_retries": 1
+        }
+      },
+      "gate": {
+        "name": "maintain-complete",
+        "description": "Maintenance complete",
+        "requires": ["tests_pass", "build_succeeds"],
+        "next": null
+      }
+    }
+  ],
+  "signals": {
+    "PHASE_COMPLETE": {
+      "description": "Signal current phase is complete",
+      "transitions_to": "next_phase"
+    },
+    "BLOCKED": {
+      "description": "Signal maintenance is blocked",
+      "requires": "reason"
+    }
+  },
+  "defaults": {
+    "mode": "soft",
+    "consultation": {
+      "enabled": false,
+      "tools": [],
+      "parallel": false
+    },
+    "checks": {
+      "build": "npm run build",
+      "test": "npm test"
+    }
+  }
+}

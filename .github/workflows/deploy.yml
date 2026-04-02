@@ -1,0 +1,81 @@
+name: Deploy to Hetzner
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Git ref to deploy (tag, branch, or commit). Defaults to the latest release tag.'
+        required: false
+        type: string
+
+env:
+  APP_DIR: ${{ vars.DEPLOY_APP_DIR }}
+  BACKUP_DIR: ${{ vars.DEPLOY_BACKUP_DIR }}
+  BACKUP_RETENTION_DAYS: 30
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Determine ref
+        id: ref
+        env:
+          INPUT_REF: ${{ github.event.inputs.ref }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ -n "$INPUT_REF" ]; then
+            echo "ref=$INPUT_REF" >> "$GITHUB_OUTPUT"
+          elif [ "$EVENT_NAME" = "release" ]; then
+            echo "ref=$RELEASE_TAG" >> "$GITHUB_OUTPUT"
+          else
+            echo "ref=master" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Pull and checkout
+        env:
+          DEPLOY_REF: ${{ steps.ref.outputs.ref }}
+        run: |
+          cd "$APP_DIR"
+          git fetch origin
+          # For branches, reset to remote HEAD. For tags/commits, detached checkout.
+          if git show-ref --verify --quiet "refs/remotes/origin/$DEPLOY_REF" 2>/dev/null; then
+            git checkout "$DEPLOY_REF"
+            git reset --hard "origin/$DEPLOY_REF"
+          else
+            git checkout "$DEPLOY_REF"
+          fi
+
+      - name: Backup database
+        run: |
+          mkdir -p "$BACKUP_DIR"
+          cd "$APP_DIR"
+          docker compose exec -T db pg_dump \
+            -U "$QURAN_MCP_DB_USER" \
+            -d "$QURAN_MCP_DB_DATABASE" \
+            --schema=quran_mcp \
+            --data-only --no-owner --no-privileges \
+            | gzip > "$BACKUP_DIR/pre-deploy-$(date +%Y%m%d-%H%M%S).sql.gz"
+
+      - name: Prune old backups
+        run: |
+          find "$BACKUP_DIR" -name "pre-deploy-*.sql.gz" -mtime +"$BACKUP_RETENTION_DAYS" -delete
+
+      - name: Rebuild and restart
+        run: |
+          cd "$APP_DIR"
+          docker compose down
+          docker compose up -d --build
+
+      - name: Verify startup
+        run: |
+          sleep 10
+          cd "$APP_DIR"
+          docker compose ps
+          curl -sf -X POST http://localhost:8088/ \
+            -H "Content-Type: application/json" \
+            -H "Accept: application/json, text/event-stream" \
+            -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"deploy-check","version":"1.0"}}}' \
+            | grep -q '"serverInfo"' && echo "Smoke test PASSED" || { echo "Smoke test FAILED"; exit 1; }

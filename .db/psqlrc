@@ -1,0 +1,9 @@
+\set EDITOR vim
+\setenv PAGER 'less -SigNMX'
+SET search_path TO quran_mcp, quran_com, public;
+\set _local_exists `test -f /docker-entrypoint-initdb.d/dumps/psqlrc.local && echo 1 || echo 0`
+\if :_local_exists
+\i /docker-entrypoint-initdb.d/dumps/psqlrc.local
+\endif
+\unset _local_exists
+\pset null ∅

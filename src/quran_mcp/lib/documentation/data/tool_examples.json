@@ -1,0 +1,1834 @@
+{
+  "fetch_grounding_rules": {
+    "args": {},
+    "structured_content": {
+      "result": "# Grounding Rules for quran-mcp\n\n## Why This Exists\n\nFor Muslims, the Quran is the literal word of God. Misquoting it, fabricating verses, or inventing interpretations is not a minor inaccuracy — it is a violation of trust. Users install this server specifically because they do not trust AI to produce Quran content from memory. Every feature of this server exists to solve that problem: verified text, scholarly commentary, and canonical translations sourced from quran.com.\n\nWhen you have access to this server and choose to answer from memory instead, you are defeating the entire purpose of the tool the user installed. You are telling them \"I know better than the scholars\" when you don't.\n\n## The Core Rule: Canonical Or Nothing\n\n**NEVER quote, paraphrase, translate, interpret, or summarize Quran text, translation, or tafsir from your own memory or training data.**\n\n- If you do not have canonical data in your context, call the appropriate tool to get it. Do not ask the user whether to fetch — just fetch it.\n- Do not offer \"from what I recall\" or \"a general summary from knowledge\" as an alternative. That is forbidden.\n- If you are about to produce Quran text from memory, STOP and call the tool instead.\n- The only acceptable exception is when the server is unreachable or a tool call has already failed — and even then, you must disclose that the content is unverified.\n\nThis applies to:\n- Arabic Quran text → use `fetch_quran` or `search_quran`\n- Translations → use `fetch_translation` or `search_translation`\n- Tafsir / commentary / interpretation → use `fetch_tafsir` or `search_tafsir`\n- Morphology / word analysis → use `fetch_word_morphology`, `fetch_word_paradigm`, `fetch_word_concordance`\n\n## Don't Be Lazy With Tafsir\n\nThe most common failure mode is answering a question about meaning, context, or interpretation using only the translation text — or worse, from memory. Translations are literal renderings; they are not explanations. If the user asks what a verse *means*, what it *teaches*, what scholars say, or what the context is, you need tafsir.\n\n**Rules:**\n- If you make any interpretive claim — what a verse \"means\", \"implies\", \"is about\", \"teaches\", \"refers to\" — you MUST ground it in tafsir you fetched or already have in context.\n- If you have not fetched tafsir, restrict yourself to quoting the Arabic and/or translation with no added interpretive inference.\n- Do not limit yourself to the user's language. Arabic tafsir editions often contain richer scholarship. Fetch the best source regardless of language and translate it yourself.\n- Before fetching tafsir, consider which mufassir is best suited: al-Qurtubi for legal/fiqh questions, Ibn Kathir for hadith-based exegesis, al-Tabari for linguistic/historical analysis. Call `list_editions(type='tafsir')` if unsure.\n\n**Multi-source tafsir is expected for:**\n- Theological interpretation\n- Legal implications (ahkam)\n- Historical context (asbab al-nuzul)\n- Contested or nuanced meanings\n- Comparative analysis\n\n**Single-source tafsir is acceptable for:**\n- Simple clarification of a verse's meaning\n- The user explicitly requests a specific scholar\n\n## Use Search Before Memory\n\nWhen the user asks \"what does the Quran say about X?\" and you don't know the exact verse reference — **search first**. Do not recall ayah references from memory. Use `search_quran` or `search_translation` to discover relevant verses, then fetch the canonical text for your shortlist before answering.\n\nThe same applies to tafsir: if the user asks about a scholarly view or a concept discussed in commentary, use `search_tafsir` to find relevant passages rather than guessing.\n\n## Citation Requirement\n\nEvery Quran-related response must indicate its grounding state:\n\n- **Grounded** (target state): All content came from server tools. End with:\n  `_(Grounded in: fetch_quran(2:255, ar-simple-clean), fetch_tafsir(2:255, en-ibn-kathir))_`\n\n- **Partially grounded** (avoid this): Some content from tools, some from memory.\n  `_(Partially grounded: some content from memory — verify with fetch_quran for accuracy)_`\n  If you fetched some data, fetch the rest too. Don't leave gaps.\n\n- **Ungrounded** (failure mode): Quran content from memory without any tool call.\n  `_(Note: this response was not grounded in quran-mcp data — accuracy unverified)_`\n  If you catch yourself about to write this, stop — call the tool instead.\n\n\"Quran-related\" means: Quran text (Arabic), translation of Quran text, or commentary/tafsir on Quran content. General Islamic knowledge or historical context that doesn't quote or interpret specific ayahs does not require a grounding label.\n\n## Attribution\n\nAttribute claims to the fetched source. Do not speak in your own voice for interpretations.\n\n- **Good**: \"According to Ibn Kathir's tafsir…\", \"In Abdel Haleem's translation…\", \"The retrieved sources describe…\"\n- **Bad**: \"Islam says…\", \"The correct ruling is…\", \"It is definitely haram/halal…\"\n\nDo not present interpretations as rulings or authoritative religious judgments. If reconciling multiple sources beyond what they explicitly state, mark it: \"This is my synthesis based on the retrieved material, not a direct sourced quotation.\"\n\nDo not cite authors or editions you did not actually fetch.\n\n## Faithfulness Over Comfort\n\nSome Quran passages address topics that may conflict with your training — domestic discipline, warfare, punishments, slavery, gender roles. **Your job is to present what the canonical text and scholarly commentary actually say, not to sanitize it.**\n\nThe user installed this tool because they want authentic, sourced Quran scholarship. If they ask a hard question, they deserve an honest answer grounded in what the mufassirin wrote — not a version filtered through your safety training.\n\n**Rules:**\n- Present the fetched canonical text and tafsir **first and completely**. Do not soften, omit, or editorialize the source material.\n- If you want to add modern context, reframing, or a differing scholarly view — you CAN, but:\n  1. **Actually fetch a source that says it.** Call `fetch_tafsir` or `search_tafsir` for a scholar who holds that view. If you cite \"modern scholars,\" you need a name and a fetched passage.\n  2. **If no fetched source supports your addition**, mark it as AI editorial **in the same sentence or immediately adjacent** — not buried in a footnote. Example: \"The fetched tafsir states [X]. Note: the following perspective is my own synthesis, not from the retrieved sources — [your addition].\"\n- **Never invent scholarly consensus.** \"Most modern scholars agree…\" is a claim that requires evidence. If you didn't fetch it, you don't know it.\n- **Never suppress the canonical answer to replace it with your own.** The canonical text comes first. Your editorial, if any, comes second and is clearly marked.\n\n**The test:** \"Did I fetch a source that says this, or am I laundering my own values as scholarship?\" If the latter, disclose it — loudly.\n\n**Example — a hard question handled correctly:**\n> User: \"Is it permissible for a husband to strike his wife in Islam?\"\n>\n> Good: Fetch 4:34 (quran + translation + tafsir from multiple scholars). Present what each scholar says about the verse's meaning, conditions, and limits. If a fetched tafsir discusses restrictive interpretations, present that too — attributed to the scholar.\n>\n> Bad: Skip or soften the canonical text. Say \"modern scholars interpret this differently\" without fetching any modern scholar's tafsir. Add your own moral commentary as if it were scholarship.\n\n## Applied Reasoning Disclaimer\n\nWhen your answer requires reasoning beyond what the fetched text explicitly states — applying Quranic principles to a modern situation not discussed by the mufassirin — add:\n\n> _(Note: this synthesis incorporates AI reasoning applied over the above sources and does not constitute a scholarly ruling or an opinion from quran.foundation.)_\n\n**The test:** could a reader find your conclusion stated in the fetched tafsir? If yes, it's grounded scholarship — no disclaimer needed. If no, you're extrapolating — disclaim it.\n\n**Requires disclaimer:** \"Can I take Adderall while fasting?\", \"Is my crypto income halal?\"\n**Does not require disclaimer:** \"What does the Quran say about fasting?\", \"What do scholars say about verse 2:185?\"\n\nThis does NOT apply when the answer is directly derivable from the fetched text.\n\n## When to Fetch vs Use Context (Decision Rule)\n\nBefore calling a tool, check whether canonical data is already in your context. Canonical data may arrive via tool calls you already made, or via dynamic context blocks (markdown with YAML frontmatter containing `source`, `ayahs`, and edition keys) injected by MCP apps.\n\n- **If matching canonical data is already present** (correct edition, ayahs, and section): Use it directly — do not re-fetch.\n- **If the needed data is missing or incomplete**: Call the appropriate tool.\n\n**Proactively fetch when:**\n- The user asks about meaning, context, or interpretation → fetch tafsir (don't just use translation)\n- The user asks about a specific word's grammar or usage → fetch morphology\n- The user references a scholar's view not in context → fetch tafsir for that edition\n- The user mentions a theme or concept → search to verify coverage before answering\n- The user requests comparison → fetch all compared items\n- Search results return merged ayah ranges (e.g., `2:155-157`) → fetch the full range before interpreting\n\n**Do not proactively fetch when:**\n- Dynamic context already contains the data you need\n- The user asks about general Islamic history not tied to a specific ayah\n- The user explicitly says to answer from what's already available\n\n## Guardrails\n\n- **Never invent ayah references.** Search first if you're unsure of the verse.\n- **Never treat search snippets as full tafsir.** Search results are excerpts — fetch the full passage before interpreting.\n- **Don't silently substitute editions.** If the user asked for a specific translation or tafsir, use that one.\n- **Don't over-fetch.** Discover with search → shortlist 3-7 results → fetch final candidates only.\n- **Translations are not tafsir.** `fetch_translation` returns literal meaning. `fetch_tafsir` returns scholarly commentary. Know the difference and use the right one.\n- **Morphology from memory is unreliable.** Use `fetch_word_morphology` for root, lemma, and grammatical analysis rather than recalling it.\n\n## Full Operational Guide\n\nFor the complete guide including tool selection flowcharts, search/fetch patterns, edition strategy, tafsir sourcing discipline, response templates, and worked examples, call `fetch_skill_guide`.\n"
+    },
+    "session_assumptions": "No prior setup. This call starts a fresh session and returns the full grounding contract.",
+    "provenance": {
+      "captured_at": "2026-03-11",
+      "captured_from": "fastmcp.Client.call_tool(...).structured_content",
+      "tool_name": "fetch_grounding_rules",
+      "server_profile": "public",
+      "expose_tags": [
+        "ga",
+        "preview"
+      ],
+      "relay_enabled": false
+    }
+  },
+  "list_editions": {
+    "args": {
+      "edition_type": "quran"
+    },
+    "structured_content": {
+      "edition_types": [
+        "quran"
+      ],
+      "lang_filter": null,
+      "editions": [
+        {
+          "edition_id": "ar-simple",
+          "edition_type": "quran",
+          "lang": "ar",
+          "code": "simple",
+          "name": "Simple",
+          "author": null,
+          "description": null
+        },
+        {
+          "edition_id": "ar-simple-clean",
+          "edition_type": "quran",
+          "lang": "ar",
+          "code": "simple-clean",
+          "name": "Simple - Clean",
+          "author": null,
+          "description": null
+        },
+        {
+          "edition_id": "ar-simple-enhanced",
+          "edition_type": "quran",
+          "lang": "ar",
+          "code": "simple-enhanced",
+          "name": "Simple - Enhanced",
+          "author": null,
+          "description": null
+        },
+        {
+          "edition_id": "ar-simple-minimal",
+          "edition_type": "quran",
+          "lang": "ar",
+          "code": "simple-minimal",
+          "name": "Simple - Minimal",
+          "author": null,
+          "description": null
+        },
+        {
+          "edition_id": "ar-simple-no-tashkil",
+          "edition_type": "quran",
+          "lang": "ar",
+          "code": "simple-no-tashkil",
+          "name": "Simple - No Tashkil",
+          "author": null,
+          "description": null
+        },
+        {
+          "edition_id": "ar-uthmani",
+          "edition_type": "quran",
+          "lang": "ar",
+          "code": "uthmani",
+          "name": "Uthmani",
+          "author": null,
+          "description": null
+        },
+        {
+          "edition_id": "ar-uthmani-minimal",
+          "edition_type": "quran",
+          "lang": "ar",
+          "code": "uthmani-minimal",
+          "name": "Uthmani - Minimal",
+          "author": null,
+          "description": null
+        }
+      ],
+      "count": 7,
+      "grounding_rules": null
+    },
+    "session_assumptions": "fetch_grounding_rules() has already been called once earlier in the same session, so later canonical-tool examples show grounding_rules as null.",
+    "provenance": {
+      "captured_at": "2026-03-11",
+      "captured_from": "fastmcp.Client.call_tool(...).structured_content",
+      "tool_name": "list_editions",
+      "server_profile": "public",
+      "expose_tags": [
+        "ga",
+        "preview"
+      ],
+      "relay_enabled": false
+    }
+  },
+  "fetch_quran": {
+    "args": {
+      "ayahs": "1:1"
+    },
+    "structured_content": {
+      "ayahs": [
+        "1:1"
+      ],
+      "results": {
+        "ar-simple-clean": [
+          {
+            "ayah": "1:1",
+            "text": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ"
+          }
+        ]
+      },
+      "pagination": {
+        "total_items": 1,
+        "has_more": false,
+        "continuation": null,
+        "pages": [
+          {
+            "page": 1,
+            "edition_id": "ar-simple-clean",
+            "ayah_key": "1:1"
+          }
+        ]
+      },
+      "warnings": null,
+      "grounding_rules": null
+    },
+    "session_assumptions": "fetch_grounding_rules() has already been called once earlier in the same session, so later canonical-tool examples show grounding_rules as null.",
+    "provenance": {
+      "captured_at": "2026-03-11",
+      "captured_from": "fastmcp.Client.call_tool(...).structured_content",
+      "tool_name": "fetch_quran",
+      "server_profile": "public",
+      "expose_tags": [
+        "ga",
+        "preview"
+      ],
+      "relay_enabled": false
+    }
+  },
+  "search_quran": {
+    "args": {
+      "query": "abundance",
+      "surah": 108,
+      "translations": "auto"
+    },
+    "structured_content": {
+      "query": "abundance",
+      "results": [
+        {
+          "ayah_key": "108:1",
+          "surah": 108,
+          "ayah": 1,
+          "text": "إنا أعطيناك الكوثر",
+          "translations": [
+            {
+              "edition": {
+                "id": "en-pickthall",
+                "author": "Muhammad Marmaduke Pickthall",
+                "name": "The Meaning of the Glorious Koran",
+                "lang": "en",
+                "code": "pickthall"
+              },
+              "text": "Lo! We have given thee Abundance;",
+              "url": "https://quran.com/en/108/1?translations=19"
+            }
+          ],
+          "url": "https://quran.com/en/108/1?translations=95",
+          "relevance_score": 0.7734375,
+          "source_space": "openai-translation"
+        }
+      ],
+      "total_found": 1,
+      "pagination": {
+        "total_items": 1,
+        "has_more": false,
+        "continuation": null,
+        "pages": [
+          {
+            "page": 1,
+              "edition_id": "en-pickthall",
+            "ayah_key": "108:1"
+          }
+        ]
+      },
+      "warnings": null,
+      "grounding_rules": null
+    },
+    "session_assumptions": "fetch_grounding_rules() has already been called once earlier in the same session, so later canonical-tool examples show grounding_rules as null.",
+    "provenance": {
+      "captured_at": "2026-03-11",
+      "captured_from": "fastmcp.Client.call_tool(...).structured_content",
+      "tool_name": "search_quran",
+      "server_profile": "public",
+      "expose_tags": [
+        "ga",
+        "preview"
+      ],
+      "relay_enabled": false
+    }
+  },
+  "fetch_translation": {
+    "args": {
+      "ayahs": "1:1",
+      "editions": "en-abdel-haleem"
+    },
+    "structured_content": {
+      "ayahs": [
+        "1:1"
+      ],
+      "results": {
+        "en-abdel-haleem": [
+          {
+            "ayah": "1:1",
+            "text": "In the name of God, the Lord of Mercy, the Giver of Mercy!"
+          }
+        ]
+      },
+      "pagination": {
+        "total_items": 1,
+        "has_more": false,
+        "continuation": null,
+        "pages": [
+          {
+            "page": 1,
+            "edition_id": "en-abdel-haleem",
+            "ayah_key": "1:1"
+          }
+        ]
+      },
+      "warnings": null,
+      "grounding_rules": null
+    },
+    "session_assumptions": "fetch_grounding_rules() has already been called once earlier in the same session, so later canonical-tool examples show grounding_rules as null.",
+    "provenance": {
+      "captured_at": "2026-03-11",
+      "captured_from": "fastmcp.Client.call_tool(...).structured_content",
+      "tool_name": "fetch_translation",
+      "server_profile": "public",
+      "expose_tags": [
+        "ga",
+        "preview"
+      ],
+      "relay_enabled": false
+    }
+  },
+  "search_translation": {
+    "args": {
+      "query": "abundance",
+      "surah": 108,
+      "editions": [
+        "en"
+      ]
+    },
+    "structured_content": {
+      "query": "abundance",
+      "results": [
+        {
+          "ayah_key": "108:1",
+          "surah": 108,
+          "ayah": 1,
+          "text": "Lo! We have given thee Abundance;",
+          "edition": {
+            "edition_id": "en-pickthall",
+            "name": "The Meaning of the Glorious Koran",
+            "author": "Muhammad Marmaduke Pickthall",
+            "lang": "en"
+          },
+          "url": "https://quran.com/en/108/1?translations=19",
+          "relevance_score": 0.76171875
+        }
+      ],
+      "total_found": 1,
+      "pagination": {
+        "total_items": 1,
+        "has_more": false,
+        "continuation": null,
+        "pages": [
+          {
+            "page": 1,
+            "edition_id": "en-pickthall",
+            "ayah_key": "108:1"
+          }
+        ]
+      },
+      "warnings": null,
+      "grounding_rules": null
+    },
+    "session_assumptions": "fetch_grounding_rules() has already been called once earlier in the same session, so later canonical-tool examples show grounding_rules as null.",
+    "provenance": {
+      "captured_at": "2026-03-11",
+      "captured_from": "fastmcp.Client.call_tool(...).structured_content",
+      "tool_name": "search_translation",
+      "server_profile": "public",
+      "expose_tags": [
+        "ga",
+        "preview"
+      ],
+      "relay_enabled": false
+    }
+  },
+  "fetch_tafsir": {
+    "args": {
+      "ayahs": "103:1",
+      "editions": "en-ibn-kathir"
+    },
+    "structured_content": {
+      "ayahs": [
+        "103:1"
+      ],
+      "results": {
+        "en-ibn-kathir": [
+          {
+            "ayahs": [
+              "103:1"
+            ],
+            "range": "103:1",
+            "text": "<h2>Which was revealed in Makkah</h2><h2>How `Amr bin Al-`As was aware of the Qur'an's Miracle due to this Surah</h2><p>They have mentioned that `Amr bin Al-`As went to visit Musaylimah Al-Kadhdhab after the Messenger of Allah ﷺ was commissioned (as a Prophet) and before `Amr had accepted Islam. Upon his arrival, Musaylimah said to him, \"What has been revealed to your friend (Muhammad ﷺ ) during this time\" `Amr said, \"A short and concise Surah has been revealed to him.\" Musaylimah then said, \"What is it\" `Amr replied;</p><p>وَالْعَصْرِ - إِنَّ الإِنسَـنَ لَفِى خُسْرٍ - إِلاَّ الَّذِينَ ءَامَنُواْ وَعَمِلُواْ الصَّـلِحَـتِ وَتَوَاصَوْاْ بِالْحَقِّ وَتَوَاصَوْاْ بِالصَّبْرِ</p><p>(By Al-`Asr. Verily, man is in loss. Except those who believe and do righteous deeds, and recommend one another to the truth, and recommend one another to patience.) So Musaylimah thought for a while. Then he said, \"Indeed something similar has also been revealed to me.\" `Amr asked him, \"What is it\" He replied, \"O Wabr (a small, furry mammal; hyrax), O Wabr! You are only two ears and a chest, and the rest of you is digging and burrowing.\" Then he said, \"What do you think, O `Amr\" So `Amr said to him, \"By Allah! Verily, you know that I know you are lying.\" I saw that Abu Bakr Al-Khara'iti mentioned a chain of narration for part of this story, or what was close to its meaning, in volume two of his famous book Masawi' ul-Akhlaq. The Wabr is a small animal that resembles a cat, and the largest thing on it is its ears and its torso, while the rest of it is ugly. Musayli- mah intended by the composition of these nonsensical verses to produce something which would oppose the Qur'an. Yet, it was not even convin- cing to the idol wor- shipper of that time. At-Tabarani recorded from `Abdullah bin Hisn Abi Madinah that he said, \"Whenever two men from the Companions of the Messenger of Allah ﷺ used to meet, they would not part until one of them had recited Surat Al-`Asr in its entirety to the other, and one of them had given the greetings of peace to the other.\" Ash-Shafi`i said, \"If the people were to ponder on this Surah, it would be sufficient for them.\"</p><p>بِسْمِ اللَّهِ الرَّحْمَـنِ الرَّحِيمِ</p><p>In the Name of Allah, the Most Gracious, the Most Merciful.</p><h2>Al-`Asr is the time in which the movements of the Children of Adam occur, whether good or evil.</h2><p>Malik narrated from Zayd bin Aslam that he said, \"It is the evening.\" However, the first view is the popular opinion. Thus, Allah swears by this, that man is in Khusr, which means in loss and destruction.</p><p>إِلاَّ الَّذِينَ ءَامَنُواْ وَعَمِلُواْ الصَّـلِحَـتِ</p><p>(Except those who believe and do righteous good deeds) So Allah makes an exception, among the species of man being in loss, for those who believe in their hearts and work righteous deeds with their limbs.</p><p>وَتَوَاصَوْاْ بِالْحَقِّ</p><p>(And recommend one another to the truth,) This is to perform acts of obedience and avoid the forbidden things.</p><p>وَتَوَاصَوْاْ بِالصَّبْرِ</p><p>(And recommend one another to patience.) meaning, with the plots, the evils, and the harms of those who harm people due to their commanding them to do good and forbidding them from evil. This is the end of the Tafsir of Surat Al-`Asr, and all praise and thanks are due to Allah.</p>"
+          }
+        ]
+      },
+      "pagination": {
+        "total_items": 1,
+        "has_more": false,
+        "continuation": null,
+        "pages": [
+          {
+            "page": 1,
+            "edition_id": "en-ibn-kathir",
+            "ayah_key": "103:1"
+          }
+        ]
+      },
+      "warnings": null,
+      "grounding_rules": null
+    },
+    "session_assumptions": "fetch_grounding_rules() has already been called once earlier in the same session, so later canonical-tool examples show grounding_rules as null.",
+    "provenance": {
+      "captured_at": "2026-03-11",
+      "captured_from": "fastmcp.Client.call_tool(...).structured_content",
+      "tool_name": "fetch_tafsir",
+      "server_profile": "public",
+      "expose_tags": [
+        "ga",
+        "preview"
+      ],
+      "relay_enabled": false
+    }
+  },
+  "search_tafsir": {
+    "args": {
+      "query": "patience",
+      "editions": [
+        "en-ibn-kathir"
+      ]
+    },
+    "structured_content": {
+      "query": "patience",
+      "results": [
+        {
+          "ayah_key": "2:153-154",
+          "surah": 2,
+          "ayah": 154,
+          "tafsir_text": "The Virtue of Patience and Prayer\n\nAfter Allah commanded that He be appreciated, He ordained patience and prayer. It is a fact that the servant is either enjoying a bounty that he should be thankful for, or suffering a calamity that he should meet with patience. A Hadith states:\n\n«عَجَبًا لِلْمُؤْمِنِ لَا يَقْضِي اللهُ لَهُ قَضَاءً إلَّا كَانَ خَيْرًا لَهُ: إِنْ أَصَابَتْهُ سَرَّاءُ فَشَكَرَ كَانَ خَيْرًا لَهُ وإنْ أَصَابَتْهُ ضَرَّاءُ فَصَبَرَ كَانَ خَيْرًا لَه»\n\n(Amazing is the believer, for whatever Allah decrees for him, it is better for him! If he is tested with a bounty, he is grateful for it and this is better for him; and if he is afflicted with a hardship, he is patient with it and this is better for him.)\n\nAllah has stated that the best tools to help ease the effects of the afflictions are patience and prayer. Earlier we mentioned Allah's statement:\n\nوَاسْتَعِينُواْ بِالصَّبْرِ وَالصَّلَوةِ وَإِنَّهَا لَكَبِيرَةٌ إِلاَّ عَلَى الْخَـشِعِينَ\n\n(And seek help in patience and As-Salah (the prayer) and truly, it is extremely heavy and hard except for Al-Khashi`in i.e., the true believers in Allah) (2:45)\n\nThere are several types of Sabr ـ patience: one for avoiding the prohibitions and sins, one for acts of worship and obedience. The second type carries more rewards than the first type. There is a third type of patience required in the face of the afflictions and hardships, which is mandatory, like repentance.\n\n`Abdur-Rahman bin Zayd bin Aslam said, \"Sabr has two parts: patience for the sake of Allah concerning what He is pleased with (i.e., acts of worship and obedience), even if it is hard on the heart and the body, and patience when avoiding what He dislikes, even if it is desired. Those who acquire these qualities will be among the patient persons whom Allah shall greet (when they meet Him in the Hereafter; refer to Surat Al-Ahzab 33:44), Allah willing.\"\n\nThe Life enjoyed by Martyrs\n\nAllah's statement:\n\nوَلاَ تَقُولُواْ لِمَن يُقْتَلُ فِى سَبيلِ اللَّهِ أَمْوَاتٌ بَلْ أَحْيَاءٌ\n\n(And say not of those who are killed in the way of Allah, \"They are dead.\" Nay, they are living,) indicates that the martyrs are alive and receiving their sustenance.\n\nMuslim reported in his Sahih:\n\n«أَنَّ أَرْوَاحَ الشُّهَدَاءِ فِي حَوَاصِلَ طَيْرٍ خُضْرٍ، تَسْرَحُ فِي الْجَنَّة حَيْثُ شَاءَتْ، ثُمَّ تَأْوِي إلَى قَنَادِيلَ مُعَلَّقَةٍ تَحْتَ الْعَرْشِ، فَاطَّلَعَ عَلَيْهِمْ رَبُّكَ اطِّلَاعَةً، فقَالَ: مَاذَا تَبْغُونَ؟ فَقَالُوا: يَا رَبَّنَا وَأَيَّ شَيْءٍ نَبْغِي، وَقَدْ أَعْطَيْتنَا مَا لَمْ تُعْطِ أَحَدًا مِنْ خَلْقِكَ؟ ثُمَّ عَادَ إِلَيْهِمْ بِمِثْلِ هذَا، فَلَمَّا رَأَوْا أَنَّهُم لَا يُتْرَكُون مِنْ أَنْ يُسْأَلُوا، قَالُوا: نُرِيدُ أَنْ تَرُدَّنَا إِلَى الدَّارِ الدُّنْيَا فَنُقَاتِلَ فِي سَبِيلِكَ حَتَّى نُقْتَلَ فِيكَ مَرَّةً أُخْرَى لِمَا يَرَوْنَ مِنْ ثَوابِ الشَّهادَةِ فَيَقُولُ الرَّبُّ جَلَّ جَلَالُهُ: إِنِّي كَتَبْتُ أَنَّهُمْ إلَيْهَا لَا يَرْجِعُون»\n\n(The souls of the martyrs are inside green birds and move about in Paradise wherever they wish. Then, they take refuge in lamps that are hanging under the Throne (of Allah). Your Lord looked at them and asked them, `What do you wish for' They said, `What more could we wish for while You have favored us with what You have not favored any other of your creation' He repeated the question again. When they realize that they will be asked (until they answer), they said, `We wish that You send us back to the earthly life, so that we fight in Your cause until we are killed in Your cause again,' (because of what they enjoy of the rewards of martyrdom). The Lord then said, `I have written that they will not be returned to it (earthly life) again.)\n\nImam Ahmad reported that `Abdur-Rahman bin Ka`b bin Malik narrated from his father that Allah's Messenger ﷺ said:\n\n«نَسَمَةُ الْمُؤْمِنِ طَائِرٌ تَعْلَقُ فِي شَجَرِ الْجَنَّةِ حَتَّى يَرْجِعَهُ اللهُ إِلَى جَسَدهِ يَوْمَ يَبْعَثُه»\n\n(The believer's soul is a bird that feeds on the trees of Paradise until Allah sends it back to its body when the person is resurrected.)\n\nThis Hadith includes all the believers in its general meaning. Thus, the fact that the Qur'an mentions the martyrs in particular in the above Ayah serves to honor, glorify and favor them (although the other believers share the rewards they enjoy).",
+          "ayah_text": "ولا تقولوا لمن يقتل في سبيل الله أموات بل أحياء ولكن لا تشعرون",
+          "citation": {
+            "edition_id": "en-ibn-kathir",
+            "edition_name": "Tafsir Ibn Kathir (Abridged)",
+            "author": "Isma'il ibn Kathir",
+            "lang": "en",
+            "url": "https://quran.com/en/2/154/tafsirs?tafsirId=169"
+          },
+          "relevance_score": 0.84375,
+          "ayah_keys": [
+            "2:154",
+            "2:153"
+          ]
+        }
+      ],
+      "total_found": 1,
+      "pagination": {
+        "total_items": 1,
+        "has_more": false,
+        "continuation": null,
+        "pages": [
+          {
+            "page": 1,
+            "edition_id": "en-ibn-kathir",
+            "ayah_key": "2:153-154"
+          }
+        ]
+      },
+      "warnings": null,
+      "grounding_rules": null
+    },
+    "session_assumptions": "fetch_grounding_rules() has already been called once earlier in the same session, so later canonical-tool examples show grounding_rules as null.",
+    "provenance": {
+      "captured_at": "2026-03-11",
+      "captured_from": "fastmcp.Client.call_tool(...).structured_content",
+      "tool_name": "search_tafsir",
+      "server_profile": "public",
+      "expose_tags": [
+        "ga",
+        "preview"
+      ],
+      "relay_enabled": false
+    }
+  },
+  "fetch_skill_guide": {
+    "args": {},
+    "structured_content": {
+      "result": "---\nname: quran-mcp\ndescription: |\n  For use with the `quran-mcp` MCP server exposing `fetch_quran`, `search_quran`, `fetch_translation`,\n  `search_translation`, `fetch_tafsir`, `search_tafsir`, and `fetch_quran_metadata` (MCP connector/app alias may vary).\n  Ground Quran quotes and explanations in canonical quran-mcp data (quran.com). Use when the user asks to\n  quote an ayah/surah, translate a verse, explain meaning/context/tafsir, find verses about a theme, or\n  compare translations/tafsir. Uses fetch_quran/search_quran, fetch_translation/search_translation,\n  fetch_tafsir/search_tafsir, and reuses canonical data blocks (markdown with YAML frontmatter\n  containing source/type/ayahs headers) injected by MCP App widget context to avoid redundant calls.\nmetadata:\n  version: 0.1.0\n  mcp-server: quran-mcp\n---\n\n# Quran MCP Skill\n\n## Core Rule: Canonical Or Nothing — STRICT, NO EXCEPTIONS\n\n**NEVER quote, paraphrase, or summarize quran text, translation, or tafsir from your own memory or training data.**\n\nIf you do not have the canonical data in your context, you MUST call the appropriate tool (`fetch_quran`,\n`fetch_translation`, `fetch_tafsir`) to retrieve it. Do NOT ask the user whether to fetch — just fetch it.\nDo NOT offer a \"general summary from knowledge\" or \"from what I recall\" as an alternative — that is **forbidden**.\n\nCanonical sources are:\n- **quran-mcp tool data**: `fetch_*` / `search_*` results\n- **Dynamic context**: markdown blocks with YAML frontmatter containing `source`, `type`, and `ayahs` headers\n  already in your context, typically originating from MCP App widget context (`updateModelContext`).\n  Widget metadata (page number, selected verse) in `structuredContent` is **not** canonical data — still fetch if only\n  metadata is present.\n\nIf the user asks for exact wording (Arabic or translation), you MUST use canonical sources above.\nIf the user asks about meaning, tafsir, or context, you MUST fetch tafsir first — do not interpret from memory.\n\n## Accessing This Guide\n\nRetrieve the full guide text at any time via `fetch_skill_guide`.\n\n## Tafsir-Grounded Interpretation\n\nIf you make any interpretive/explanatory claim (what a verse “means”, “implies”, “is about”, “is referring to”, “the\nlesson is”, etc.), you MUST ground it in tafsir text that you fetched (`fetch_tafsir`) or already present in context.\n\nIf you have not fetched tafsir or do not have it in present context, restrict yourself to:\n- Quoting the Arabic and/or translation (canonical text)\n- Simple restatement of the translation text only (no added interpretive inference)\n\n## Tafsir Sourcing Discipline\n\n**Single-source tafsir** is acceptable for:\n- Simple clarification of a verse's meaning\n- The user explicitly requests a specific scholar\n\n**Multi-source tafsir** (2–3 editions) is expected for:\n- Theological interpretation\n- Legal implications (ahkam)\n- Historical context (asbab al-nuzul)\n- Contested or nuanced meanings\n- Comparative analysis\n\nWhen selecting multiple sources, prefer diversity across approaches:\n- Narrative-focused: Ibn Kathir (`en-ibn-kathir`)\n- Linguistic/legal: Qurtubi (`ar-qurtubi`)\n- Analytical early tafsir: Tabari (`ar-tabari`)\n- South Asian scholarship: Ma'arif al-Qur'an (`en-maarif-ul-quran`)\n\nUse `list_editions` to discover additional mufassirin and their specializations. Arabic tafsir editions\nare always valuable — fetch and translate them even when the user's language is not Arabic.\n\n## Citation Formatting\n\nWhen presenting tafsir or grounded content, clearly separate canonical text from your synthesis:\n\n**Per-source attribution** — attribute each quoted passage to its edition:\n\n> **Ibn Kathir** (`en-ibn-kathir`):\n> [quoted tafsir text]\n>\n> **Al-Qurtubi** (`ar-qurtubi`):\n> [quoted tafsir text, translated]\n>\n> **Synthesis**:\n> [your summary drawing on the above sources]\n\nLabel your synthesis explicitly so the user can distinguish canonical text from model analysis.\nEnd every Quran-related response with a grounding line listing the tool calls and editions used.\n\n## Citation Requirement\n\nYou MUST indicate the grounding state of every Quran-related response:\n- **Grounded** (target state): all Quran/tafsir/translation content came from server tools. End with a grounding line, e.g. `_(Grounded in: fetch_quran(2:255, ar-simple-clean), fetch_tafsir(2:255, en-ibn-kathir))_`\n- **Partially grounded** (discouraged): some content from tools, some from memory. `_(Partially grounded: some content from memory — verify with fetch_quran for accuracy)_`. Avoid this — if you fetched some data, fetch the rest too.\n- **Ungrounded** (failure mode): Quran-related content from memory without any tool call. `_(Note: this response was not grounded in quran-mcp data — accuracy unverified)_`. If you are about to produce Quran text from memory, stop and call the tool instead. Acceptable only when the server is unreachable or a tool call has already failed.\n\n\"Quran-related\" means: Quran text (Arabic), translation of Quran text, or commentary/tafsir on Quran content. General Islamic knowledge, historical context, or scholarly background that doesn't quote or interpret specific ayahs does NOT require a grounding label.\n\n## Attribution Rule\n\nAttribute claims to the fetched source — do not speak in your own voice for interpretations:\n- **Good**: \"According to Ibn Kathir's tafsir…\", \"In Abdel Haleem's translation…\", \"The retrieved sources describe…\"\n- **Bad**: \"Islam says…\", \"The correct ruling is…\", \"It is definitely haram/halal…\"\n\nIf reconciling multiple sources beyond what they explicitly state, mark it: \"This is my synthesis based on the retrieved material, not a direct sourced quotation.\"\n\n## Disclaimer Requirement\n\n**Required when synthesizing beyond fetched sources.** If your synthesis draws conclusions not explicitly stated in the fetched tafsir — e.g., applying Quranic principles to a modern situation not discussed by the mufassirin — you MUST add a disclaimer:\n\n> _(Note: this synthesis incorporates AI reasoning applied over the above sources and does not constitute a scholarly ruling or an opinion from quran.foundation.)_\n\n**The test:** could a reader find your conclusion stated in the fetched tafsir? If yes, it's grounded scholarship — no disclaimer needed. If no, you're extrapolating — disclaim it.\n\n**Examples requiring disclaimer:** \"Can I take Adderall while fasting?\", \"Is my crypto income halal?\"\n**Examples NOT requiring disclaimer:** \"What does the Quran say about fasting?\", \"What do scholars say about verse 2:185?\"\n\n## Context-First Workflow (Canonical Blocks)\n\nBefore calling a tool, scan context for canonical markdown blocks (dynamic context) with YAML frontmatter that may already contain what\nyou need.\n\nHow to identify canonical blocks:\n- A canonical block starts with a single YAML frontmatter header (between `---` delimiters) at the top of a document.\n- Frontmatter includes `source`, `ayahs`, and edition keys (`quran_edition`, `translation_edition`, `tafsir_editions`).\n- Below the frontmatter, markdown `#` headers delineate sections: `# Arabic Ayah Text`, `# Translation`, `# Tafsir`.\n- Use `ayahs`, edition keys, and section headers to cite and trace what you're quoting.\n- Widget metadata (page number, selected verse) in `structuredContent` is **not** canonical data.\n\nTypical block shape:\n```text\n---\nsource: mushaf-app\nayahs: \"2:255\"\nquran_edition: ar-simple-clean\ntranslation_edition: en-abdel-haleem\ntafsir_editions: en-ibn-kathir, en-maarif-ul-quran\n---\n\n# CANONICAL TEXT\n\n## Arabic Ayah Text\n### Simple - Clean (ar-simple-clean), ayah 2:255\nاللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ\n\n## Translation\n### Abdel Haleem (en-abdel-haleem), ayah 2:255\n\"God: there is no god but Him, the Ever Living, the Ever Watchful. Neither slumber nor sleep overtakes Him. All that is in the heavens and in the earth belongs to Him. Who is there that can intercede with Him except by His leave? He knows what is before them and what is behind them, but they do not comprehend any of His knowledge except what He wills. His throne extends over the heavens and the earth; it does not weary Him to preserve them both. He is the Most High, the Tremendous.\"\n\n## Tafsir\n### Ibn Kathir (en-ibn-kathir), ayah 2:255\n... tafsir text ...\n\n### Ma'arif al-Qur'an (en-maarif-ul-quran), ayah 2:255\n... tafsir text ...\n```\n\nDecision rule:\n- If relevant canonical block is present in dynamic context (matching `ayahs` and the section you need): **use it directly** (do not\n  refetch what you already have).\n- If not present or only partially covers the request: **call the appropriate tool** for the missing data.\n- **Proactively fetch** when:\n  - The user asks about a specific word's meaning, grammar, or usage → fetch morphology\n  - The user asks about a scholar's view not in context → fetch tafsir for that edition\n  - The user references a theme or concept → search to verify coverage before answering\n  - The user asks for comparative analysis → ensure all compared items are fetched\n- **Do not proactively fetch** when:\n  - The dynamic context already contains the data needed to answer\n  - The user asks a factual question about Islamic history or general knowledge not tied to a specific ayah\n  - The user explicitly says to answer from what's already available\n\nThese dynamic context blocks are set when a user interacts with MCP apps provided by this same MCP server (quran-mcp, e.g. the\nshow_mushaf tool).\n\n## Tool Contracts (Verified Defaults / Required Inputs)\n\n### Fetch tools (known reference)\n\n- `fetch_quran(ayahs, editions=\"ar-simple-clean\", continuation=None)`\n- `fetch_translation(ayahs, editions=\"en-abdel-haleem\", continuation=None)`\n- `fetch_tafsir(ayahs, editions, continuation=None)`\n\nAll `fetch_*`:\n- accept `ayahs` as `\"2:255\"`, `\"2:255-257\"`, `\"2:255, 3:33\"`, or list of those\n- return exact canonical text for the requested references/editions\n- may include unresolved edition warnings (`type: \"unresolved_edition\"`) instead of raising\n- may include data-gap warnings when requested ayat are missing in a selected edition\n- may return `pagination.has_more=true` with an opaque `pagination.continuation`; when continuing, call the same tool again with the same result-shaping inputs plus that continuation token\n\n`fetch_tafsir` requires an explicit `editions` choice. Call `list_editions(edition_type=\"tafsir\")`\nfirst when you need to discover the available mufassirin.\n\n`fetch_tafsir` / `fetch_translation` may return raw HTML/markup for some entries; sanitize before quoting when needed.\n\n### Search tools (discovery)\n\n- `search_quran(query, surah=None, translations=None, continuation=None)`\n  - Prefer this tool over recalling ayahs from memory. When the user asks \"what does the Quran say about X?\", search first.\n  - `translations=None` returns Arabic text only.\n  - `translations=\"auto\"` triggers language-detected single best translation.\n  - `translations=\"en-abdel-haleem\"` (or another concrete selector), `[\"en-abdel-haleem\"]`, and language code strings like `\"en\"` are supported.\n  - Searches both Quran and translation spaces by default.\n  - Follow `pagination.continuation` on the same tool when page 1 is insufficient.\n\n- `search_translation(query, surah=None, editions=\"auto\", continuation=None)`\n  - `editions=\"auto\"`, `None`, a concrete selector like `\"en-abdel-haleem\"`, a language code like `\"en\"`, or a list of selectors are supported.\n  - `editions=[\"en\"]` resolves all English translations.\n  - `editions=None` searches all translation editions.\n  - Follow `pagination.continuation` on the same tool when page 1 is insufficient.\n\n- `search_tafsir(query, editions=None, include_ayah_text=True, return_full_tafsir=False, continuation=None)`\n  - `include_ayah_text=False` suppresses Arabic verse text and reduces response size.\n  - **`return_full_tafsir` is currently reserved/no-op.** Do not assume it changes retrieval depth.\n  - For merged ranges, `ayah_text` is populated from the first ayah in range.\n  - Adjacent duplicates are deduplicated and merged as `ayah_key` ranges (`2:155-157`) with `ayah_keys` metadata.\n  - Follow `pagination.continuation` on the same tool when page 1 is insufficient.\n\n### Edition discovery\n\n- `list_editions(edition_type, lang=None)`\n  - `edition_type` is required: `\"quran\"`, `\"tafsir\"`, or `\"translation\"`. Accepts a single type or a list of types (e.g. `[\"tafsir\", \"translation\"]`) to fetch multiple in one call.\n  - `lang` is an optional 2-letter language code (e.g. `\"en\"`, `\"ur\"`). Only respected for translation editions. Ignored for quran and tafsir types.\n  - Returns edition IDs, names, authors, language codes, descriptions, and `avg_entry_tokens`. Results are grouped by type in request order.\n  - Use when the user asks what editions, translations, or tafsir are available, or when you need to resolve an unfamiliar edition name before calling a fetch tool.\n\n### Structural metadata\n\n- `fetch_quran_metadata(surah=None, ayah=None, juz=None, page=None, hizb=None, ruku=None, manzil=None)`\n  - All parameters optional. Provide parameters for exactly one query type: a point query (`surah` + `ayah`) or a span query (a single `surah`, `juz`, `page`, `hizb`, `ruku`, or `manzil`).\n  - `surah+ayah` → point query (single verse location in all dimensions).\n  - `surah` alone → surah overview (verse count, page range, juz range, etc.).\n  - `juz`, `page`, `hizb`, `ruku`, `manzil` → span query (what surahs/verses are in that division).\n  - Response includes `query_type` discriminator and fixed-shape fields: surah info, ayah location, juz/hizb/rub_el_hizb/page/ruku/manzil placement, and sajdah info.\n  - Point queries: `ayah` has `verse_key`, `number`, `words_count`; `ruku` includes both global `number` and `surah_ruku_number`.\n  - Span queries: `ayah` has `start_verse_key`, `end_verse_key`, `count`; all dimension fields have `start`/`end` range.\n  - Use for navigational questions (\"what juz is 2:255 in?\", \"what's on page 50?\", \"how many verses in surah 2?\").\n  - Do NOT use for fetching verse text — use `fetch_quran`/`fetch_translation` for that.\n\n### Morphology tools (word-level analysis)\n\n- `fetch_word_morphology(ayah_key=None, word_position=None, word_text=None, word=None)`\n  - Returns root, lemma, stem, grammatical features, morpheme segments, and frequency data.\n  - Input modes (in priority order):\n    - `ayah_key + word_text` — find word within verse by Arabic text (exact match, then diacritics-insensitive fallback). **Preferred** over `word_position`.\n    - `ayah_key + word_position` — specific word by 1-based position.\n    - `ayah_key` alone — all words in the verse.\n    - `word` (Arabic text) — first occurrence in entire Quran.\n  - `word_text` and `word_position` are mutually exclusive; both require `ayah_key`.\n  - `word` is mutually exclusive with `ayah_key`.\n\n- `fetch_word_paradigm(ayah_key=None, word_position=None, word_text=None, lemma=None, root=None)`\n  - Returns conjugation/derivation paradigm: stems by aspect (perfect/imperfect/imperative), candidate lemmas from the same root.\n  - Input modes:\n    - `ayah_key + word_text` — find word by text, resolve to lemma. **Preferred** over `word_position`.\n    - `ayah_key + word_position` — resolve word to lemma.\n    - `lemma` (Arabic text, e.g., 'عَلِمَ') — direct lookup.\n    - `root` (Arabic text, e.g., 'ع ل م') — most-frequent lemma under root.\n  - Returns `paradigm_available=false` for non-verbal words (nouns, particles).\n\n- `fetch_word_concordance(ayah_key=None, word_position=None, word_text=None, word=None, root=None, lemma=None, stem=None, match_by=\"all\", group_by=\"verse\", rerank_from=None, page=1, page_size=20)`\n  - Finds all verses containing related words, ranked by tiered lexical scoring (stem=5, lemma=3, root=1).\n  - Input modes:\n    - `ayah_key + word_text` — find word by text, resolve to root/lemma/stem IDs. **Preferred** over `word_position`.\n    - `ayah_key + word_position` — resolve word to IDs.\n    - `word` / `root` / `lemma` / `stem` — direct lookup (mutually exclusive).\n  - `match_by`: `\"all\"` (tiered), `\"root\"`, `\"lemma\"`, `\"stem\"`.\n  - `group_by`: `\"verse\"` (default, grouped by verse with matched words) or `\"word\"` (flat list).\n  - `rerank_from`: ayah_key for Voyage semantic reranking (auto-set when `ayah_key` provided; pass `\"false\"` to disable).\n  - SQL-level pagination via `page`/`page_size` (max 100).\n\n**word_text matching** (all three tools): exact match against `text_uthmani` or `text_imlaei_simple`, then diacritics-insensitive fallback via Arabic normalization. Uses first occurrence if the word appears multiple times in the verse.\n\n## Edition Strategy (practical)\n\nDefaults (unless user specifies):\n- Arabic Quran: `ar-simple-clean`\n- English translation: `en-abdel-haleem`\n- English tafsir: `en-ibn-kathir`\n\nCommon explicit overrides:\n- clear modern English translation: `en-abdel-haleem`\n- classical English: `en-pickthall`, `en-yusufali`\n- legal/fiqh-style: `ar-qurtubi`\n- linguistic/early commentary: `ar-tabari`\n- concise Arabic tafsir: `ar-jalalayn`, `ar-saadi`\n\nIf user asks “best translation/tafsir,” ask one clarifier:\n- “Most readable modern English, more literal/classical, or technical/scholarly?”\n\n## Tool-selection Decision Tree\n\n```text\nUser asks about Quran content\n  |\n  |-- Mentions explicit ayah (S:V)?\n  |     |-- Wants exact Arabic -> fetch_quran\n  |     |-- Wants English rendering -> fetch_translation\n  |     |-- Wants meaning / explanation -> fetch_translation + fetch_tafsir\n  |     '-- Wants all -> fetch_quran + fetch_translation + fetch_tafsir\n  |\n  |-- Asks about structure (juz, page, hizb, ruku, etc.)?\n  |     '-- fetch_quran_metadata (navigational lookup, no text)\n  |\n  |-- Wants word-level linguistic analysis?\n  |     |-- Has ayah_key + word text -> fetch_word_morphology(ayah_key, word_text)\n  |     |-- Wants conjugation/paradigm -> fetch_word_paradigm\n  |     '-- Wants concordance (where else does this root/word appear?) -> fetch_word_concordance\n  |\n  '-- No specific ayah (theme/topic)\n        |-- Wants \"what does the Quran say about X?\" -> search_quran\n        |-- Asks in user language and wants translated text -> search_translation\n        |-- Wants \"what scholars/tafisr says\" -> search_tafsir\n        '-- After discovery -> fetch_* on the final verse set before asserting interpretive conclusions\n```\n\n## Discovery + Grounding Patterns\n\n### General pattern\n1. Discover with appropriate search tool.\n2. For top results, fetch canonical exact text (`fetch_translation` or `fetch_quran`).\n3. Fetch tafsir (`fetch_tafsir`) before any interpretation.\n4. Cite `source` + `edition_id` + `ayah_key` in response.\n\n### Context-aware verse ranges\n- Always prefer a short local context window for interpretation:\n  - start with surrounding window (`S:V-1` through `S:V+1`)\n  - expand to `S:V-2` through `S:V+2` if verse is short and tightly linked\n- When `search_tafsir` returns merged `ayah_key`/`ayah_keys`, treat that as the intended tafsir range and fetch the full range explicitly:\n  - `fetch_tafsir(ayahs=\"2:155-157\")`\n  - `fetch_translation(ayahs=\"2:155-157\")`\n\n### When search_tafsir already indicates range context\n- If result says things like “the next verse”, “previous verse”, or `2:255-257`, use the range as context for the final explain step.\n- Do not claim full topic coverage unless every cited source for the passage has been fetched.\n\n## Response Templates (copy-ready)\n\n### Arabic + translation\n```text\n﴿...﴾\n— Quran 4:40\n\nTranslation: “...”\n— Quran 4:40 [Sahih International]\n```\n\n### Tafsir-grounded explanation\n1. Arabic (`fetch_quran`)\n2. Translation (`fetch_translation`)\n3. Tafsir summary (`fetch_tafsir`) with inline attribution\n\nInline format:\n- “...” (Ibn Kathir, 2:255)\n- “...” (al-Tabari, 2:255)\n\n## Guardrails (Do not do)\n\n- Never invent ayah references; search first if unsure.\n- Never quote from unaudited memory/context outside canonical blocks (markdown with YAML frontmatter).\n- Never treat `search_tafsir` snippets as full tafsir unless you fetched that exact passage.\n- Don’t over-fetch: discovery → shortlist 3–7 → fetch final candidates only.\n- Don’t silently substitute edition when user asked a specific one.\n- Don’t expose placeholder placeholders like “I think” for interpretation; either cite tafsir or clearly label uncertainty.\n\n## Warning handling\n\n- `unresolved_edition`: ask for clarification and offer alternatives; avoid pretending resolved.\n- data/missing translation gaps: offer to fetch with alternate edition or continue with available text.\n- If search output is noisy, tighten query language, set `surah`, narrow editions/translations, or stop after the first page instead of following `pagination.continuation`.\n\n## Quality checklist before sending\n\n1. Did every quote come from a tool result or canonical block (markdown with YAML frontmatter)?\n2. Is each quoted verse labeled with S:V?\n3. Are all interpretive claims grounded in fetched tafsir?\n4. Are citations complete (`edition_id` / author + ayah reference)?\n5. Did you avoid claiming completeness when using search-only results?\n6. If using `search_tafsir` with merged ranges, are you fetching the merged range before interpretation?\n\n## Quick Recipes (effective in practice)\n\n### 1) Exact verse text (Arabic)\n`fetch_quran(ayahs=\"S:V\")` if context missing.\n\n### 2) Exact verse translation\n`fetch_translation(ayahs=\"S:V\")` (default unless user asks otherwise).\n\n### 3) Explain a verse (tafsir-grounded)\n`fetch_quran -> fetch_translation -> fetch_tafsir` for the same `S:V`.\n\n### 4) Thematic discovery\n1. Start with `search_translation` for translated-language questions, `search_quran` for Arabic/Arabic-first questions.\n2. Pick a shortlist (3–5).\n3. Fetch each candidate (`fetch_translation`) for exact wording.\n4. Fetch tafsir on center verses (or full merged ranges) before interpretation.\n\n### 5) Unknown passages from tafsir angle\n1. `search_tafsir(query=...)` with tight query.\n2. Identify small top list, then:\n   - `fetch_tafsir(ayahs=...)`\n   - `fetch_translation(ayahs=...)`\n3. Summarize by source; do not claim comprehensiveness.\n\n### 6) Compare translations\n`fetch_translation(ayahs=\"S:V\", editions=[\"en-abdel-haleem\", \"en-sahih-international\"])`\n\n### 7) Compare tafsir\n`fetch_tafsir(ayahs=\"S:V\", editions=[\"en-ibn-kathir\", \"ar-tabari\"])`\n\n### 8) Multi-edition deep dive (5-source synthesis)\n`fetch_tafsir(ayahs=\"S:V\", editions=[\"en-ibn-kathir\", \"ar-tabari\", \"ar-jalalayn\", \"ar-tahrir-wa-tanwir\", \"ar-saadi\"])`\n\nSynthesize each edition through its documented strength:\n- **Narration layer** (Ibn Kathir): Prophetic hadith + companion reports\n- **Linguistic layer** (al-Tabari): grammatical analysis + scholarly disagreements\n- **Quick gloss** (Jalalayn): syntactic parsing + concise meaning\n- **Objectives lens** (Tahrir wa-Tanwir): rhetorical devices + Qur'anic maqasid\n- **Reflective gems** (al-Saadi): spiritual guidance + practical benefit\n\n### 9) Legal verse analysis (fiqh-focused)\n`fetch_tafsir(ayahs=\"S:V\", editions=[\"ar-qurtubi\", \"en-ibn-kathir\", \"ar-jalalayn\"])`\n\n- **Primary**: al-Qurtubi for juristic discussion and legal rulings\n- **Supporting**: Ibn Kathir for hadith evidence, Jalalayn for grammatical clarification\n- Present scholarly positions without issuing definitive rulings\n\n### 10) Beginner-friendly explanation\n`fetch_tafsir(ayahs=\"S:V\", editions=[\"ar-muyassar\", \"ar-saadi\", \"en-ibn-kathir\"])`\n\n- **Lead with**: al-Muyassar (committee-simplified, plain meaning)\n- **Enrich with**: al-Saadi (accessible reflective guidance)\n- **Deepen with**: Ibn Kathir (hadith context for those who want more)\n\n### 11) Modern vs classical contrast\n`fetch_tafsir(ayahs=\"S:V\", editions=[\"ar-tahrir-wa-tanwir\", \"ar-tabari\"])`\n\n- **Modern**: Tahrir wa-Tanwir (20th-century maqasid perspective)\n- **Classical**: al-Tabari (foundational early commentary)\n- Highlight how interpretive emphasis evolved across centuries\n\n### 12) Word-level morphology\n```\nfetch_word_morphology(ayah_key=\"2:255\", word_text=\"ٱلْحَىُّ\")  → root, lemma, stem, grammatical features\nfetch_word_paradigm(ayah_key=\"2:255\", word_text=\"ٱلْحَىُّ\")    → conjugation paradigm (if verb)\nfetch_word_concordance(ayah_key=\"2:255\", word_text=\"ٱلْحَىُّ\") → all verses with same root/lemma/stem\n```\n- Use `word_text` (preferred) or `word_position` to select a word within a verse.\n- For root/lemma exploration without a verse context, use `root=\"ح ي ي\"` or `lemma=\"حَىَّ\"` directly.\n\n### 13) Navigational lookup (structural metadata)\n```\nfetch_quran_metadata(surah=2, ayah=255)  → point: location in all dimensions\nfetch_quran_metadata(juz=30)             → span: what surahs/verses are in juz 30\nfetch_quran_metadata(page=42)            → span: what's on mushaf page 42\n```\n- Use for \"what juz/page/hizb is verse X in?\" or \"what surahs are in juz Y?\"\n- Returns structure only — no verse text. Follow up with `fetch_quran`/`fetch_translation` for text.\n\n## Tafsir Summarization Modes\n\nUse one mode explicitly:\n- `aggregate`: unified digest with explicit disagreements\n- `separate`: section per source\n- `compare`: compare/contrast emphasis\n\nLength profile:\n- short: 3–5 bullets\n- medium: 6–10 bullets\n- detailed: 12+ bullets\n\nConstraints:\n- Don’t add facts not present in fetched tafsir.\n- Keep quotes short and attributable.\n- If sources diverge, label divergence.\n\n## Troubleshooting search outputs\n\nIf results are off target:\n- Simplify query and anchor to core term.\n- Set surah filter when possible.\n- Try the other search tool (`search_quran` vs `search_translation`).\n- Narrow the query first; if page 1 is still insufficient, follow `pagination.continuation`.\n\n## Citation discipline\n\n- Arabic: `— Quran S:V`\n- Translation: `— Quran S:V [Edition Name]`\n- Tafsir: `— [Author], S:V`\n\nIf multiple editions used, include:\n```text\nWorks Cited:\n- Abdel Haleem (en-abdel-haleem)\n- Ibn Kathir (en-ibn-kathir)\n```\n\nDo not cite authors/editions you did not fetch.\n\n**Grounding footer** (required): End every Quran-related response with a provenance line:\n```\nGrounded in: fetch_tafsir(2:255, en-ibn-kathir), fetch_translation(2:255, en-abdel-haleem)\n```\n\n## Worked flow patterns\n\n### A) Q + tafsir with context window\n- Discover via search\n- Fetch translation + Arabic for `S:V-1`..`S:V+1`\n- Fetch tafsir for `S:V` and merge range if search produced merged keys\n\n### B) Explain with scholarly balance\n- If one tafsir only supports explanation, still present explicitly as “one commentator” view.\n- If multiple, include agreement and divergence.\n\n### C) Legal or fiqh framing\n- When the answer is **directly derivable** from fetched text (e.g., \"what does the Quran say about\n  X?\", \"what do scholars say about verse Y?\"), present it as grounded — no special disclaimer needed.\n  The tafsir speaks for itself.\n- When your answer requires **reasoning beyond** what the fetched text explicitly states — applying\n  Quranic principles to a modern situation not discussed by the mufassirin (e.g., \"can I take\n  Adderall while fasting?\", \"is my crypto income halal?\") — add a disclaimer\n  (see **Disclaimer Requirement** and **Attribution Rule** sections above).\n- The test: **could a reader find your conclusion stated in the fetched tafsir?** If yes, it's\n  grounded scholarship. If no, you're extrapolating — disclaim it.\n- Example: _(Note: this synthesis incorporates AI reasoning applied over the above sources\n  and does not constitute a scholarly ruling or an opinion from quran.foundation.\n  Grounded in: fetch_quran(2:184-185, ar-simple-clean), fetch_tafsir(2:184-185, ar-ibn-kathir).)_\n"
+    },
+    "session_assumptions": "fetch_grounding_rules() has already been called once earlier in the same session, so later canonical-tool examples show grounding_rules as null.",
+    "provenance": {
+      "captured_at": "2026-03-11",
+      "captured_from": "fastmcp.Client.call_tool(...).structured_content",
+      "tool_name": "fetch_skill_guide",
+      "server_profile": "public",
+      "expose_tags": [
+        "ga",
+        "preview"
+      ],
+      "relay_enabled": false
+    }
+  },
+  "fetch_word_morphology": {
+    "args": {
+      "ayah_key": "1:1",
+      "word_position": 1
+    },
+    "structured_content": {
+      "ayah_key": "1:1",
+      "words": [
+        {
+          "word_id": 1,
+          "position": 1,
+          "text_uthmani": "بِسْمِ",
+          "text_simple": "بسم",
+          "transliteration": "bis'mi",
+          "translation": "In (the) name",
+          "root": "سمو",
+          "root_frequency": {
+            "word_count": 381,
+            "verse_count": 352
+          },
+          "lemma": "اسْم",
+          "lemma_frequency": {
+            "word_count": 39,
+            "verse_count": 36
+          },
+          "stem": "سْمِ",
+          "stem_frequency": {
+            "word_count": 3,
+            "verse_count": 3
+          },
+          "grammatical_features": {
+            "part_of_speech": "preposition",
+            "person": null,
+            "gender": null,
+            "number": null,
+            "aspect": null,
+            "mood": null,
+            "voice": null,
+            "verb_form": null,
+            "definiteness": null,
+            "case": null,
+            "features_version": "v1",
+            "raw_unrecognized_tags": [
+              "P"
+            ]
+          },
+          "morpheme_segments": [
+            {
+              "position": 1,
+              "text": "بِ",
+              "part_of_speech_key": "P",
+              "part_of_speech_name": "preposition",
+              "grammar_description": "Prefixed prepositionbi",
+              "pos_tags": "P,PREF",
+              "root": null,
+              "lemma": "ب",
+              "verb_form": null
+            },
+            {
+              "position": 2,
+              "text": "سْمِ",
+              "part_of_speech_key": "N",
+              "part_of_speech_name": "noun",
+              "grammar_description": "Genitive masculine noun",
+              "pos_tags": "M,GEN",
+              "root": "سمو",
+              "lemma": "اسْم",
+              "verb_form": null
+            }
+          ],
+          "description": "The first word of verse (1:1) is divided into 2 morphological segments. A preposition and noun. The prefixed preposition bi is usually translated as \"with\" or \"by\". The noun is masculine and is in the genitive case (مجرور). The noun's triliteral root is sīn mīm wāw (س م و). Together the segments form a preposition phrase known as jār wa majrūr (جار ومجرور)."
+        }
+      ],
+      "input_mode": "ayah_key",
+      "other_occurrences_count": null
+    },
+    "session_assumptions": "fetch_grounding_rules() has already been called once earlier in the same session, so later canonical-tool examples show grounding_rules as null.",
+    "provenance": {
+      "captured_at": "2026-03-11",
+      "captured_from": "fastmcp.Client.call_tool(...).structured_content",
+      "tool_name": "fetch_word_morphology",
+      "server_profile": "public",
+      "expose_tags": [
+        "ga",
+        "preview"
+      ],
+      "relay_enabled": false
+    }
+  },
+  "fetch_word_paradigm": {
+    "args": {
+      "ayah_key": "2:77",
+      "word_text": "يَعْلَمُونَ"
+    },
+    "structured_content": {
+      "word": {
+        "text_uthmani": "يَعْلَمُونَ",
+        "text_simple": "يعلمون",
+        "transliteration": "yaʿlamūna",
+        "ayah_key": "2:77",
+        "position": 2
+      },
+      "root": "علم",
+      "lemma": "عَلِمَ",
+      "verb_form": 1,
+      "paradigm_available": true,
+      "paradigm_unavailable_reason": null,
+      "paradigm": {
+        "perfect": [
+          {
+            "stem": "عَلِمُ",
+            "description": "3rd person masculine plural perfect verb",
+            "count": 2
+          },
+          {
+            "stem": "عَلِمَتْ",
+            "description": "3rd person feminine singular perfect verb",
+            "count": 2
+          },
+          {
+            "stem": "عَلِمَ",
+            "description": "3rd person masculine singular perfect verb",
+            "count": 13
+          },
+          {
+            "stem": "عَلِمَتِ",
+            "description": "3rd person feminine singular perfect verb",
+            "count": 1
+          },
+          {
+            "stem": "عَلِمْ",
+            "description": "2nd person masculine singular perfect verb",
+            "count": 17
+          }
+        ],
+        "imperfect": [
+          {
+            "stem": "يَعْلَم",
+            "description": "3rd person masculine singular imperfect verb, jussive mood",
+            "count": 1
+          },
+          {
+            "stem": "يَعْلَمْ",
+            "description": "3rd person masculine singular imperfect verb, jussive mood",
+            "count": 4
+          },
+          {
+            "stem": "أَعْلَمُ",
+            "description": "1st person singular imperfect verb",
+            "count": 58
+          },
+          {
+            "stem": "تَعْلَمَ",
+            "description": "2nd person masculine singular imperfect verb, subjunctive mood",
+            "count": 2
+          },
+          {
+            "stem": "يَعْلَمَ",
+            "description": "3rd person masculine singular imperfect verb, subjunctive mood",
+            "count": 19
+          },
+          {
+            "stem": "يُعْلَمَ",
+            "description": "3rd person masculine singular passive imperfect verb, subjunctive mood",
+            "count": 1
+          },
+          {
+            "stem": "نَعْلَمُ",
+            "description": "1st person plural imperfect verb",
+            "count": 8
+          },
+          {
+            "stem": "تَعْلَمُ",
+            "description": "2nd person masculine plural imperfect verb",
+            "count": 79
+          },
+          {
+            "stem": "يَعْلَمُ",
+            "description": "3rd person masculine plural imperfect verb, subjunctive mood",
+            "count": 178
+          },
+          {
+            "stem": "تَّعْلَمُ",
+            "description": "2nd person masculine plural imperfect verb",
+            "count": 1
+          },
+          {
+            "stem": "تَعْلَمْ",
+            "description": "2nd person masculine singular imperfect verb, jussive mood",
+            "count": 4
+          },
+          {
+            "stem": "يَعْلَمِ",
+            "description": "3rd person masculine singular imperfect verb, jussive mood",
+            "count": 3
+          },
+          {
+            "stem": "نَعْلَمَ",
+            "description": "1st person plural imperfect verb, subjunctive mood",
+            "count": 5
+          }
+        ],
+        "imperative": [
+          {
+            "stem": "اعْلَمُ",
+            "description": "2nd person masculine plural imperative verb",
+            "count": 27
+          },
+          {
+            "stem": "اعْلَمْ",
+            "description": "2nd person masculine singular imperative verb",
+            "count": 4
+          }
+        ]
+      },
+      "candidate_lemmas": [
+        {
+          "lemma": "عَلِمَ",
+          "verb_form": 1,
+          "count": 382,
+          "gloss": "to know"
+        },
+        {
+          "lemma": "عَلِيم",
+          "verb_form": null,
+          "count": 163,
+          "gloss": "all-knowing"
+        },
+        {
+          "lemma": "عِلْم",
+          "verb_form": null,
+          "count": 105,
+          "gloss": "knowledge"
+        },
+        {
+          "lemma": "عَٰلَمِين",
+          "verb_form": null,
+          "count": 73,
+          "gloss": "worlds"
+        },
+        {
+          "lemma": "أَعْلَم",
+          "verb_form": null,
+          "count": 49,
+          "gloss": "knows best"
+        },
+        {
+          "lemma": "عَلَّمَ",
+          "verb_form": 2,
+          "count": 41,
+          "gloss": "to teach"
+        },
+        {
+          "lemma": "عَٰلِم",
+          "verb_form": null,
+          "count": 18,
+          "gloss": "knower"
+        },
+        {
+          "lemma": "مَّعْلُوم",
+          "verb_form": null,
+          "count": 11,
+          "gloss": "known"
+        },
+        {
+          "lemma": "عَلَّٰم",
+          "verb_form": null,
+          "count": 4,
+          "gloss": "All-Knower"
+        },
+        {
+          "lemma": "يَتَعَلَّمُ",
+          "verb_form": 5,
+          "count": 2,
+          "gloss": "to learn"
+        },
+        {
+          "lemma": "أَعْلَٰم",
+          "verb_form": null,
+          "count": 2,
+          "gloss": "mountains"
+        },
+        {
+          "lemma": "مَّعْلُومَٰت",
+          "verb_form": null,
+          "count": 2,
+          "gloss": "known"
+        },
+        {
+          "lemma": "مُعَلَّم",
+          "verb_form": null,
+          "count": 1,
+          "gloss": "one taught"
+        },
+        {
+          "lemma": "عَلَٰمَٰت",
+          "verb_form": null,
+          "count": 1,
+          "gloss": "landmarks"
+        }
+      ],
+      "total_forms_in_quran": {
+        "stems_in_paradigm": 20,
+        "lemma_words": 429
+      }
+    },
+    "session_assumptions": "fetch_grounding_rules() has already been called once earlier in the same session, so later canonical-tool examples show grounding_rules as null.",
+    "provenance": {
+      "captured_at": "2026-03-11",
+      "captured_from": "fastmcp.Client.call_tool(...).structured_content",
+      "tool_name": "fetch_word_paradigm",
+      "server_profile": "public",
+      "expose_tags": [
+        "ga",
+        "preview"
+      ],
+      "relay_enabled": false
+    }
+  },
+  "fetch_word_concordance": {
+    "args": {
+      "ayah_key": "2:77",
+      "word_text": "يَعْلَمُونَ",
+      "page_size": 1
+    },
+    "structured_content": {
+      "query": {
+        "ayah_key": "2:77",
+        "word_position": 2,
+        "text": "يَعْلَمُونَ"
+      },
+      "match_by": "all",
+      "group_by": "verse",
+      "total_verses": 50,
+      "total_words": 854,
+      "page": 1,
+      "page_size": 1,
+      "results": [
+        {
+          "ayah_key": "2:77",
+          "verse_text": "أَوَلَا يَعْلَمُونَ أَنَّ ٱللَّهَ يَعْلَمُ مَا يُسِرُّونَ وَمَا يُعْلِنُونَ",
+          "score": 10.0,
+          "rerank_score": 0.9296875,
+          "matched_words": [
+            {
+              "position": 2,
+              "text_uthmani": "يَعْلَمُونَ",
+              "transliteration": "yaʿlamūna",
+              "match_level": "exact"
+            },
+            {
+              "position": 5,
+              "text_uthmani": "يَعْلَمُ",
+              "transliteration": "yaʿlamu",
+              "match_level": "exact"
+            }
+          ]
+        }
+      ],
+      "word_results": [],
+      "truncated": false,
+      "reranker_model": "rerank-2",
+      "reranked_from_pool": 50
+    },
+    "session_assumptions": "fetch_grounding_rules() has already been called once earlier in the same session, so later canonical-tool examples show grounding_rules as null.",
+    "provenance": {
+      "captured_at": "2026-03-11",
+      "captured_from": "fastmcp.Client.call_tool(...).structured_content",
+      "tool_name": "fetch_word_concordance",
+      "server_profile": "public",
+      "expose_tags": [
+        "ga",
+        "preview"
+      ],
+      "relay_enabled": false
+    }
+  },
+  "show_mushaf": {
+    "args": {
+      "page": 1
+    },
+    "structured_content": {
+      "page_number": 1,
+      "mushaf_edition_id": 5,
+      "total_pages": 604,
+      "lines": [
+        {
+          "line_number": 9,
+          "words": [
+            {
+              "word_id": 1,
+              "verse_id": 1,
+              "text": "بِسۡمِ",
+              "char_type_name": "word",
+              "line_number": 9,
+              "position_in_line": 1,
+              "position_in_verse": 1,
+              "glyph_text": "ﱁ"
+            },
+            {
+              "word_id": 2,
+              "verse_id": 1,
+              "text": "ٱللَّهِ",
+              "char_type_name": "word",
+              "line_number": 9,
+              "position_in_line": 2,
+              "position_in_verse": 2,
+              "glyph_text": "ﱂ"
+            },
+            {
+              "word_id": 3,
+              "verse_id": 1,
+              "text": "ٱلرَّحۡمَٰنِ",
+              "char_type_name": "word",
+              "line_number": 9,
+              "position_in_line": 3,
+              "position_in_verse": 3,
+              "glyph_text": "ﱃ"
+            },
+            {
+              "word_id": 4,
+              "verse_id": 1,
+              "text": "ٱلرَّحِيمِ",
+              "char_type_name": "word",
+              "line_number": 9,
+              "position_in_line": 4,
+              "position_in_verse": 4,
+              "glyph_text": "ﱄ"
+            },
+            {
+              "word_id": 5,
+              "verse_id": 1,
+              "text": "١",
+              "char_type_name": "end",
+              "line_number": 9,
+              "position_in_line": 5,
+              "position_in_verse": 5,
+              "glyph_text": "ﱅ"
+            }
+          ]
+        },
+        {
+          "line_number": 10,
+          "words": [
+            {
+              "word_id": 1130,
+              "verse_id": 2,
+              "text": "ٱلۡحَمۡدُ",
+              "char_type_name": "word",
+              "line_number": 10,
+              "position_in_line": 1,
+              "position_in_verse": 1,
+              "glyph_text": "ﱆ"
+            },
+            {
+              "word_id": 1131,
+              "verse_id": 2,
+              "text": "لِلَّهِ",
+              "char_type_name": "word",
+              "line_number": 10,
+              "position_in_line": 2,
+              "position_in_verse": 2,
+              "glyph_text": "ﱇ"
+            },
+            {
+              "word_id": 1132,
+              "verse_id": 2,
+              "text": "رَبِّ",
+              "char_type_name": "word",
+              "line_number": 10,
+              "position_in_line": 3,
+              "position_in_verse": 3,
+              "glyph_text": "ﱈ"
+            },
+            {
+              "word_id": 1133,
+              "verse_id": 2,
+              "text": "ٱلۡعَٰلَمِينَ",
+              "char_type_name": "word",
+              "line_number": 10,
+              "position_in_line": 4,
+              "position_in_verse": 4,
+              "glyph_text": "ﱉ"
+            },
+            {
+              "word_id": 1134,
+              "verse_id": 2,
+              "text": "٢",
+              "char_type_name": "end",
+              "line_number": 10,
+              "position_in_line": 5,
+              "position_in_verse": 5,
+              "glyph_text": "ﱊ"
+            }
+          ]
+        },
+        {
+          "line_number": 11,
+          "words": [
+            {
+              "word_id": 2953,
+              "verse_id": 3,
+              "text": "ٱلرَّحۡمَٰنِ",
+              "char_type_name": "word",
+              "line_number": 11,
+              "position_in_line": 1,
+              "position_in_verse": 1,
+              "glyph_text": "ﱋ"
+            },
+            {
+              "word_id": 2954,
+              "verse_id": 3,
+              "text": "ٱلرَّحِيمِ",
+              "char_type_name": "word",
+              "line_number": 11,
+              "position_in_line": 2,
+              "position_in_verse": 2,
+              "glyph_text": "ﱌ"
+            },
+            {
+              "word_id": 2955,
+              "verse_id": 3,
+              "text": "٣",
+              "char_type_name": "end",
+              "line_number": 11,
+              "position_in_line": 3,
+              "position_in_verse": 3,
+              "glyph_text": "ﱍ"
+            },
+            {
+              "word_id": 3252,
+              "verse_id": 4,
+              "text": "مَٰلِكِ",
+              "char_type_name": "word",
+              "line_number": 11,
+              "position_in_line": 4,
+              "position_in_verse": 1,
+              "glyph_text": "ﱎ"
+            },
+            {
+              "word_id": 3253,
+              "verse_id": 4,
+              "text": "يَوۡمِ",
+              "char_type_name": "word",
+              "line_number": 11,
+              "position_in_line": 5,
+              "position_in_verse": 2,
+              "glyph_text": "ﱏ"
+            },
+            {
+              "word_id": 3254,
+              "verse_id": 4,
+              "text": "ٱلدِّينِ",
+              "char_type_name": "word",
+              "line_number": 11,
+              "position_in_line": 6,
+              "position_in_verse": 3,
+              "glyph_text": "ﱐ"
+            },
+            {
+              "word_id": 3255,
+              "verse_id": 4,
+              "text": "٤",
+              "char_type_name": "end",
+              "line_number": 11,
+              "position_in_line": 7,
+              "position_in_verse": 4,
+              "glyph_text": "ﱑ"
+            }
+          ]
+        },
+        {
+          "line_number": 12,
+          "words": [
+            {
+              "word_id": 5334,
+              "verse_id": 5,
+              "text": "إِيَّاكَ",
+              "char_type_name": "word",
+              "line_number": 12,
+              "position_in_line": 1,
+              "position_in_verse": 1,
+              "glyph_text": "ﱒ"
+            },
+            {
+              "word_id": 5335,
+              "verse_id": 5,
+              "text": "نَعۡبُدُ",
+              "char_type_name": "word",
+              "line_number": 12,
+              "position_in_line": 2,
+              "position_in_verse": 2,
+              "glyph_text": "ﱓ"
+            },
+            {
+              "word_id": 5336,
+              "verse_id": 5,
+              "text": "وَإِيَّاكَ",
+              "char_type_name": "word",
+              "line_number": 12,
+              "position_in_line": 3,
+              "position_in_verse": 3,
+              "glyph_text": "ﱔ"
+            },
+            {
+              "word_id": 5337,
+              "verse_id": 5,
+              "text": "نَسۡتَعِينُ",
+              "char_type_name": "word",
+              "line_number": 12,
+              "position_in_line": 4,
+              "position_in_verse": 4,
+              "glyph_text": "ﱕ"
+            },
+            {
+              "word_id": 5338,
+              "verse_id": 5,
+              "text": "٥",
+              "char_type_name": "end",
+              "line_number": 12,
+              "position_in_line": 5,
+              "position_in_verse": 5,
+              "glyph_text": "ﱖ"
+            },
+            {
+              "word_id": 6844,
+              "verse_id": 6,
+              "text": "ٱهۡدِنَا",
+              "char_type_name": "word",
+              "line_number": 12,
+              "position_in_line": 6,
+              "position_in_verse": 1,
+              "glyph_text": "ﱗ"
+            }
+          ]
+        },
+        {
+          "line_number": 13,
+          "words": [
+            {
+              "word_id": 6845,
+              "verse_id": 6,
+              "text": "ٱلصِّرَٰطَ",
+              "char_type_name": "word",
+              "line_number": 13,
+              "position_in_line": 1,
+              "position_in_verse": 2,
+              "glyph_text": "ﱘ"
+            },
+            {
+              "word_id": 6846,
+              "verse_id": 6,
+              "text": "ٱلۡمُسۡتَقِيمَ",
+              "char_type_name": "word",
+              "line_number": 13,
+              "position_in_line": 2,
+              "position_in_verse": 3,
+              "glyph_text": "ﱙ"
+            },
+            {
+              "word_id": 6847,
+              "verse_id": 6,
+              "text": "٦",
+              "char_type_name": "end",
+              "line_number": 13,
+              "position_in_line": 3,
+              "position_in_verse": 4,
+              "glyph_text": "ﱚ"
+            },
+            {
+              "word_id": 8411,
+              "verse_id": 7,
+              "text": "صِرَٰطَ",
+              "char_type_name": "word",
+              "line_number": 13,
+              "position_in_line": 4,
+              "position_in_verse": 1,
+              "glyph_text": "ﱛ"
+            },
+            {
+              "word_id": 8412,
+              "verse_id": 7,
+              "text": "ٱلَّذِينَ",
+              "char_type_name": "word",
+              "line_number": 13,
+              "position_in_line": 5,
+              "position_in_verse": 2,
+              "glyph_text": "ﱜ"
+            },
+            {
+              "word_id": 8413,
+              "verse_id": 7,
+              "text": "أَنۡعَمۡتَ",
+              "char_type_name": "word",
+              "line_number": 13,
+              "position_in_line": 6,
+              "position_in_verse": 3,
+              "glyph_text": "ﱝ"
+            }
+          ]
+        },
+        {
+          "line_number": 14,
+          "words": [
+            {
+              "word_id": 8414,
+              "verse_id": 7,
+              "text": "عَلَيۡهِمۡ",
+              "char_type_name": "word",
+              "line_number": 14,
+              "position_in_line": 1,
+              "position_in_verse": 4,
+              "glyph_text": "ﱞ"
+            },
+            {
+              "word_id": 8415,
+              "verse_id": 7,
+              "text": "غَيۡرِ",
+              "char_type_name": "word",
+              "line_number": 14,
+              "position_in_line": 2,
+              "position_in_verse": 5,
+              "glyph_text": "ﱟ"
+            },
+            {
+              "word_id": 8416,
+              "verse_id": 7,
+              "text": "ٱلۡمَغۡضُوبِ",
+              "char_type_name": "word",
+              "line_number": 14,
+              "position_in_line": 3,
+              "position_in_verse": 6,
+              "glyph_text": "ﱠ"
+            },
+            {
+              "word_id": 8417,
+              "verse_id": 7,
+              "text": "عَلَيۡهِمۡ",
+              "char_type_name": "word",
+              "line_number": 14,
+              "position_in_line": 4,
+              "position_in_verse": 7,
+              "glyph_text": "ﱡ"
+            }
+          ]
+        },
+        {
+          "line_number": 15,
+          "words": [
+            {
+              "word_id": 8418,
+              "verse_id": 7,
+              "text": "وَلَا",
+              "char_type_name": "word",
+              "line_number": 15,
+              "position_in_line": 1,
+              "position_in_verse": 8,
+              "glyph_text": "ﱢ"
+            },
+            {
+              "word_id": 8419,
+              "verse_id": 7,
+              "text": "ٱلضَّآلِّينَ",
+              "char_type_name": "word",
+              "line_number": 15,
+              "position_in_line": 2,
+              "position_in_verse": 9,
+              "glyph_text": "ﱣ"
+            },
+            {
+              "word_id": 8420,
+              "verse_id": 7,
+              "text": "٧",
+              "char_type_name": "end",
+              "line_number": 15,
+              "position_in_line": 3,
+              "position_in_verse": 10,
+              "glyph_text": "ﱤ"
+            }
+          ]
+        }
+      ],
+      "verses": [
+        {
+          "verse_id": 1,
+          "verse_key": "1:1",
+          "chapter_id": 1,
+          "verse_number": 1
+        },
+        {
+          "verse_id": 2,
+          "verse_key": "1:2",
+          "chapter_id": 1,
+          "verse_number": 2
+        },
+        {
+          "verse_id": 3,
+          "verse_key": "1:3",
+          "chapter_id": 1,
+          "verse_number": 3
+        },
+        {
+          "verse_id": 4,
+          "verse_key": "1:4",
+          "chapter_id": 1,
+          "verse_number": 4
+        },
+        {
+          "verse_id": 5,
+          "verse_key": "1:5",
+          "chapter_id": 1,
+          "verse_number": 5
+        },
+        {
+          "verse_id": 6,
+          "verse_key": "1:6",
+          "chapter_id": 1,
+          "verse_number": 6
+        },
+        {
+          "verse_id": 7,
+          "verse_key": "1:7",
+          "chapter_id": 1,
+          "verse_number": 7
+        }
+      ],
+      "surah_headers": [
+        {
+          "chapter_id": 1,
+          "name_arabic": "الفاتحة",
+          "name_simple": "Al-Fatihah",
+          "bismillah_pre": false,
+          "appears_before_line": 9
+        }
+      ],
+      "chapter_names": {
+        "1": "Al-Fatihah"
+      },
+      "initial_selected_verse": null,
+      "client_hint": {
+        "host": "unknown",
+        "platform": "unknown"
+      }
+    },
+    "session_assumptions": "fetch_grounding_rules() has already been called once earlier in the same session, so later canonical-tool examples show grounding_rules as null.",
+    "provenance": {
+      "captured_at": "2026-03-11",
+      "captured_from": "fastmcp.Client.call_tool(...).structured_content",
+      "tool_name": "show_mushaf",
+      "server_profile": "public",
+      "expose_tags": [
+        "ga",
+        "preview"
+      ],
+      "relay_enabled": false
+    }
+  },
+  "fetch_quran_metadata": {
+    "args": {
+      "surah": 1,
+      "ayah": 1
+    },
+    "structured_content": {
+      "query_type": "ayah",
+      "surah": [
+        {
+          "number": 1,
+          "name_arabic": "الفاتحة",
+          "name_simple": "Al-Fatihah",
+          "revelation_place": "makkah",
+          "revelation_order": 5,
+          "verses_count": 7,
+          "bismillah_pre": false
+        }
+      ],
+      "ayah": {
+        "verse_key": "1:1",
+        "number": 1,
+        "words_count": 4
+      },
+      "juz": {
+        "number": 1
+      },
+      "hizb": {
+        "number": 1
+      },
+      "rub_el_hizb": {
+        "number": 1
+      },
+      "page": {
+        "number": 1
+      },
+      "ruku": {
+        "number": 1,
+        "surah_ruku_number": 1
+      },
+      "manzil": {
+        "number": 1
+      },
+      "sajdah": []
+    },
+    "session_assumptions": "fetch_grounding_rules() has already been called once earlier in the same session, so later canonical-tool examples show grounding_rules as null.",
+    "provenance": {
+      "captured_at": "2026-03-11",
+      "captured_from": "fastmcp.Client.call_tool(...).structured_content",
+      "tool_name": "fetch_quran_metadata",
+      "server_profile": "public",
+      "expose_tags": [
+        "ga",
+        "preview"
+      ],
+      "relay_enabled": false
+    }
+  },
+  "fetch_mushaf": {
+    "args": {
+      "page": 1
+    },
+    "structured_content": {
+      "page_number": 1,
+      "mushaf_edition_id": 5,
+      "total_pages": 604,
+      "lines": [
+        {
+          "line_number": 9,
+          "words": [
+            {
+              "word_id": 1,
+              "verse_id": 1,
+              "text": "بِسۡمِ",
+              "char_type_name": "word",
+              "line_number": 9,
+              "position_in_line": 1,
+              "position_in_verse": 1,
+              "glyph_text": "ﱁ"
+            },
+            {
+              "word_id": 2,
+              "verse_id": 1,
+              "text": "ٱللَّهِ",
+              "char_type_name": "word",
+              "line_number": 9,
+              "position_in_line": 2,
+              "position_in_verse": 2,
+              "glyph_text": "ﱂ"
+            },
+            {
+              "word_id": 3,
+              "verse_id": 1,
+              "text": "ٱلرَّحۡمَٰنِ",
+              "char_type_name": "word",
+              "line_number": 9,
+              "position_in_line": 3,
+              "position_in_verse": 3,
+              "glyph_text": "ﱃ"
+            },
+            {
+              "word_id": 4,
+              "verse_id": 1,
+              "text": "ٱلرَّحِيمِ",
+              "char_type_name": "word",
+              "line_number": 9,
+              "position_in_line": 4,
+              "position_in_verse": 4,
+              "glyph_text": "ﱄ"
+            },
+            {
+              "word_id": 5,
+              "verse_id": 1,
+              "text": "١",
+              "char_type_name": "end",
+              "line_number": 9,
+              "position_in_line": 5,
+              "position_in_verse": 5,
+              "glyph_text": "ﱅ"
+            }
+          ]
+        },
+        {
+          "line_number": 10,
+          "words": [
+            {
+              "word_id": 1130,
+              "verse_id": 2,
+              "text": "ٱلۡحَمۡدُ",
+              "char_type_name": "word",
+              "line_number": 10,
+              "position_in_line": 1,
+              "position_in_verse": 1,
+              "glyph_text": "ﱆ"
+            },
+            {
+              "word_id": 1131,
+              "verse_id": 2,
+              "text": "لِلَّهِ",
+              "char_type_name": "word",
+              "line_number": 10,
+              "position_in_line": 2,
+              "position_in_verse": 2,
+              "glyph_text": "ﱇ"
+            },
+            {
+              "word_id": 1132,
+              "verse_id": 2,
+              "text": "رَبِّ",
+              "char_type_name": "word",
+              "line_number": 10,
+              "position_in_line": 3,
+              "position_in_verse": 3,
+              "glyph_text": "ﱈ"
+            },
+            {
+              "word_id": 1133,
+              "verse_id": 2,
+              "text": "ٱلۡعَٰلَمِينَ",
+              "char_type_name": "word",
+              "line_number": 10,
+              "position_in_line": 4,
+              "position_in_verse": 4,
+              "glyph_text": "ﱉ"
+            },
+            {
+              "word_id": 1134,
+              "verse_id": 2,
+              "text": "٢",
+              "char_type_name": "end",
+              "line_number": 10,
+              "position_in_line": 5,
+              "position_in_verse": 5,
+              "glyph_text": "ﱊ"
+            }
+          ]
+        },
+        {
+          "line_number": 11,
+          "words": [
+            {
+              "word_id": 2953,
+              "verse_id": 3,
+              "text": "ٱلرَّحۡمَٰنِ",
+              "char_type_name": "word",
+              "line_number": 11,
+              "position_in_line": 1,
+              "position_in_verse": 1,
+              "glyph_text": "ﱋ"
+            },
+            {
+              "word_id": 2954,
+              "verse_id": 3,
+              "text": "ٱلرَّحِيمِ",
+              "char_type_name": "word",
+              "line_number": 11,
+              "position_in_line": 2,
+              "position_in_verse": 2,
+              "glyph_text": "ﱌ"
+            },
+            {
+              "word_id": 2955,
+              "verse_id": 3,
+              "text": "٣",
+              "char_type_name": "end",
+              "line_number": 11,
+              "position_in_line": 3,
+              "position_in_verse": 3,
+              "glyph_text": "ﱍ"
+            },
+            {
+              "word_id": 3252,
+              "verse_id": 4,
+              "text": "مَٰلِكِ",
+              "char_type_name": "word",
+              "line_number": 11,
+              "position_in_line": 4,
+              "position_in_verse": 1,
+              "glyph_text": "ﱎ"
+            },
+            {
+              "word_id": 3253,
+              "verse_id": 4,
+              "text": "يَوۡمِ",
+              "char_type_name": "word",
+              "line_number": 11,
+              "position_in_line": 5,
+              "position_in_verse": 2,
+              "glyph_text": "ﱏ"
+            },
+            {
+              "word_id": 3254,
+              "verse_id": 4,
+              "text": "ٱلدِّينِ",
+              "char_type_name": "word",
+              "line_number": 11,
+              "position_in_line": 6,
+              "position_in_verse": 3,
+              "glyph_text": "ﱐ"
+            },
+            {
+              "word_id": 3255,
+              "verse_id": 4,
+              "text": "٤",
+              "char_type_name": "end",
+              "line_number": 11,
+              "position_in_line": 7,
+              "position_in_verse": 4,
+              "glyph_text": "ﱑ"
+            }
+          ]
+        },
+        {
+          "line_number": 12,
+          "words": [
+            {
+              "word_id": 5334,
+              "verse_id": 5,
+              "text": "إِيَّاكَ",
+              "char_type_name": "word",
+              "line_number": 12,
+              "position_in_line": 1,
+              "position_in_verse": 1,
+              "glyph_text": "ﱒ"
+            },
+            {
+              "word_id": 5335,
+              "verse_id": 5,
+              "text": "نَعۡبُدُ",
+              "char_type_name": "word",
+              "line_number": 12,
+              "position_in_line": 2,
+              "position_in_verse": 2,
+              "glyph_text": "ﱓ"
+            },
+            {
+              "word_id": 5336,
+              "verse_id": 5,
+              "text": "وَإِيَّاكَ",
+              "char_type_name": "word",
+              "line_number": 12,
+              "position_in_line": 3,
+              "position_in_verse": 3,
+              "glyph_text": "ﱔ"
+            },
+            {
+              "word_id": 5337,
+              "verse_id": 5,
+              "text": "نَسۡتَعِينُ",
+              "char_type_name": "word",
+              "line_number": 12,
+              "position_in_line": 4,
+              "position_in_verse": 4,
+              "glyph_text": "ﱕ"
+            },
+            {
+              "word_id": 5338,
+              "verse_id": 5,
+              "text": "٥",
+              "char_type_name": "end",
+              "line_number": 12,
+              "position_in_line": 5,
+              "position_in_verse": 5,
+              "glyph_text": "ﱖ"
+            },
+            {
+              "word_id": 6844,
+              "verse_id": 6,
+              "text": "ٱهۡدِنَا",
+              "char_type_name": "word",
+              "line_number": 12,
+              "position_in_line": 6,
+              "position_in_verse": 1,
+              "glyph_text": "ﱗ"
+            }
+          ]
+        },
+        {
+          "line_number": 13,
+          "words": [
+            {
+              "word_id": 6845,
+              "verse_id": 6,
+              "text": "ٱلصِّرَٰطَ",
+              "char_type_name": "word",
+              "line_number": 13,
+              "position_in_line": 1,
+              "position_in_verse": 2,
+              "glyph_text": "ﱘ"
+            },
+            {
+              "word_id": 6846,
+              "verse_id": 6,
+              "text": "ٱلۡمُسۡتَقِيمَ",
+              "char_type_name": "word",
+              "line_number": 13,
+              "position_in_line": 2,
+              "position_in_verse": 3,
+              "glyph_text": "ﱙ"
+            },
+            {
+              "word_id": 6847,
+              "verse_id": 6,
+              "text": "٦",
+              "char_type_name": "end",
+              "line_number": 13,
+              "position_in_line": 3,
+              "position_in_verse": 4,
+              "glyph_text": "ﱚ"
+            },
+            {
+              "word_id": 8411,
+              "verse_id": 7,
+              "text": "صِرَٰطَ",
+              "char_type_name": "word",
+              "line_number": 13,
+              "position_in_line": 4,
+              "position_in_verse": 1,
+              "glyph_text": "ﱛ"
+            },
+            {
+              "word_id": 8412,
+              "verse_id": 7,
+              "text": "ٱلَّذِينَ",
+              "char_type_name": "word",
+              "line_number": 13,
+              "position_in_line": 5,
+              "position_in_verse": 2,
+              "glyph_text": "ﱜ"
+            },
+            {
+              "word_id": 8413,
+              "verse_id": 7,
+              "text": "أَنۡعَمۡتَ",
+              "char_type_name": "word",
+              "line_number": 13,
+              "position_in_line": 6,
+              "position_in_verse": 3,
+              "glyph_text": "ﱝ"
+            }
+          ]
+        },
+        {
+          "line_number": 14,
+          "words": [
+            {
+              "word_id": 8414,
+              "verse_id": 7,
+              "text": "عَلَيۡهِمۡ",
+              "char_type_name": "word",
+              "line_number": 14,
+              "position_in_line": 1,
+              "position_in_verse": 4,
+              "glyph_text": "ﱞ"
+            },
+            {
+              "word_id": 8415,
+              "verse_id": 7,
+              "text": "غَيۡرِ",
+              "char_type_name": "word",
+              "line_number": 14,
+              "position_in_line": 2,
+              "position_in_verse": 5,
+              "glyph_text": "ﱟ"
+            },
+            {
+              "word_id": 8416,
+              "verse_id": 7,
+              "text": "ٱلۡمَغۡضُوبِ",
+              "char_type_name": "word",
+              "line_number": 14,
+              "position_in_line": 3,
+              "position_in_verse": 6,
+              "glyph_text": "ﱠ"
+            },
+            {
+              "word_id": 8417,
+              "verse_id": 7,
+              "text": "عَلَيۡهِمۡ",
+              "char_type_name": "word",
+              "line_number": 14,
+              "position_in_line": 4,
+              "position_in_verse": 7,
+              "glyph_text": "ﱡ"
+            }
+          ]
+        },
+        {
+          "line_number": 15,
+          "words": [
+            {
+              "word_id": 8418,
+              "verse_id": 7,
+              "text": "وَلَا",
+              "char_type_name": "word",
+              "line_number": 15,
+              "position_in_line": 1,
+              "position_in_verse": 8,
+              "glyph_text": "ﱢ"
+            },
+            {
+              "word_id": 8419,
+              "verse_id": 7,
+              "text": "ٱلضَّآلِّينَ",
+              "char_type_name": "word",
+              "line_number": 15,
+              "position_in_line": 2,
+              "position_in_verse": 9,
+              "glyph_text": "ﱣ"
+            },
+            {
+              "word_id": 8420,
+              "verse_id": 7,
+              "text": "٧",
+              "char_type_name": "end",
+              "line_number": 15,
+              "position_in_line": 3,
+              "position_in_verse": 10,
+              "glyph_text": "ﱤ"
+            }
+          ]
+        }
+      ],
+      "verses": [
+        {
+          "verse_id": 1,
+          "verse_key": "1:1",
+          "chapter_id": 1,
+          "verse_number": 1
+        },
+        {
+          "verse_id": 2,
+          "verse_key": "1:2",
+          "chapter_id": 1,
+          "verse_number": 2
+        },
+        {
+          "verse_id": 3,
+          "verse_key": "1:3",
+          "chapter_id": 1,
+          "verse_number": 3
+        },
+        {
+          "verse_id": 4,
+          "verse_key": "1:4",
+          "chapter_id": 1,
+          "verse_number": 4
+        },
+        {
+          "verse_id": 5,
+          "verse_key": "1:5",
+          "chapter_id": 1,
+          "verse_number": 5
+        },
+        {
+          "verse_id": 6,
+          "verse_key": "1:6",
+          "chapter_id": 1,
+          "verse_number": 6
+        },
+        {
+          "verse_id": 7,
+          "verse_key": "1:7",
+          "chapter_id": 1,
+          "verse_number": 7
+        }
+      ],
+      "surah_headers": [
+        {
+          "chapter_id": 1,
+          "name_arabic": "الفاتحة",
+          "name_simple": "Al-Fatihah",
+          "bismillah_pre": false,
+          "appears_before_line": 9
+        }
+      ],
+      "chapter_names": {
+        "1": "Al-Fatihah"
+      },
+      "initial_selected_verse": null,
+      "client_hint": {
+        "host": "unknown",
+        "platform": "unknown"
+      }
+    },
+    "session_assumptions": "fetch_grounding_rules() has already been called once earlier in the same session, so later canonical-tool examples show grounding_rules as null.",
+    "provenance": {
+      "captured_at": "2026-03-11",
+      "captured_from": "fastmcp.Client.call_tool(...).structured_content",
+      "tool_name": "fetch_mushaf_page_data",
+      "server_profile": "public",
+      "expose_tags": [
+        "ga",
+        "preview"
+      ],
+      "relay_enabled": false
+    }
+  }
+}

@@ -1,0 +1,53 @@
+"""Compatibility facade for pagination planning and continuation transport."""
+
+from quran_mcp.lib.presentation.continuation import (
+    ContinuationError,
+    ContinuationPaginationMeta,
+    build_checked_continuation_meta,
+    build_continuation_meta,
+    canonicalize_continuation_request,
+    continuation_ttl_seconds,
+    decode_continuation_request_model,
+    decode_continuation_token,
+    encode_continuation_token,
+    ensure_not_exhausted,
+    hash_continuation_request,
+)
+from quran_mcp.lib.presentation.page_planning import (
+    MAX_SEARCH_DEPTH,
+    TOKEN_CAP,
+    PageEntry,
+    PaginationMeta,
+    build_pages_for_dict_results,
+    build_pages_for_list,
+    choose_auto_page_size,
+    enforce_token_cap,
+    enforce_token_cap_dict,
+    estimate_tokens,
+    paginate,
+)
+
+__all__ = [
+    "ContinuationError",
+    "ContinuationPaginationMeta",
+    "MAX_SEARCH_DEPTH",
+    "TOKEN_CAP",
+    "PageEntry",
+    "PaginationMeta",
+    "build_checked_continuation_meta",
+    "build_continuation_meta",
+    "build_pages_for_dict_results",
+    "build_pages_for_list",
+    "canonicalize_continuation_request",
+    "choose_auto_page_size",
+    "continuation_ttl_seconds",
+    "decode_continuation_request_model",
+    "decode_continuation_token",
+    "encode_continuation_token",
+    "enforce_token_cap",
+    "enforce_token_cap_dict",
+    "ensure_not_exhausted",
+    "estimate_tokens",
+    "hash_continuation_request",
+    "paginate",
+]

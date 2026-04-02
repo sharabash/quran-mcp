@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Support — Quran MCP</title>
+  <meta name="description" content="Get help with Quran MCP — an MCP server providing grounded Quran data.">
+  <link rel="icon" href="/icon.png?v=2" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/shared-theme.css">
+  <style>
+    /* Page-specific styles */
+    body {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 16px;
+      line-height: 1.72;
+    }
+
+    .container {
+      position: relative; z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 36px 44px 80px;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+      animation: fadeIn 0.6s ease-out both;
+    }
+
+    /* Header */
+    .page-header {
+      margin-bottom: 28px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      animation: fadeIn 0.6s ease-out 0.1s both;
+    }
+    .page-header h1 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: clamp(2rem, 3.6vw, 2.8rem);
+      font-weight: 500;
+      line-height: 1.12;
+      letter-spacing: -.02em;
+      color: var(--text-heading);
+      margin-bottom: 10px;
+    }
+    .lead {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 58ch;
+      line-height: 1.65;
+    }
+
+    /* Email box */
+    .email-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 28px 30px;
+      margin-bottom: 24px;
+      text-align: center;
+      animation: fadeIn 0.6s ease-out 0.15s both;
+    }
+    .email-box a.email-link {
+      font-family: 'Cascadia Code', monospace;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--green);
+    }
+    .email-box a.email-link:hover { color: var(--link); }
+    .email-box p {
+      color: var(--muted);
+      font-size: .92rem;
+      margin-top: 8px;
+      margin-bottom: 0;
+    }
+
+    /* Section heading */
+    .sh {
+      margin: 32px 0 6px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      animation: fadeIn 0.6s ease-out 0.2s both;
+    }
+    .sh h2 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 500;
+      letter-spacing: -.01em;
+      color: var(--text-heading);
+      margin-bottom: 3px;
+    }
+    .sh p { font-size: .92rem; color: var(--muted); }
+
+    /* Category cards */
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .category {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      animation: fadeIn 0.5s ease-out both;
+    }
+    .category:nth-child(1) { animation-delay: 0.25s; }
+    .category:nth-child(2) { animation-delay: 0.3s; }
+    .category:nth-child(3) { animation-delay: 0.35s; }
+    .category:nth-child(4) { animation-delay: 0.4s; }
+    .category:hover {
+      border-color: var(--green);
+      box-shadow: 0 2px 12px rgba(74,222,128,0.06);
+    }
+    .category strong {
+      display: block;
+      font-family: 'Cascadia Code', monospace;
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 6px;
+    }
+    .category span {
+      color: var(--muted);
+      font-size: .92rem;
+      line-height: 1.5;
+    }
+
+    /* Other sections */
+    section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px 26px;
+      margin-top: 18px;
+      animation: fadeIn 0.5s ease-out 0.45s both;
+    }
+    section h2 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 500;
+      letter-spacing: -.01em;
+      color: var(--text-heading);
+      margin: 0 0 12px;
+    }
+    p { margin: 0 0 14px; font-size: 1rem; }
+    p:last-child { margin-bottom: 0; }
+
+    /* Footer */
+    footer {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-top: 18px;
+      padding: 20px 24px;
+      color: var(--muted);
+      font-size: .88rem;
+      animation: fadeIn 0.5s ease-out 0.5s both;
+    }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--green); }
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-family: 'Cascadia Code', monospace;
+      font-size: .76rem;
+    }
+    .footer-links .sep { color: var(--faint); }
+
+    /* Responsive */
+    @media (max-width: 720px) {
+      .container { padding: 24px 16px 60px; }
+      .email-box, .category, section, footer { border-radius: 8px; }
+      .categories { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+
+<div class="container">
+  <div class="top-bar">
+    <a href="/" class="back-link">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L5 8l5 5"/></svg>
+      Back to Quran MCP
+    </a>
+  </div>
+
+  <header class="page-header">
+    <h1>Support</h1>
+    <p class="lead">Get help with Quran MCP — an MCP server providing grounded Quran data to any AI client.</p>
+  </header>
+
+  <div class="email-box">
+    <a href="mailto:support@quran.ai" class="email-link">support@quran.ai</a>
+    <p>We typically respond within 48 hours.</p>
+  </div>
+
+  <div class="sh">
+    <h2>What to include</h2>
+    <p>Choose the category that best matches your issue.</p>
+  </div>
+
+  <div class="categories">
+    <div class="category">
+      <strong>Bug Report</strong>
+      <span>Describe what happened, what you expected, which AI client you're using (ChatGPT, Claude, etc.), and the tool that failed.</span>
+    </div>
+    <div class="category">
+      <strong>Feature Request</strong>
+      <span>Describe the capability you'd like and how it would help your use case.</span>
+    </div>
+    <div class="category">
+      <strong>Data Issue</strong>
+      <span>If you notice incorrect Quran text, translation, or tafsir content, let us know the ayah reference and edition.</span>
+    </div>
+    <div class="category">
+      <strong>General Question</strong>
+      <span>Anything else — setup help, edition availability, integration questions.</span>
+    </div>
+  </div>
+
+  <section>
+    <h2>Other channels</h2>
+    <p>GitHub Issues and a Discord community are planned for the future. For now, email is the primary support channel.</p>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="/">Quran MCP</a>
+      <span class="sep">&middot;</span>
+      <a href="/docs">Docs</a>
+      <span class="sep">&middot;</span>
+      <a href="/privacy">Privacy</a>
+      <span class="sep">&middot;</span>
+      <span>Operated by <a href="https://quran.foundation">quran.foundation</a></span>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

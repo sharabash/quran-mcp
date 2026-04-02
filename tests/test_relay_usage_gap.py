@@ -1,0 +1,54 @@
+"""Unit tests for mcp/tools/relay/usage_gap.py — input validation and DB insert."""
+from __future__ import annotations
+
+from dataclasses import dataclass
+from unittest.mock import AsyncMock, patch
+
+import pytest
+from fastmcp.exceptions import ToolError
+
+from quran_mcp.mcp.tools.relay.usage_gap import _usage_gap_impl
+
+
+@dataclass
+class MockTurnState:
+    turn_id: str
+    trace_id: str
+
+
+async def test_usage_gap_raises_when_pool_missing():
+    ctx = AsyncMock()
+    with patch("quran_mcp.mcp.tools.relay.usage_gap.ensure_relay_write_authorized"), \
+         patch("quran_mcp.mcp.tools.relay.usage_gap.get_pool", side_effect=ToolError("[service_unavailable] Database not available")):
+        with pytest.raises(ToolError, match="service_unavailable"):
+            await _usage_gap_impl(ctx, gap_type="missing_content", description="Test")
+
+
+async def test_usage_gap_inserts_and_returns_response():
+    ctx = AsyncMock()
+    mock_pool = AsyncMock()
+    mock_pool.fetchval = AsyncMock(return_value="gap-uuid-123")
+
+    with patch("quran_mcp.mcp.tools.relay.usage_gap.ensure_relay_write_authorized"), \
+         patch("quran_mcp.mcp.tools.relay.usage_gap.get_pool", return_value=mock_pool), \
+         patch("quran_mcp.mcp.tools.relay.usage_gap.load_or_create_turn_state", return_value=MockTurnState("turn-1", "trace-1")):
+        result = await _usage_gap_impl(
+            ctx, gap_type="tool_limitation", description="Cannot search by page", severity=4,
+        )
+    assert result.gap_id == "gap-uuid-123"
+    assert result.gap_type == "tool_limitation"
+    assert result.severity == 4
+
+
+async def test_usage_gap_clamps_severity():
+    ctx = AsyncMock()
+    mock_pool = AsyncMock()
+    mock_pool.fetchval = AsyncMock(return_value="id")
+
+    with patch("quran_mcp.mcp.tools.relay.usage_gap.ensure_relay_write_authorized"), \
+         patch("quran_mcp.mcp.tools.relay.usage_gap.get_pool", return_value=mock_pool), \
+         patch("quran_mcp.mcp.tools.relay.usage_gap.load_or_create_turn_state", return_value=MockTurnState("t", "t")):
+        result = await _usage_gap_impl(
+            ctx, gap_type="other", description="test", severity=99,
+        )
+    assert result.severity == 5

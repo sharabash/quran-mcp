@@ -1,0 +1,192 @@
+<svg width="100%" viewBox="0 0 680 720" xmlns="http://www.w3.org/2000/svg">
+<style>
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f4f0;
+    --text-primary: #2c2c2a;
+    --text-secondary: #5f5e5a;
+    --border: rgba(0,0,0,0.15);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-primary: #1a1a18;
+      --bg-secondary: #2c2c2a;
+      --text-primary: #e8e6de;
+      --text-secondary: #b4b2a9;
+      --border: rgba(255,255,255,0.15);
+    }
+  }
+  text.th { font-family: system-ui, sans-serif; font-size: 14px; font-weight: 500; fill: var(--text-primary); }
+  text.ts { font-family: system-ui, sans-serif; font-size: 12px; font-weight: 400; fill: var(--text-secondary); }
+  text.t  { font-family: system-ui, sans-serif; font-size: 14px; font-weight: 400; fill: var(--text-primary); }
+  line.arr { stroke: var(--text-secondary); stroke-width: 1.5; }
+
+  /* Teal */
+  .c-teal rect { fill: #E1F5EE; stroke: #0F6E56; }
+  .c-teal text.th { fill: #085041; }
+  .c-teal text.ts { fill: #0F6E56; }
+  /* Purple */
+  .c-purple rect { fill: #EEEDFE; stroke: #534AB7; }
+  .c-purple text.th { fill: #3C3489; }
+  .c-purple text.ts { fill: #534AB7; }
+  /* Blue */
+  .c-blue rect { fill: #E6F1FB; stroke: #185FA5; }
+  .c-blue text.th { fill: #0C447C; }
+  .c-blue text.ts { fill: #185FA5; }
+  /* Coral */
+  .c-coral rect { fill: #FAECE7; stroke: #993C1D; }
+  .c-coral text.th { fill: #712B13; }
+  .c-coral text.ts { fill: #993C1D; }
+  /* Gray */
+  .c-gray rect { fill: #F1EFE8; stroke: #5F5E5A; }
+  .c-gray text.th { fill: #444441; }
+  .c-gray text.ts { fill: #5F5E5A; }
+  /* Amber */
+  .c-amber rect { fill: #FAEEDA; stroke: #854F0B; }
+  .c-amber text.th { fill: #633806; }
+  .c-amber text.ts { fill: #854F0B; }
+  /* Green */
+  .c-green rect { fill: #EAF3DE; stroke: #3B6D11; }
+  .c-green text.th { fill: #27500A; }
+  .c-green text.ts { fill: #3B6D11; }
+
+  @media (prefers-color-scheme: dark) {
+    .c-teal rect { fill: #085041; stroke: #5DCAA5; }
+    .c-teal text.th { fill: #9FE1CB; }
+    .c-teal text.ts { fill: #5DCAA5; }
+    .c-purple rect { fill: #3C3489; stroke: #AFA9EC; }
+    .c-purple text.th { fill: #CECBF6; }
+    .c-purple text.ts { fill: #AFA9EC; }
+    .c-blue rect { fill: #0C447C; stroke: #85B7EB; }
+    .c-blue text.th { fill: #B5D4F4; }
+    .c-blue text.ts { fill: #85B7EB; }
+    .c-coral rect { fill: #712B13; stroke: #F0997B; }
+    .c-coral text.th { fill: #F5C4B3; }
+    .c-coral text.ts { fill: #F0997B; }
+    .c-gray rect { fill: #444441; stroke: #B4B2A9; }
+    .c-gray text.th { fill: #D3D1C7; }
+    .c-gray text.ts { fill: #B4B2A9; }
+    .c-amber rect { fill: #633806; stroke: #FAC775; }
+    .c-amber text.th { fill: #FAEEDA; }
+    .c-amber text.ts { fill: #FAC775; }
+    .c-green rect { fill: #27500A; stroke: #97C459; }
+    .c-green text.th { fill: #C0DD97; }
+    .c-green text.ts { fill: #97C459; }
+  }
+</style>
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- Title region -->
+<g class="c-teal">
+  <rect x="40" y="20" width="600" height="50" rx="12" stroke-width="0.5"/>
+  <text class="th" x="340" y="45" text-anchor="middle" dominant-baseline="central">The estate after debts and bequests (waṣiyyah)</text>
+</g>
+
+<line x1="340" y1="70" x2="340" y2="100" class="arr" marker-end="url(#arrow)"/>
+
+<!-- Three columns header -->
+<g class="c-purple">
+  <rect x="40" y="100" width="185" height="50" rx="8" stroke-width="0.5"/>
+  <text class="th" x="132" y="118" text-anchor="middle" dominant-baseline="central">Children (4:11)</text>
+  <text class="ts" x="132" y="136" text-anchor="middle" dominant-baseline="central">awlād</text>
+</g>
+
+<g class="c-blue">
+  <rect x="247" y="100" width="186" height="50" rx="8" stroke-width="0.5"/>
+  <text class="th" x="340" y="118" text-anchor="middle" dominant-baseline="central">Parents (4:11)</text>
+  <text class="ts" x="340" y="136" text-anchor="middle" dominant-baseline="central">abawān</text>
+</g>
+
+<g class="c-coral">
+  <rect x="455" y="100" width="185" height="50" rx="8" stroke-width="0.5"/>
+  <text class="th" x="547" y="118" text-anchor="middle" dominant-baseline="central">Spouses (4:12)</text>
+  <text class="ts" x="547" y="136" text-anchor="middle" dominant-baseline="central">azwāj</text>
+</g>
+
+<!-- Arrows down -->
+<line x1="132" y1="150" x2="132" y2="180" class="arr" marker-end="url(#arrow)"/>
+<line x1="340" y1="150" x2="340" y2="180" class="arr" marker-end="url(#arrow)"/>
+<line x1="547" y1="150" x2="547" y2="180" class="arr" marker-end="url(#arrow)"/>
+
+<!-- Children detail -->
+<g class="c-purple">
+  <rect x="40" y="180" width="185" height="44" rx="8" stroke-width="0.5"/>
+  <text class="th" x="132" y="202" text-anchor="middle" dominant-baseline="central">Son : daughter = 2 : 1</text>
+</g>
+<line x1="132" y1="224" x2="132" y2="248" class="arr" marker-end="url(#arrow)"/>
+<g class="c-purple">
+  <rect x="40" y="248" width="185" height="44" rx="8" stroke-width="0.5"/>
+  <text class="ts" x="132" y="270" text-anchor="middle" dominant-baseline="central">2+ daughters → ⅔</text>
+</g>
+<line x1="132" y1="292" x2="132" y2="316" class="arr" marker-end="url(#arrow)"/>
+<g class="c-purple">
+  <rect x="40" y="316" width="185" height="44" rx="8" stroke-width="0.5"/>
+  <text class="ts" x="132" y="338" text-anchor="middle" dominant-baseline="central">1 daughter → ½</text>
+</g>
+
+<!-- Parents detail -->
+<g class="c-blue">
+  <rect x="247" y="180" width="186" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="340" y="200" text-anchor="middle" dominant-baseline="central">With children</text>
+  <text class="ts" x="340" y="220" text-anchor="middle" dominant-baseline="central">Each parent → ⅙</text>
+</g>
+<line x1="340" y1="236" x2="340" y2="260" class="arr" marker-end="url(#arrow)"/>
+<g class="c-blue">
+  <rect x="247" y="260" width="186" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="340" y="280" text-anchor="middle" dominant-baseline="central">No children</text>
+  <text class="ts" x="340" y="300" text-anchor="middle" dominant-baseline="central">Mother → ⅓, father → rest</text>
+</g>
+<line x1="340" y1="316" x2="340" y2="340" class="arr" marker-end="url(#arrow)"/>
+<g class="c-blue">
+  <rect x="247" y="340" width="186" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="340" y="360" text-anchor="middle" dominant-baseline="central">With siblings</text>
+  <text class="ts" x="340" y="380" text-anchor="middle" dominant-baseline="central">Mother → ⅙ instead of ⅓</text>
+</g>
+
+<!-- Spouse detail -->
+<g class="c-coral">
+  <rect x="455" y="180" width="185" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="547" y="200" text-anchor="middle" dominant-baseline="central">Husband's share</text>
+  <text class="ts" x="547" y="220" text-anchor="middle" dominant-baseline="central">No child → ½ · child → ¼</text>
+</g>
+<line x1="547" y1="236" x2="547" y2="260" class="arr" marker-end="url(#arrow)"/>
+<g class="c-coral">
+  <rect x="455" y="260" width="185" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="547" y="280" text-anchor="middle" dominant-baseline="central">Wife's share</text>
+  <text class="ts" x="547" y="300" text-anchor="middle" dominant-baseline="central">No child → ¼ · child → ⅛</text>
+</g>
+
+<!-- Kalālah section -->
+<g class="c-gray">
+  <rect x="40" y="430" width="600" height="50" rx="12" stroke-width="0.5"/>
+  <text class="th" x="340" y="448" text-anchor="middle" dominant-baseline="central">Kalālah — no children, no parents (4:12 + 4:176)</text>
+  <text class="ts" x="340" y="466" text-anchor="middle" dominant-baseline="central">Siblings inherit</text>
+</g>
+
+<line x1="200" y1="480" x2="200" y2="510" class="arr" marker-end="url(#arrow)"/>
+<line x1="480" y1="480" x2="480" y2="510" class="arr" marker-end="url(#arrow)"/>
+
+<g class="c-amber">
+  <rect x="75" y="510" width="250" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="200" y="530" text-anchor="middle" dominant-baseline="central">Maternal half-siblings (4:12)</text>
+  <text class="ts" x="200" y="550" text-anchor="middle" dominant-baseline="central">1 → ⅙ · 2+ share ⅓ equally</text>
+</g>
+
+<g class="c-green">
+  <rect x="355" y="510" width="250" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="480" y="530" text-anchor="middle" dominant-baseline="central">Full / paternal siblings (4:176)</text>
+  <text class="ts" x="480" y="550" text-anchor="middle" dominant-baseline="central">Same rules as children</text>
+</g>
+
+<!-- Priority order note -->
+<g class="c-gray">
+  <rect x="40" y="620" width="600" height="80" rx="12" stroke-width="0.5"/>
+  <text class="th" x="340" y="645" text-anchor="middle" dominant-baseline="central">Order of deductions before shares are distributed</text>
+  <text class="ts" x="340" y="668" text-anchor="middle" dominant-baseline="central">① Debts → ② Bequests (max ⅓) → ③ Fixed shares (farā'iḍ) → ④ Residue (ʿaṣaba)</text>
+  <text class="ts" x="340" y="688" text-anchor="middle" dominant-baseline="central">"Give each rightful heir their due" — Hadith (Abu Dawud)</text>
+</g>
+</svg>

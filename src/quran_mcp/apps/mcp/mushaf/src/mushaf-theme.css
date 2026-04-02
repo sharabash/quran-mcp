@@ -1,0 +1,49 @@
+/* mushaf-theme.css — OKLCH-based palette for the mushaf MCP app.
+ * Tokens are authored in OKLCH and exported as hex/rgba for browser compat.
+ * Prefix: --m- (mushaf namespace, no collision with shared-theme.css).
+ */
+
+/* Varela Round — action bar labels. Loaded globally here, not in component
+ * scoped styles (Svelte scoping + vite-plugin-singlefile breaks @import).
+ * Requires CSP allowance for fonts.googleapis.com + fonts.gstatic.com,
+ * or bundle locally as fallback. */
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
+:root {
+  /* ─── Surface Ramp (deep navy, hue ~240°) ─── */
+  --m-surface-1: #091428;
+  --m-surface-2: #0f1d35;
+  --m-surface-3: #162544;
+  --m-surface-4: #1c3050;
+  --m-surface-5: #243d62;
+  --m-surface-6: #2d4a75;
+
+  /* ─── Text Ramp (warm cream, hue ~45°) ─── */
+  --m-text-1: #ede6db;
+  --m-text-2: #a8a091;
+  --m-text-3: #706a5e;
+  --m-text-4: #4a453d;
+
+  /* ─── Burnished Gold (user interaction, hue ~75°) ─── */
+  --m-gold: #a88030;
+  --m-gold-bright: #e0c060;
+  --m-gold-mid: #ccaa4a;
+  --m-gold-dim: #8a7e6e;
+  --m-gold-bg: rgb(47, 46, 41);
+  --m-gold-border: rgb(104, 84, 44);
+
+  /* ─── Green (system context, hue ~145°) ─── */
+  --m-green: #6bc17a;
+  --m-green-bright: #8dd99a;
+  --m-green-dim: #3a7a45;
+  --m-green-bg: rgba(107, 193, 122, 0.08);
+  --m-green-border: rgba(107, 193, 122, 0.15);
+
+  /* ─── Semantic ─── */
+  --m-disabled: #4a453d;
+  --m-error: #dc2626;
+  --m-border: rgba(255, 255, 255, 0.12);
+  --m-border-subtle: rgba(255, 255, 255, 0.06);
+  --m-border-hover: rgba(255, 255, 255, 0.20);
+  --m-shadow: rgba(0, 0, 0, 0.4);
+}

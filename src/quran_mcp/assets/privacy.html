@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy — Quran MCP</title>
+  <meta name="description" content="Privacy policy for the hosted Quran MCP service at mcp.quran.ai.">
+  <link rel="icon" href="/icon.png?v=2" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/shared-theme.css">
+  <style>
+    /* Page-specific styles */
+    body {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 16px;
+      line-height: 1.72;
+    }
+
+    .container {
+      position: relative; z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 36px 44px 80px;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+      animation: fadeIn 0.6s ease-out both;
+    }
+
+    /* Hero */
+    .hero {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 28px 30px 26px;
+      margin-bottom: 18px;
+      animation: fadeIn 0.6s ease-out 0.1s both;
+    }
+    .eyebrow {
+      font-family: 'Cascadia Code', monospace;
+      font-size: .6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--faint);
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: clamp(2rem, 3.6vw, 2.8rem);
+      font-weight: 500;
+      line-height: 1.12;
+      letter-spacing: -.02em;
+      color: var(--text-heading);
+      margin-bottom: 10px;
+    }
+    .lede {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 58ch;
+      line-height: 1.65;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px;
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+    .hero-meta div { min-width: 160px; }
+    .meta-label {
+      font-family: 'Cascadia Code', monospace;
+      font-size: .6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--faint);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .meta-value {
+      font-family: 'Cascadia Code', monospace;
+      font-size: .82rem;
+      color: var(--muted);
+    }
+
+    /* Facts grid */
+    .facts {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin-top: 22px;
+    }
+    .fact {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      transition: border-color .2s;
+    }
+    .fact:hover { border-color: var(--border-hover); }
+    .fact-label {
+      font-family: 'Cascadia Code', monospace;
+      font-size: .6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--faint);
+      display: block;
+      margin-bottom: 8px;
+    }
+    .fact strong {
+      display: block;
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: .92rem;
+      font-weight: 500;
+      color: var(--text-heading);
+      margin-bottom: 6px;
+    }
+    .fact p { margin: 0; color: var(--muted); font-size: .88rem; }
+
+    /* Navigation */
+    nav {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      animation: fadeIn 0.6s ease-out 0.2s both;
+    }
+    nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 10px 16px; }
+    nav a {
+      font-family: 'Cascadia Code', monospace;
+      font-size: .72rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    nav a:hover { color: var(--green); text-decoration: none; }
+
+    /* Sections */
+    section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px 26px;
+      margin-top: 18px;
+      animation: fadeIn 0.5s ease-out both;
+    }
+    section:nth-of-type(1) { animation-delay: 0.15s; }
+    section:nth-of-type(2) { animation-delay: 0.2s; }
+    section:nth-of-type(3) { animation-delay: 0.25s; }
+    section:nth-of-type(4) { animation-delay: 0.3s; }
+    section:nth-of-type(5) { animation-delay: 0.35s; }
+    section:nth-of-type(6) { animation-delay: 0.4s; }
+    section:nth-of-type(7) { animation-delay: 0.45s; }
+    section:nth-of-type(8) { animation-delay: 0.5s; }
+    h2 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 500;
+      letter-spacing: -.01em;
+      color: var(--text-heading);
+      margin: 0 0 12px;
+    }
+    p { margin: 0 0 14px; font-size: 1rem; }
+    ul { margin: 0 0 6px; padding-left: 20px; }
+    li { margin-bottom: 12px; font-size: .98rem; }
+    li strong { color: var(--text-heading); }
+    .note {
+      padding: 14px 16px;
+      border-radius: 10px;
+      background: var(--green-bg);
+      border: 1px solid var(--green-border);
+      color: var(--muted);
+      font-size: .92rem;
+    }
+    .scope-line {
+      font-family: 'Cascadia Code', monospace;
+      font-size: .75rem;
+      color: var(--faint);
+      margin-top: 10px;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-top: 18px;
+      padding: 20px 24px;
+      color: var(--muted);
+      font-size: .9rem;
+      animation: fadeIn 0.5s ease-out 0.55s both;
+    }
+    footer p:last-child { margin-bottom: 0; }
+
+    /* Responsive */
+    @media (max-width: 720px) {
+      .container { padding: 24px 16px 60px; }
+      .hero, nav, section, footer { border-radius: 8px; }
+      .hero, section { padding: 20px 18px; }
+    }
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+
+<div class="container">
+  <div class="top-bar">
+    <a href="/" class="back-link">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L5 8l5 5"/></svg>
+      Back to Quran MCP
+    </a>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">Privacy Policy</p>
+    <h1>Privacy Policy for Quran MCP</h1>
+    <p class="lede">This policy explains how the hosted public service at mcp.quran.ai handles information when you use the MCP server or visit its public web pages. A separate section near the end explains optional relay-enabled or self-hosted deployments, which do not apply to the hosted service unless we say so.</p>
+
+    <div class="hero-meta">
+      <div>
+        <span class="meta-label">Effective date</span>
+        <span class="meta-value">March 11, 2026</span>
+      </div>
+      <div>
+        <span class="meta-label">Last updated</span>
+        <span class="meta-value">March 12, 2026</span>
+      </div>
+      <div>
+        <span class="meta-label">Hosted service</span>
+        <span class="meta-value">mcp.quran.ai</span>
+      </div>
+    </div>
+
+    <div class="facts">
+      <div class="fact">
+        <span class="fact-label">Hosted default</span>
+        <strong>No persistent tool-call storage</strong>
+        <p>The hosted service does not store your tool calls in a hosted database.</p>
+      </div>
+      <div class="fact">
+        <span class="fact-label">Operational logging</span>
+        <strong>Successful tool inputs are not logged by the app</strong>
+        <p>The hosted service uses minimal logging and omits request arguments from minimal-mode error logs.</p>
+      </div>
+      <div class="fact">
+        <span class="fact-label">Website visitors</span>
+        <strong>Landing page uses Google Analytics</strong>
+        <p>This applies to browser visits to the public landing page, not to MCP tool calls.</p>
+      </div>
+    </div>
+  </header>
+
+  <nav aria-label="Privacy sections">
+    <ul>
+      <li><a href="#service-data">Hosted MCP service data</a></li>
+      <li><a href="#use">How we use information</a></li>
+      <li><a href="#providers">Providers and infrastructure</a></li>
+      <li><a href="#retention">Retention</a></li>
+      <li><a href="#choices">Deletion requests</a></li>
+      <li><a href="#website">Website visitors</a></li>
+      <li><a href="#optional">Optional deployments</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section id="service-data">
+    <h2>Information we handle when you use the hosted MCP service</h2>
+    <p>When an AI client calls Quran MCP, the hosted service may handle the information needed to answer that request.</p>
+    <ul>
+      <li><strong>Tool inputs and search terms.</strong> We handle the verse references, search terms, and other parameters that your AI client sends so the service can return Quran text, translations, tafsir, and related results.</li>
+      <li><strong>Connection-scoped identifiers.</strong> We keep very short-lived, connection-scoped identifiers in memory only to track whether grounding guidance has already been sent during the current interaction. This supports the service's core purpose of helping AI stay grounded in retrieved sources, cite them clearly, and signal when an answer includes interpretation beyond what those sources explicitly say. We do not use these identifiers to uniquely identify users or track them across separate interactions.</li>
+      <li><strong>Failure metadata.</strong> If a request fails, the application may write limited error metadata such as tool name, status, duration, and error type to operational logs. In the hosted service described here, successful tool inputs and outputs are not logged by the application, and minimal-mode error logs omit request arguments.</li>
+      <li><strong>Connection and transport metadata.</strong> Like most internet services, our infrastructure may process technical metadata such as IP address, request path, timing, and transport details in order to deliver the service.</li>
+    </ul>
+    <p class="scope-line">Scope note: this section describes the hosted public service at mcp.quran.ai, not every development or self-hosted setup.</p>
+  </section>
+
+  <section id="use">
+    <h2>How we use information</h2>
+    <ul>
+      <li>To fulfill your request and return grounded Quran data to the AI client that called the service.</li>
+      <li>To keep the hosted service working, including troubleshooting failures and monitoring reliability.</li>
+      <li>To maintain session behavior, including short-lived grounding-acknowledgement state.</li>
+      <li>To route requests through the service providers and infrastructure needed to deliver search, retrieval, and transport functionality.</li>
+    </ul>
+    <p class="note">We do not use the hosted public deployment described by this policy to build advertising profiles or to sell personal information.</p>
+  </section>
+
+  <section id="providers">
+    <h2>Service providers and infrastructure</h2>
+    <p>We use service providers and infrastructure to operate the hosted service.</p>
+    <ul>
+      <li><strong>OpenAI and Google.</strong> Depending on the embedding model configured behind our self-hosted search infrastructure, search terms may be sent to OpenAI or Google to generate embeddings used for semantic search.</li>
+      <li><strong>Voyage AI.</strong> Voyage AI may process verse text and search terms when semantic search or reranking features use its models.</li>
+      <li><strong>Google Analytics.</strong> The public landing page loads Google's analytics script with measurement ID <code>G-LDP10R3HVP</code>. This applies to browser visits to the landing page, not to MCP tool calls.</li>
+      <li><strong>Google Fonts.</strong> Public website pages load web fonts from Google's CDN, which means your browser sends standard connection metadata to Google to retrieve those files.</li>
+      <li><strong>Cloudflare and hosting infrastructure.</strong> Cloudflare, our hosting provider, and container/runtime infrastructure may process standard connection and operational metadata to deliver the service.</li>
+    </ul>
+    <p>These providers process information on their own systems subject to their own operational and retention practices.</p>
+  </section>
+
+  <section id="retention">
+    <h2>Retention</h2>
+    <ul>
+      <li><strong>Connection-scoped identifiers.</strong> These identifiers are kept only in memory and expire after about three minutes.</li>
+      <li><strong>Application and container logs.</strong> Error logs are created only when a request fails. The application does not set a fixed retention period for host or container logs, so those logs remain until they are rotated or deleted by the operator or infrastructure layer.</li>
+      <li><strong>Provider-side retention.</strong> Edge, hosting, and provider logs may be retained under provider-managed policies that are outside direct application control.</li>
+    </ul>
+  </section>
+
+  <section id="choices">
+    <h2>Deletion requests and privacy choices</h2>
+    <p>You can send privacy questions or deletion requests to <a href="mailto:support@quran.ai">support@quran.ai</a> or use our public <a href="/support">support page</a>.</p>
+    <p>We will review requests and delete information we control where feasible. Because some information is intentionally short-lived in memory and some operational data is held in provider-managed edge or infrastructure logs, we cannot promise targeted deletion from every system once those records have been written.</p>
+    <p>The hosted public service does not require an account, so there is no account dashboard for managing or exporting data.</p>
+  </section>
+
+  <section id="website">
+    <h2>Website visitors</h2>
+    <p>This section applies when you load public pages such as the landing page, docs, support page, or this privacy policy.</p>
+    <ul>
+      <li>The public landing page uses Google Analytics. This applies to browser visits to the landing page, not to MCP tool calls.</li>
+      <li>Those public pages currently load Google Fonts, so your browser makes standard font-delivery requests to Google when the page renders.</li>
+      <li>Website requests may still pass through Cloudflare and the hosting stack, which can process standard connection metadata such as IP address, request path, and timing.</li>
+      <li>This website section is separate from MCP tool use. Visiting the site does not, by itself, submit MCP feedback or create stored tool-call records in the hosted public service.</li>
+    </ul>
+  </section>
+
+  <section id="optional">
+    <h2>Optional feedback-sharing features or self-hosted deployments</h2>
+    <p>This section does not apply to the hosted public service at mcp.quran.ai unless we say otherwise.</p>
+    <p>If a maintainer or self-hosted operator enables optional feedback-sharing tools, that deployment may store tool-call metadata, AI reflections, explicit user feedback, and optional user quotations in PostgreSQL according to the operator's chosen configuration. In the current checked-in optional-feedback configuration, retention is 180 days.</p>
+    <p>Any self-hosted deployment is controlled by its own operator and may use different providers, logging, analytics, or retention settings. Those deployments should publish their own privacy disclosures.</p>
+  </section>
+
+  <section id="updates">
+    <h2>Changes to this policy</h2>
+    <p>We may update this policy as the hosted service changes. We will post the updated version at this URL and change the last-updated date at the top of the page.</p>
+  </section>
+
+  <section id="contact">
+    <h2>Contact us</h2>
+    <p>For privacy questions, deletion requests, or directory-review concerns, email <a href="mailto:support@quran.ai">support@quran.ai</a> or use <a href="/support">/support</a>.</p>
+  </section>
+
+  <footer>
+    <p>This policy is meant to describe the hosted public deployment at <code>mcp.quran.ai</code>. Optional feedback-sharing or self-hosted deployments can differ.</p>
+    <p>For privacy questions or deletion requests, contact <a href="mailto:support@quran.ai">support@quran.ai</a>.</p>
+  </footer>
+</div>
+</body>
+</html>

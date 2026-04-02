@@ -1,0 +1,509 @@
+---
+title: "The Sealing of Hearts: What It Means and What Leads to It"
+category: "Thematic exploration"
+prompt: "What does the Qur'an say about the sealing of hearts and what leads to it?"
+date: "2026-03-16"
+model: Claude Opus 4.6
+tools_used:
+  - search_quran(4 queries across sealing/hardening/covering/rust themes)
+  - fetch_quran(45:23, 6:125, 9:77, ar-simple-clean)
+  - fetch_translation(45:23, 6:125, 9:77, 22:46, en-abdel-haleem)
+  - fetch_tafsir(2:7, ar-tabari, en-ibn-kathir, ar-tahrir-wa-tanwir, ar-nathm-aldurar)
+  - fetch_tafsir(83:14, en-ibn-kathir)
+  - fetch_tafsir(45:23, ar-tahrir-wa-tanwir, ar-saadi)
+  - fetch_tafsir(57:16, ar-tahrir-wa-tanwir, en-ibn-kathir)
+  - fetch_tafsir(40:35, ar-tahrir-wa-tanwir)
+  - fetch_tafsir(2:74, 47:24, en-ibn-kathir)
+  - fetch_tafsir(2:7, 83:14, 2:74, 57:16, 40:35, 47:16, 63:3, 39:22, ar-saadi)
+---
+
+The Qur'an does not describe heart-sealing as a single event. It deploys a **graduated vocabulary** — each Arabic term capturing a different degree of obstruction, a different metaphor for how the heart becomes impervious to guidance.
+
+## The Quranic Lexicon of Heart-Obstruction
+
+| Term | Root | Meaning | Key Verse |
+|------|------|---------|-----------|
+| `khatm` | خ ت م | Sealing (as a document is sealed shut) | [2:7](https://quran.com/2/7), [45:23](https://quran.com/45/23) |
+| `tab'` | ط ب ع | Stamping / imprinting (a coin struck with a die) | [7:101](https://quran.com/7/101), [40:35](https://quran.com/40/35), [47:16](https://quran.com/47/16) |
+| `qaswa` | ق س و | Hardening (like stone or worse) | [2:74](https://quran.com/2/74), [5:13](https://quran.com/5/13), [57:16](https://quran.com/57/16) |
+| `rayn` | ر ي ن | Rust / encrustation (corrosion from accumulated residue) | [83:14](https://quran.com/83/14) |
+| `ghishawa` | غ ش و | Covering / veil (over the eyes) | [2:7](https://quran.com/2/7), [45:23](https://quran.com/45/23) |
+| `akinna` | ك ن ن | Casings / sheaths (enclosing the heart) | [6:25](https://quran.com/6/25), [17:46](https://quran.com/17/46), [41:5](https://quran.com/41/5) |
+| `ghulf` | غ ل ف | Wrapping (impenetrably enclosed) | [2:88](https://quran.com/2/88), [4:155](https://quran.com/4/155) |
+| `aqfal` | ق ف ل | Locks (barring entry entirely) | [47:24](https://quran.com/47/24) |
+| `marad` | م ر ض | Disease (sickness that worsens without treatment) | [2:10](https://quran.com/2/10) |
+
+## The Foundational Verse: Anatomy of `khatm` (2:7)
+
+:::verse
+ref: 2:7
+link: https://quran.com/2/7
+attribution: Abdel Haleem
+
+ختم الله على قلوبهم وعلى سمعهم وعلى أبصارهم غشاوة ولهم عذاب عظيم
+---
+God has sealed their hearts and their ears, and their eyes are covered. They will have great torment.
+:::
+
+This verse is the Qur'an's most complete statement on heart-sealing — naming all three faculties (heart, hearing, sight) and assigning each its own mode of obstruction. Four of our five scholars comment on it directly.
+
+### al-Tabari: The Linguistic Foundation
+
+**Al-Tabari** opens with a definition: the root of `khatm` is `tab'` — both mean to press a seal. A *khatam* is a stamp-ring. The physical metaphor: just as a sealed container cannot be opened without breaking the seal, a sealed heart admits no faith without God first removing the barrier.
+
+He then records from **Mujahid** a vivid physical demonstration:
+
+:::quote
+source: Jami' al-Bayan
+attribution: Mujahid (via al-Tabari)
+
+كانوا يُرَوْنَ أنّ القلبَ في مثل هذا — يعني الكفَّ — فإذا أذنبَ العبد ذنبًا ضُمّ منه — وقال بإصبعِه الخنصر — فإذا أذنب ضُمَّ وقال بإصبع أخرى حتى ضم أصابعَه كلَّها. ثم يُطبع عليه بطابَعٍ. وكانوا يُرَوْن أنّ ذلك: الرَّيْنُ
+---
+"They used to hold that the heart is like this" — and Mujahid showed his open palm. "When the servant commits a sin, a part closes" — and he folded his little finger. "When he commits another, another part closes" — folding another finger — "until all the fingers are folded shut. Then it is stamped with a seal." Mujahid said: "They held that this is the *rayn*."
+:::
+
+:::commentary
+Al-Tabari settles the matter through the Prophetic hadith (discussed below) and concludes: "When sins pile upon the heart, they close it off. And when it is closed off, *then* comes the sealing and stamping from God — so that faith has no path into it, and disbelief has no exit from it."
+:::
+
+### Ibn Ashur: The Rhetorical Dissection
+
+**Ibn Ashur** insists that `khatm` here is **not literal**. It operates through one of three rhetorical mechanisms:
+
+1. ***Isti'ara*** (metaphor): the imperviousness of their hearts is *compared* to a sealed container, and the word `khatm` is borrowed from the physical domain
+2. ***Tamthil*** (allegory): the entire imagined state of their perception — determined to disbelieve, refusing to examine evidence — is likened to the *state* of a sealed, covered object
+3. ***Majaz mursal*** (metonymy): `khatm` stands for its *consequence* — that the heart neither perceives nor responds
+
+:::quote
+source: al-Tahrir wa-l-Tanwir
+attribution: Ibn Ashur
+
+والخَتْمُ في اصْطِلاحِ الشَّرْعِ اسْتِمْرارُ الضَّلالَةِ في نَفْسِ الضّالِّ أوْ خُلُقُ الضَّلالَةِ، ومِثْلُهُ الطَّبْعُ والأكِنَّةُ
+---
+*Khatm* in Shari'a terminology means: the persistence of misguidance in the soul of the misguided, or the creation of misguidance. The same applies to *tab'* and *akinna*.
+:::
+
+On why `khatm` is attributed to God despite being caused by the person's own stubbornness, Ibn Ashur writes:
+
+:::quote
+source: al-Tahrir wa-l-Tanwir
+attribution: Ibn Ashur
+
+وبَعْدَ كَوْنِ الخَتْمِ مَجازًا في عَدَمِ نُفُوذِ الحَقِّ لِعُقُولِهِمْ وأسْماعِهِمْ وكَوْنِ ذَلِكَ مُسَبَّبًا لا مَحالَةَ عَنْ إعْراضِهِمْ ومُكابَرَتِهِمْ أُسْنِدَ ذَلِكَ الوَصْفُ إلى اللَّهِ تَعالى لِأنَّهُ المُقَدِّرُ لَهُ
+---
+After establishing that *khatm* is metaphor for the imperviousness of their hearts and ears — and that this is undoubtedly *caused by* their own turning away (*i'rad*) and stubbornness (*mukabara*) — it is attributed to God because He is the one who *decreed* it.
+:::
+
+:::insight
+title: The theological resolution — human agency meets divine decree
+
+Ibn Ashur resolves the centuries-old tension. The sealing is simultaneously a human act (choosing stubbornness) and a divine act (ratifying the choice as permanent). The human closes his own fingers; God stamps the fist shut. Neither agent acts alone. This is why the Qur'an can blame the sealed without contradiction — they *earned* the seal, even though God applied it.
+:::
+
+### Ibn Ashur: Why Singular *sam'* but Plural *qulub* and *absar*?
+
+Ibn Ashur notices that the Qur'an uses the singular `sam'` (hearing) alongside the plural `qulub` (hearts) and `absar` (eyes):
+
+:::quote
+source: al-Tahrir wa-l-Tanwir
+attribution: Ibn Ashur
+
+وأمّا الأسْماعُ فَإنَّما كانَتْ تَتَعَلَّقُ بِسَماعِ ما يُلْقى إلَيْها مِنَ القُرْآنِ فالجَماعاتُ إذا سَمِعُوا القُرْآنَ سَمِعُوهُ سَماعًا مُتَساوِيًا وإنَّما يَتَفاوَتُونَ في تَدَبُّرِهِ والتَّدَبُّرُ مِن عَمَلِ العُقُولِ
+---
+As for hearing — it is connected to receiving what is delivered to it from the Qur'an. When a group hears the Qur'an recited, they all hear it *equally* — variation comes only in *tadabbur* (reflection), which is the work of intellect. Since hearing's object is uniform, it was treated as singular.
+:::
+
+### al-Biqa'i: The Structural Placement
+
+**Al-Biqa'i** asks: why does [2:7](https://quran.com/2/7) appear immediately after [2:6](https://quran.com/2/6), which declared "it is equal to them whether you warn them or not"?
+
+:::quote
+source: Nazm al-Durar fi Tanasub al-Ayat wa al-Suwar
+attribution: Al-Biqa'i
+
+ولَمّا كانَ مِن أعْجَبِ العَجَبِ كَوْنُ شَيْءٍ واحِدٍ يَكُونُ هُدًى لِناسٍ دُونَ ناسٍ؛ عَلَّلَ ذَلِكَ بِقَوْلِهِ: خَتَمَ اللَّهُ
+---
+Since it was among the most wondrous of things that one and the same Book could be guidance for some people and not others, God explained *why* — by saying: "God has sealed..."
+:::
+
+He explains the *order* — hearts first, then hearing, then sight — as a deliberate **descent below the level of animals**: since [2:6](https://quran.com/2/6) leveled these people with creatures who cannot benefit from warning, the verse strips their faculties in order of distinctiveness. Intelligence (*qalb*) is the most distinctly human faculty, so its loss is named first.
+
+Al-Biqa'i quotes **al-Haralli**, who offers a metaphor:
+
+:::quote
+source: Nazm al-Durar (quoting al-Haralli)
+attribution: Al-Haralli (via al-Biqa'i)
+
+والقَلْبُ مِنَ الإنْسانِ بِمَنزِلَةِ السُّكّانِ مِنَ السَّفِينَةِ بِحَسَبِ تَقَلُّبِهِ يَتَصَرَّفُ سائِرُهُ
+---
+The heart is to the human as the rudder (*sukkan*) to the ship — according to its turning, all else is steered.
+:::
+
+:::insight
+title: Word order as theological argument
+
+Al-Biqa'i reveals something the other *mufassirun* don't emphasize: the *order* of faculties is not arbitrary but mirrors each verse's rhetorical purpose. In [2:7](https://quran.com/2/7), the goal is to explain *why warning doesn't help*, so the hierarchy goes intelligence, hearing, sight — stripping the most human faculty first. But in [45:23](https://quran.com/45/23), where the context begins with *desire ruling the heart*, Ibn Ashur notes the order shifts to hearing, heart, sight — because when desire has already captured the heart, the most immediately blocked faculty is the *reception* of external guidance (hearing). The Qur'an adjusts word order to match the causal logic of each context.
+:::
+
+## Mujahid's Graduated Scale of Severity
+
+**Mujahid** — narrated through **Ibn Jurayj** and **'Abdullah bin Kathir** — established a hierarchy among the Quranic terms:
+
+:::quote
+source: Jami' al-Bayan
+attribution: Mujahid (via al-Tabari, no. 303)
+
+الرّانُ أيسَرُ من الطَّبْع, والطَّبع أيسر من الأقْفَال, والأقفال أشدُّ ذلك كله
+---
+The *rayn* (rust, [83:14](https://quran.com/83/14)) is less severe than the *tab'* (stamp). The *tab'* is less severe than the *aqfal* (locks, [47:24](https://quran.com/47/24)). And the *aqfal* are the most severe of all.
+:::
+
+This gives a three-stage model of progressive closure:
+
+1. **`rayn`** — surface corrosion from accumulated sin; still potentially reversible through repentance
+2. **`tab'` / `khatm`** — the seal is pressed; the heart is stamped shut as divine response
+3. **`aqfal`** — padlocked; the Qur'an asks rhetorically: "Do they have locks on their hearts?" ([47:24](https://quran.com/47/24))
+
+**Ibn Kathir** adds a further three-fold classification of *coverings* (from his commentary on [83:14](https://quran.com/83/14)):
+
+:::quote
+source: Tafsir Ibn Kathir (Abridged)
+attribution: Ibn Kathir
+
+This dark covering known as Rayn overcomes the hearts of the disbelievers, the covering of Ghaym is for the righteous, and the covering of Ghayn is for those who are near to Allah.
+:::
+
+## The Mechanism: Two Prophetic Traditions
+
+### The Hadith of the Black Dot
+
+:::quote
+source: Jami' al-Bayan (also al-Tirmidhi, al-Nasa'i, Ibn Majah)
+attribution: Prophet Muhammad ﷺ (via Abu Hurayrah; graded Hasan Sahih by al-Tirmidhi)
+
+إنّ المؤمنَ إذا أذنب ذنبًا كانت نُكْتهٌ سوداءُ في قلبه, فإن تاب وَنـزع واستغفر، صَقَلت قلبه, فإن زاد زادت حتى تُغْلق قلبه، فذلك الرَّانُ الذي قال الله جل ثناؤه: كلا بل ران على قلوبهم ما كانوا يكسبون
+---
+When the believer commits a sin, a black dot appears on his heart. If he repents, desists, and seeks forgiveness, his heart is polished clean. But if he increases in sin, the dots increase until they enclose his heart. That is the *rayn* that Allah describes: "Nay! But on their hearts is the *rayn* which they used to earn" ([83:14](https://quran.com/83/14)).
+:::
+
+### The Hadith of the Two Hearts (Sahih Muslim)
+
+:::quote
+source: Sahih Muslim
+attribution: Prophet Muhammad ﷺ (via Hudhayfah ibn al-Yaman)
+
+تُعْرَضُ الْفِتَنُ عَلَى الْقُلُوبِ كَالْحَصِيرِ عُودًا عُودًا، فَأَيُّ قَلْبٍ أُشْرِبَهَا نُكِتَ فِيه نُكْتَةٌ سَوْدَاءُ وَأَيُّ قَلْبٍ أَنْكَرَهَا نُكِتَ فِيهِ نُكْتَةٌ بَيْضَاءُ حَتَّى تَصِيرَ عَلَى قَلْبَيْنِ: عَلى أَبْيَضَ مِثْلِ الصَّفَا، فَلَا تَضُرُّهُ فِتْنَةٌ مَا دَامَتِ السَّمَوَاتُ وَالْأَرْضُ وَالْآخَرُ أَسْوَدُ مُرْبَادًّا كَالْكُوزِ مُجَخِّيًا لَا يَعْرِفُ مَعْرُوفًا وَلَا يُنْكِرُ مُنْكَرًا
+---
+Trials are presented to hearts like straws woven into a mat, one after another. Whichever heart absorbs them, a black dot is engraved on it. Whichever heart rejects them, a white dot is engraved on it — until hearts become two types: one white like smooth stone, which no trial can harm as long as the heavens and earth endure; and another black, overturned like a cup — it neither recognizes good nor renounces evil.
+:::
+
+:::insight
+title: Two hadith, two models of the same process
+
+The Abu Hurayrah hadith traces the *descent*: sin, dot, rust, seal. The Hudhayfah hadith traces the *divergence*: when trials come, each heart either absorbs (darkens) or rejects (brightens), producing two terminal states. The Qur'an's vocabulary maps onto both paths — `rayn` is the accumulating tarnish from the first model; `khatm` is the divine ratification of the second model's black-cup outcome.
+:::
+
+## What Leads to Sealing: A Quranic Catalogue of Causes
+
+The Qur'an never presents sealing as arbitrary. Every instance names or implies a human action that triggers the divine response.
+
+### 1. Persistent Disbelief After Clear Evidence
+
+:::verse
+ref: 7:101
+link: https://quran.com/7/101
+attribution: Abdel Haleem
+
+تلك القرى نقص عليك من أنبائها ولقد جاءتهم رسلهم بالبينات فما كانوا ليؤمنوا بما كذبوا من قبل كذلك يطبع الله على قلوب الكافرين
+---
+We have told you the stories of those towns: messengers came to them, and clear signs, but they would not believe in what they had already rejected — in this way God seals the hearts of disbelievers.
+:::
+
+:::commentary
+**Al-Sa'di** on [2:7](https://quran.com/2/7): "They were denied [faith] and the doors of faith were closed to them only *because of their disbelief and denial and obstinacy* after truth had become clear to them."
+:::
+
+### 2. Enslaving the Heart to Desire (*hawa*)
+
+:::verse
+ref: 45:23
+link: https://quran.com/45/23
+attribution: Abdel Haleem
+
+أفرأيت من اتخذ إلهه هواه وأضله الله على علم وختم على سمعه وقلبه وجعل على بصره غشاوة فمن يهديه من بعد الله أفلا تذكرون
+---
+Consider the one who has taken his own desire as a god, whom God allows to stray in the face of knowledge, sealing his ears and heart and covering his eyes — who can guide such a person after God? Will you not take heed?
+:::
+
+**Ibn Ashur** offers two readings of *ittakhadha ilahahu hawahu*: either (1) metaphor — he obeys his desire as completely as a worshipper obeys God (a *tashbih baligh*), or (2) literal — he worships whichever idol his soul loves.
+
+He then records a striking narration:
+
+:::quote
+source: al-Tahrir wa-l-Tanwir (citing Muqatil)
+attribution: Ibn Ashur
+
+قالَ أبُو جَهْلٍ: واللَّهِ إنِّي لَأعْلَمُ إنَّهُ لِصادِقٌ فَقالَ لَهُ المُغِيرَةُ: مَهْ، وما دَلَّكَ عَلى ذَلِكَ، قالَ: كُنّا نُسَمِّيهِ في صِباهُ الصّادِقَ الأمِينَ فَلَمّا تَمَّ عَقْلُهُ وكَمُلَ رُشْدُهُ نُسَمِّيهِ الكَذّابَ الخائِنَ ؟ ! قالَ: فَما يَمْنَعُكَ أنْ تُؤْمِنَ بِهِ ؟ قالَ: تَتَحَدَّثُ عَنِّي بَناتُ قُرَيْشٍ أنِّي قَدْ اتَّبَعْتُ يَتِيمَ أبِي طالِبٍ مِن أجْلِ كِسْرَةٍ
+---
+Abu Jahl said: "By God, I *know* he is truthful." Al-Walid asked: "What shows you that?" He said: "We used to call him in his youth the Truthful and Trustworthy — now that his mind has matured and his judgment is complete, shall we call him the Liar and the Traitor?!" Al-Walid said: "What stops you from believing?" He replied: "The daughters of Quraysh will say I followed the orphan of Abu Talib for a piece of bread."
+:::
+
+:::commentary
+Ibn Ashur elevates this verse to a **universal principle**: "This verse is a foundation (*asl*) for warning against letting desire be the motive for believers' actions and abandoning the evidence of truth." He cites the hadith: *"None of you truly believes until his desire is subordinate to what I have brought"* ('Abdullah ibn 'Amr).
+:::
+
+Similarly, [47:16](https://quran.com/47/16) links sealing directly to desire:
+
+:::verse
+ref: 47:16
+link: https://quran.com/47/16
+attribution: Abdel Haleem
+
+ومنهم من يستمع إليك حتى إذا خرجوا من عندك قالوا للذين أوتوا العلم ماذا قال آنفا أولئك الذين طبع الله على قلوبهم واتبعوا أهواءهم
+---
+Some of these people listen to you, but once they leave your presence, they sneer at those who have been given knowledge, saying, 'What was that he just said?' These are the ones whose hearts God has sealed, those who follow their own desires.
+:::
+
+:::commentary
+**Al-Sa'di**: "He sealed their hearts and blocked the avenues of good from reaching them — *because of their following their desires*, in which they desire nothing but falsehood."
+:::
+
+### 3. Arrogance and Tyranny
+
+:::verse
+ref: 40:35
+link: https://quran.com/40/35
+attribution: Abdel Haleem
+
+الذين يجادلون في آيات الله بغير سلطان أتاهم كبر مقتا عند الله وعند الذين آمنوا كذلك يطبع الله على كل قلب متكبر جبار
+---
+Those who dispute God's messages, with no authority given to them, are doing something that is loathed by God and by those who believe. In this way God seals up the heart of every arrogant tyrant.
+:::
+
+**Ibn Ashur** defines the terms precisely: *mutakabbir* uses the *tafa''ul* verbal form, indicating **pretension** — claiming greatness beyond one's station. *Jabbar* derives from *jabr* (coercion) — one who compels others against their will through oppression.
+
+:::quote
+source: al-Tahrir wa-l-Tanwir
+attribution: Ibn Ashur
+
+والخَتْمُ والطَّبْعُ والأكِنَّةُ: خَلْقُ الضَّلالَةِ في القَلْبِ، أيِ النَّفْسِ
+---
+*Khatm*, *tab'*, and *akinna* [all mean]: the creation of misguidance in the heart — that is, in the soul.
+:::
+
+:::commentary
+**Al-Sa'di** adds: "*mutakabbir* — arrogant in himself, rejecting truth and despising creation; *jabbar* — through excessive oppression and transgression." This is the only verse that uses the **singular** *qalb* (heart) rather than the plural — God seals *each individual heart* that harbors arrogance.
+:::
+
+### 4. Breaking Covenants
+
+:::verse
+ref: 5:13
+link: https://quran.com/5/13
+attribution: Abdel Haleem
+
+فبما نقضهم ميثاقهم لعناهم وجعلنا قلوبهم قاسية يحرفون الكلم عن مواضعه ونسوا حظا مما ذكروا به
+---
+But they broke their pledge, so We distanced them [from Us] and hardened their hearts. They distort the meaning of [revealed] words and have forgotten some of what they were told to remember.
+:::
+
+And in [4:155](https://quran.com/4/155), the causes are enumerated explicitly: breaking their pledge, rejecting God's revelations, unjustly killing prophets, and claiming "Our hearts are wrapped (*ghulf*)." The last claim is telling — they *assert* their own imperviousness, and God *confirms* it as punishment.
+
+### 5. Apostasy After Faith
+
+:::verse
+ref: 63:3
+link: https://quran.com/63/3
+attribution: Abdel Haleem
+
+ذلك بأنهم آمنوا ثم كفروا فطبع على قلوبهم فهم لا يفقهون
+---
+Because they professed faith and then rejected it, so their hearts have been sealed and they do not understand.
+:::
+
+:::commentary
+**Al-Sa'di**: "They do not remain firm on faith, but believed then disbelieved, so their hearts were stamped such that good can never enter them — *fa-hum la yafqahun* — they do not comprehend what benefits them."
+:::
+
+### 6. Accumulation of Sin — The `rayn` Mechanism
+
+:::verse
+ref: 83:14
+link: https://quran.com/83/14
+attribution: Abdel Haleem
+
+كلا بل ران على قلوبهم ما كانوا يكسبون
+---
+No indeed! Their hearts are encrusted with what they have done.
+:::
+
+:::commentary
+The verb *rana* means to rust over, to encrust. The agent is *ma kanu yaksibun*: "what they used to earn." **Ibn Kathir**: "The only thing that blocked their hearts from believing in the Qur'an is the dark covering cast over them from the many sins and wrongs they committed." **Al-Sa'di**: "Unlike one whose heart is rusted over by his deeds, and concealed by his sins."
+:::
+
+### 7. The Passage of Time Without Spiritual Renewal
+
+:::verse
+ref: 57:16
+link: https://quran.com/57/16
+attribution: Abdel Haleem
+
+ألم يأن للذين آمنوا أن تخشع قلوبهم لذكر الله وما نزل من الحق ولا يكونوا كالذين أوتوا الكتاب من قبل فطال عليهم الأمد فقست قلوبهم وكثير منهم فاسقون
+---
+Is it not time for believers to humble their hearts to the remembrance of God and the Truth that has been revealed, and not to be like those who received the Scripture before them, whose time was extended but whose hearts hardened, and many of them were lawbreakers?
+:::
+
+**This verse is uniquely addressed to believers, not to disbelievers.**
+
+**Ibn Ashur** explains the process of hardening through time:
+
+:::quote
+source: al-Tahrir wa-l-Tanwir
+attribution: Ibn Ashur
+
+فَنَبَذُوهُ وراءَ ظُهُورِهِمْ واشْتَرَوْا بِهِ ثَمَنًا، وصارَ دَيْدَنًا لَهم رُوَيْدًا رُوَيْدًا حَتّى ضَرِئُوا بِذَلِكَ، فَقَسَتْ قُلُوبُهم
+---
+They cast it behind their backs and traded it for a price, and this became habitual for them little by little (*ruwaydan ruwaydan*) until they became entrenched in it, and their hearts hardened.
+:::
+
+:::commentary
+He adds a rhetorical observation: there is *jinas* (paranomasia) between *qasat* (قسَت, hardened) and *fasiqun* (فاسقون, lawbreakers) — a subtle phonetic echo linking cause to consequence.
+:::
+
+**Ibn Kathir** records (Sahih Muslim): **Ibn Mas'ud** said: "Only four years separated our acceptance of Islam and the revelation of this verse, in which Allah subtly admonished us."
+
+**Al-Sa'di** draws the permanent lesson:
+
+:::quote
+source: Taysir al-Karim al-Rahman
+attribution: Al-Sa'di
+
+فالقُلُوبُ تَحْتاجُ في كُلِّ وقتٍ إلى أنْ تُذَكَّرَ بِما أنْزَلَ اللّهُ، وتُناطَقَ بالحِكْمَةِ، ولا يَنبَغي الغَفْلَةُ عَنْ ذَلِكَ، فإنَّ ذَلِكَ سَبَبٌ لِقَسوَةِ القَلْبِ وجُمُودِ العَيْنِ
+---
+Hearts need in every time to be reminded of what God has revealed and engaged with wisdom. Neglecting this is the cause of hardening of the heart and drying of the eye.
+:::
+
+:::insight
+title: A warning to believers — not disbelievers
+
+Unlike every other sealing verse, which describes what God does to confirmed disbelievers or hypocrites, [57:16](https://quran.com/57/16) is a *warning to those who already believe*. The mechanism it names — *tala 'alayhim al-amad*, "time was prolonged for them" — is ordinary spiritual neglect. Not dramatic apostasy. Not arrogance. Not covenant-breaking. Just the quiet erosion of devotional attentiveness through the passage of time. As Ibn Ashur notes, the Qur'an tells the early Muslim community — only four years into their faith — that *they are already at risk*. Spiritual maintenance is not optional.
+:::
+
+### 8. Contentment with Inaction
+
+:::verse
+ref: 9:87
+link: https://quran.com/9/87
+attribution: Abdel Haleem
+
+رضوا بأن يكونوا مع الخوالف وطبع على قلوبهم فهم لا يفقهون
+---
+They prefer to be with those who stay behind. Their hearts have been sealed: they do not comprehend.
+:::
+
+### 9. Satan's Beautification of Sin
+
+:::verse
+ref: 6:43
+link: https://quran.com/6/43
+attribution: Abdel Haleem
+
+فلولا إذ جاءهم بأسنا تضرعوا ولكن قست قلوبهم وزين لهم الشيطان ما كانوا يعملون
+---
+If only they had learned humility when suffering came from Us! But no, their hearts became hard and Satan made their foul deeds alluring to them.
+:::
+
+:::commentary
+A collaborative mechanism: the heart hardens, Satan beautifies the very acts that caused the hardening, creating a self-reinforcing cycle.
+:::
+
+### 10. Broken Promises and Lying
+
+:::verse
+ref: 9:77
+link: https://quran.com/9/77
+attribution: Abdel Haleem
+
+فأعقبهم نفاقا في قلوبهم إلى يوم يلقونه بما أخلفوا الله ما وعدوه وبما كانوا يكذبون
+---
+Because they broke their promise to God, because of all the lies they told, He made hypocrisy settle in their hearts until the Day they meet Him.
+:::
+
+:::commentary
+Not sealing but something arguably worse: the *installation of hypocrisy as a permanent resident* in the heart. They lied to God, so God made the lie become their inner reality.
+:::
+
+### 11. Disputing God's Signs Without Authority
+
+[40:35](https://quran.com/40/35) (cited above) — those who argue against clear revelation not through genuine inquiry but through obstinacy and mockery.
+
+## The Counter-Image: Opened Hearts
+
+The Qur'an presents the vivid opposite of sealing:
+
+:::verse
+ref: 39:22
+link: https://quran.com/39/22
+attribution: Abdel Haleem
+
+أفمن شرح الله صدره للإسلام فهو على نور من ربه فويل للقاسية قلوبهم من ذكر الله أولئك في ضلال مبين
+---
+What about the one whose heart God has opened in devotion to Him, so that he walks in light from his Lord? Alas for those whose hearts harden at the mention of God! They are in manifest error.
+:::
+
+:::commentary
+**Al-Sa'di**: "The one whose heart is hardened by the mention of God — his heart does not soften for His Book, nor remember His signs, nor find tranquility in His remembrance. Rather, it turns away from its Lord and attends to other than Him." The contrast sharpens the meaning: where one heart walks in *nur* (light), the other is locked in darkness. Where one breast *expands* (*inshirah*), the other constricts.
+:::
+
+And the most piercing question about locked hearts:
+
+:::verse
+ref: 47:24
+link: https://quran.com/47/24
+attribution: Abdel Haleem
+
+أفلا يتدبرون القرآن أم على قلوب أقفالها
+---
+Will they not contemplate the Qur'an? Do they have locks on their hearts?
+:::
+
+:::commentary
+**Ibn Kathir** records: when the Prophet ﷺ recited this verse, a young man from Yemen said: "Indeed, there are locks upon them — until God opens them totally or slightly." 'Umar was so impressed that he always kept that young man as an advisor.
+:::
+
+And [22:46](https://quran.com/22/46) reframes the entire phenomenon: "It is not people's eyes that are blind, but their hearts within their breasts."
+
+## Summary: Stages, Causes, and Reversibility
+
+| Stage | Term | Verse | Reversibility |
+|-------|------|-------|---------------|
+| 1. Disease | `marad` | [2:10](https://quran.com/2/10) | Treatable — repentance and sincerity |
+| 2. Rust | `rayn` | [83:14](https://quran.com/83/14) | Removable — hadith says repentance "polishes" the heart |
+| 3. Hardening | `qaswa` | [2:74](https://quran.com/2/74), [57:16](https://quran.com/57/16) | Difficult — requires sustained *dhikr* |
+| 4. Covering | `ghishawa`, `akinna` | [2:7](https://quran.com/2/7), [17:46](https://quran.com/17/46) | Severe — divine intervention implied |
+| 5. Stamping | `tab'`, `khatm` | [7:101](https://quran.com/7/101), [40:35](https://quran.com/40/35) | Terminal without divine will |
+| 6. Locking | `aqfal` | [47:24](https://quran.com/47/24) | Most severe (per Mujahid) |
+
+| Cause | Verse | Named by |
+|-------|-------|----------|
+| Persistent disbelief after evidence | [7:101](https://quran.com/7/101) | al-Sa'di, al-Tabari |
+| Following desire over truth | [45:23](https://quran.com/45/23), [47:16](https://quran.com/47/16) | Ibn Ashur, al-Sa'di |
+| Arrogance and tyranny | [40:35](https://quran.com/40/35) | Ibn Ashur, al-Sa'di |
+| Breaking covenants | [4:155](https://quran.com/4/155), [5:13](https://quran.com/5/13) | al-Tabari, Ibn Kathir |
+| Apostasy after faith | [63:3](https://quran.com/63/3) | al-Sa'di |
+| Accumulated sin | [83:14](https://quran.com/83/14) | Ibn Kathir, al-Sa'di |
+| Passage of time without renewal | [57:16](https://quran.com/57/16) | Ibn Ashur, al-Sa'di, Ibn Kathir |
+| Satan's beautification of sin | [6:43](https://quran.com/6/43) | — |
+| Contentment with inaction | [9:87](https://quran.com/9/87) | — |
+| Broken promises and lying | [9:77](https://quran.com/9/77) | — |
+| Disputing signs without authority | [40:35](https://quran.com/40/35) | Ibn Ashur |
+
+:::insight
+title: Sealing is a process, not a moment — and a response, not an initiation
+
+The combined testimony of these five scholars reveals that the Qur'an never says God seals a heart *before* the person acts. Every sealing is preceded by human choice. Al-Tabari records the mechanism: sin, black dot, accumulation, closure, divine stamp. Ibn Ashur names the rhetorical device: metaphor, not literal description — but metaphor *for a real spiritual state*. Al-Biqa'i shows the structural purpose: sealing verses appear where they explain why guidance fails, answering the reader's implicit question. Al-Sa'di extracts the practical lesson: hearts must be maintained with constant *dhikr* or they harden through mere neglect. And Ibn Kathir supplies the Prophetic evidence that repentance *at the early stages* still "polishes" the heart clean — but the window does not stay open indefinitely. The urgency of [57:16](https://quran.com/57/16) — addressed to believers only four years into their faith — is that the passage of time alone, without dramatic sin, can begin the process. Spiritual maintenance is not optional.
+:::
+
+:::grounding
+search_quran (4 queries across sealing/hardening/covering/rust themes), fetch_quran(45:23, 6:125, 9:77, ar-simple-clean), fetch_translation(45:23, 6:125, 9:77, 22:46, en-abdel-haleem), fetch_tafsir(2:7 — ar-tabari, en-ibn-kathir, ar-tahrir-wa-tanwir, ar-nathm-aldurar), fetch_tafsir(83:14 — en-ibn-kathir), fetch_tafsir(45:23 — ar-tahrir-wa-tanwir, ar-saadi), fetch_tafsir(57:16 — ar-tahrir-wa-tanwir, en-ibn-kathir), fetch_tafsir(40:35 — ar-tahrir-wa-tanwir), fetch_tafsir(2:74, 47:24 — en-ibn-kathir), fetch_tafsir(2:7, 83:14, 2:74, 57:16, 40:35, 47:16, 63:3, 39:22 — ar-saadi)
+:::

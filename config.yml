@@ -1,0 +1,64 @@
+# config.yml - Optional configuration file for quran-mcp
+# Environment variables take precedence over these values
+#
+# To use a custom path, set MCP_CONFIG_YAML=/path/to/config.yml
+server:
+  port: 8088
+  profile: public
+  expose_tags: [ga, preview]
+
+database:
+  max_pool_size: 50
+
+rate_limit:
+  enabled: false  # Disabled pending token audit on fetched content (Spec 0050.1 Phase 3)
+  metered_tools: []
+  bucket_size: 2
+  refill_seconds: 10
+  daily_per_client: 50
+  daily_global: 200
+
+relay:
+  enabled: false              # Disabled for Connectors Directory submission (Spec 0050.1 Phase 3)
+  retention_days: 180         # Days to retain relay data
+# turn_gap_seconds: 60       # Inactivity threshold for new turn
+# max_turn_minutes: 30          # Max turn duration before auto-close
+# log_turn_identity_event: false  # Opt-in: log turn correlation data to .logs/
+
+# GoodMem semantic memory configuration
+# API key stays in .env (GOODMEM_API_KEY) — it's a secret.
+# Everything else is configuration and belongs here.
+goodmem:
+  api_host: https://localhost:8080
+  embedder: text-embedding-3-large
+  space:
+    quran: quran
+    tafsir: tafsir
+    translation: translation
+  reranker: voyage-rerank-2.5
+
+# LLM sampling fallback configuration (API keys in .env)
+sampling:
+  provider: anthropic
+  model: claude-haiku-4-5-20251001
+  max_output_tokens: 32768
+  # base_url:                       # Override API base URL
+  # openai_model: gpt-5.2           # Provider-specific model overrides
+  # anthropic_model: claude-haiku-4-5-20251001
+  # gemini_model: gemini-3-pro-preview
+
+# Error reporting defaults for the public directory submission profile
+sentry:
+  enabled: false  # Directory-facing default: keep third-party error reporting off unless explicitly re-enabled
+
+# MCP Apps configuration
+mcp_apps:
+  show_mushaf:
+    interactive: false  # Interaction UI disabled pending Spec 0072 completion
+
+# Logging configuration
+logging:
+  log_level: minimal  # minimal | normal | verbose | debug
+  format: pretty      # pretty | json
+  debug: false
+  wire_dump: false    # ASGI wire dump to /tmp/mcp-wire-dump.jsonl

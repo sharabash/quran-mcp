@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "quran": {
+      "url": "https://mcp.quran.ai",
+      "type": "http"
+    },
+    "pal": {
+      "type": "stdio",
+      "command": "/path/to/.pal-mcp-server/.pal_venv/bin/python",
+      "args": [
+        "/path/to/.pal-mcp-server/server.py"
+      ],
+      "env": {
+        "DEFAULT_MODEL": "auto",
+        "CONVERSATION_TIMEOUT_HOURS": "24",
+        "MAX_CONVERSATION_TURNS": "40"
+      }
+    },
+    "context7": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp", "--api-key", "your-context7-api-key-here"]
+    }
+  }
+}

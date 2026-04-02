@@ -1,0 +1,177 @@
+/* shared-theme.css — Unified design system for all Quran MCP pages */
+
+/* ── Theme Variables ── */
+:root {
+  --bg: #0c0c0c;
+  --surface: #141414;
+  --surface-2: #1a1a1a;
+  --code-bg: #111111;
+  --border: #222;
+  --border-hover: #333;
+  --text: #e0e0e0;
+  --text-heading: #f0f0f0;
+  --muted: #999;
+  --faint: #555;
+  --faintest: #1e1e1e;
+  --green: #4ade80;
+  --green-dim: #166534;
+  --green-bg: rgba(74, 222, 128, 0.06);
+  --green-border: rgba(74, 222, 128, 0.12);
+  --amber: #fbbf24;
+  --amber-bg: rgba(251, 191, 36, 0.04);
+  --amber-border: rgba(251, 191, 36, 0.12);
+  --link: #58a6ff;
+  --red: #ff9e9e;
+  --red-dim: #7a3a3a;
+  --code-block-bg: #0d0d0d;
+  --code-block-border: #222;
+  --grid-opacity: 0.012;
+  --glow-opacity: 0.04;
+}
+[data-theme="light"] {
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --surface-2: #f0f0ee;
+  --code-bg: #f5f5f3;
+  --border: #e0e0de;
+  --border-hover: #ccccc9;
+  --text: #1a1a1a;
+  --text-heading: #111;
+  --muted: #666;
+  --faint: #aaa;
+  --faintest: #f0f0f0;
+  --green: #16a34a;
+  --green-dim: #bbf7d0;
+  --green-bg: rgba(22, 163, 74, 0.06);
+  --green-border: rgba(22, 163, 74, 0.18);
+  --amber: #d97706;
+  --amber-bg: rgba(217, 119, 6, 0.04);
+  --amber-border: rgba(217, 119, 6, 0.15);
+  --link: #2563eb;
+  --red: #dc2626;
+  --red-dim: #b91c1c;
+  --code-block-bg: #f5f5f3;
+  --code-block-border: #e0e0de;
+  --grid-opacity: 0.03;
+  --glow-opacity: 0.025;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 32px; }
+body {
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Grid Background + Glows ── */
+.grid-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,var(--grid-opacity)) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,var(--grid-opacity)) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+[data-theme="light"] .grid-bg {
+  background-image:
+    linear-gradient(rgba(0,0,0,var(--grid-opacity)) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,var(--grid-opacity)) 1px, transparent 1px);
+}
+.glow { position: fixed; border-radius: 50%; filter: blur(150px); pointer-events: none; z-index: 0; }
+.glow-1 { width: 500px; height: 500px; top: -150px; right: -100px; background: rgba(74,222,128,var(--glow-opacity)); }
+.glow-2 { width: 400px; height: 400px; bottom: 10%; left: -100px; background: rgba(74,222,128,calc(var(--glow-opacity) * 0.5)); }
+
+/* ── Base Typography ── */
+a { color: var(--link); text-decoration: none; transition: color .15s; }
+a:hover { color: var(--green); }
+code {
+  font-family: 'Cascadia Code', 'SF Mono', monospace;
+  font-size: .84em;
+  letter-spacing: .015em;
+  padding: 2px 6px;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+/* ── Theme Toggle ── */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+.theme-toggle button {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  color: var(--faint);
+}
+.theme-toggle button svg { width: 14px; height: 14px; }
+.theme-toggle button.active {
+  background: var(--surface-2);
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(0,0,0,.15);
+}
+.theme-toggle button:hover:not(.active) { color: var(--muted); }
+.theme-toggle button:focus-visible { outline: 2px solid var(--green); outline-offset: 1px; }
+
+/* ── Mobile Theme FAB ── */
+.theme-fab {
+  display: none;
+  position: fixed;
+  bottom: 20px; right: 20px;
+  z-index: 90;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0,0,0,.2);
+  align-items: center;
+  justify-content: center;
+  transition: transform .15s;
+}
+.theme-fab:active { transform: scale(.92); }
+.theme-fab svg { width: 18px; height: 18px; }
+
+/* ── Back Link ── */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Cascadia Code', monospace;
+  font-size: .72rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .15s;
+}
+.back-link:hover { color: var(--green); text-decoration: none; }
+.back-link svg { width: 14px; height: 14px; }
+
+/* ── Animation ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive: Toggle/FAB swap ── */
+@media (max-width: 720px) {
+  .theme-toggle { display: none; }
+  .theme-fab { display: flex; }
+}

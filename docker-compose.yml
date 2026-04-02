@@ -1,0 +1,43 @@
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: ${QURAN_MCP_DB_USER:-quran_mcp_user}
+      POSTGRES_PASSWORD: ${QURAN_MCP_DB_PASSWORD:?Set QURAN_MCP_DB_PASSWORD in .env}
+      POSTGRES_DB: ${QURAN_MCP_DB_DATABASE:-quran_mcp_db}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./.db/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ./.db/init_db.sh:/docker-entrypoint-initdb.d/02-init-db.sh:ro
+      - ./.db:/docker-entrypoint-initdb.d/dumps:ro
+      - ./src/quran_mcp/lib/db/migrations:/docker-entrypoint-initdb.d/migrations:ro
+      - ./.db/psqlrc:/root/.psqlrc:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${QURAN_MCP_DB_USER:-quran_mcp_user} -d ${QURAN_MCP_DB_DATABASE:-quran_mcp_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    environment:
+      COLUMNS: "200"
+      FORCE_COLOR: "1"
+      TERM: xterm-256color
+      QURAN_MCP_DB_HOST: db
+      QURAN_MCP_DB_PORT: "5432"
+    ports:
+      - "${PORT:-8088}:8088"
+    volumes:
+      - ./config.yml:/app/config.yml:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  db-data:

@@ -1,0 +1,19 @@
+{
+  "name": "@quran-mcp/mushaf-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^5.0.0",
+    "svelte": "^5.0.0",
+    "typescript": "^5.8.0",
+    "vite": "^6.0.0",
+    "vite-plugin-singlefile": "^2.3.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/ext-apps": "^1.0.0"
+  }
+}

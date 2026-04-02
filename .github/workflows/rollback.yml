@@ -1,0 +1,41 @@
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Commit hash, tag, or "master" to restore'
+        required: true
+        type: string
+
+env:
+  APP_DIR: ${{ vars.DEPLOY_APP_DIR }}
+
+jobs:
+  rollback:
+    runs-on: self-hosted
+    steps:
+      - name: Rollback
+        env:
+          ROLLBACK_REF: ${{ github.event.inputs.ref }}
+        run: |
+          cd "$APP_DIR"
+          git fetch origin
+          if git show-ref --verify --quiet "refs/remotes/origin/$ROLLBACK_REF" 2>/dev/null; then
+            git checkout "$ROLLBACK_REF"
+            git reset --hard "origin/$ROLLBACK_REF"
+          else
+            git checkout "$ROLLBACK_REF"
+          fi
+          docker compose up -d --build
+
+      - name: Verify
+        run: |
+          sleep 10
+          cd "$APP_DIR"
+          docker compose ps
+          curl -sf -X POST http://localhost:8088/ \
+            -H "Content-Type: application/json" \
+            -H "Accept: application/json, text/event-stream" \
+            -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"deploy-check","version":"1.0"}}}' \
+            | grep -q '"serverInfo"' && echo "Rollback verified" || { echo "Rollback verification FAILED"; exit 1; }
