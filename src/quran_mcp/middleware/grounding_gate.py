@@ -49,6 +49,7 @@ GROUNDING_FIELD_TOOLS: frozenset[str] = GATED_TOOLS | frozenset({
 
 _MAX_TRACKED = 10_000
 _RETAINED_IDENTITY_TTL_SECONDS = 3600
+_NONCE_TTL_SECONDS = 3600
 _RETAINED_IDENTITY_PREFIXES = (
     "openai-conv:",
     "claude-trace:",
@@ -86,9 +87,28 @@ class GroundingGatekeeperMiddleware(Middleware):
     def __init__(self, *, authority_a_enabled: bool = False) -> None:
         super().__init__()
         self._explicit_grounding: OrderedDict[str, float] = OrderedDict()
-        self._valid_nonces: OrderedDict[str, None] = OrderedDict()
+        # Nonces are now bound to identity: nonce -> (issued_at, identity)
+        self._valid_nonces: OrderedDict[str, tuple[float, str]] = OrderedDict()
         self._authority_a_enabled = authority_a_enabled
         self._lock = asyncio.Lock()
+
+    def _clean_expired_nonces(self) -> None:
+        """Remove expired nonces from the store."""
+        now = time.monotonic()
+        while self._valid_nonces:
+            oldest_key, (oldest_ts, _identity) = next(iter(self._valid_nonces.items()))
+            if (now - oldest_ts) <= _NONCE_TTL_SECONDS:
+                break
+            self._valid_nonces.popitem(last=False)
+
+    def _clean_expired_identities(self) -> None:
+        """Remove expired identity acknowledgments from the store."""
+        now = time.monotonic()
+        while self._explicit_grounding:
+            oldest_key, oldest_ts = next(iter(self._explicit_grounding.items()))
+            if (now - oldest_ts) <= _RETAINED_IDENTITY_TTL_SECONDS:
+                break
+            self._explicit_grounding.popitem(last=False)
 
     @staticmethod
     def _mark(store: OrderedDict[str, float], identity: str) -> None:
@@ -96,7 +116,15 @@ class GroundingGatekeeperMiddleware(Middleware):
         if not _is_retained_identity(identity):
             return
 
-        store[identity] = time.monotonic()
+        now = time.monotonic()
+        # Proactive cleanup: evict expired entries at the head of the OrderedDict.
+        while store:
+            oldest_key, oldest_ts = next(iter(store.items()))
+            if (now - oldest_ts) <= _RETAINED_IDENTITY_TTL_SECONDS:
+                break
+            store.popitem(last=False)
+
+        store[identity] = now
         store.move_to_end(identity)
         while len(store) > _MAX_TRACKED:
             store.popitem(last=False)
@@ -115,10 +143,12 @@ class GroundingGatekeeperMiddleware(Middleware):
             return False
         return True
 
-    def _issue_nonce(self) -> str:
-        """Mint a cryptographically random nonce and store it."""
-        nonce = f"gnd-{secrets.token_hex(8)}"
-        self._valid_nonces[nonce] = None
+    def _issue_nonce(self, identity: str) -> str:
+        """Mint a cryptographically random nonce bound to the requesting identity."""
+        self._clean_expired_nonces()
+        nonce = f"gnd-{secrets.token_hex(16)}"
+        self._valid_nonces[nonce] = (time.monotonic(), identity)
+        self._valid_nonces.move_to_end(nonce)
         while len(self._valid_nonces) > _MAX_NONCES:
             self._valid_nonces.popitem(last=False)
         return nonce
@@ -135,11 +165,23 @@ class GroundingGatekeeperMiddleware(Middleware):
             raw = raw[17:-18].strip()
         return raw
 
-    def _validate_nonce(self, nonce: object) -> bool:
-        """Return True if the nonce is currently valid."""
+    def _validate_nonce(self, nonce: object, identity: str) -> bool:
+        """Return True if the nonce is valid and bound to the given identity."""
         if not isinstance(nonce, str) or not nonce:
             return False
-        return nonce in self._valid_nonces
+        entry = self._valid_nonces.get(nonce)
+        if entry is None:
+            return False
+        issued_at, bound_identity = entry
+        if (time.monotonic() - issued_at) > _NONCE_TTL_SECONDS:
+            try:
+                del self._valid_nonces[nonce]
+            except KeyError:
+                pass
+            return False
+        if bound_identity != identity:
+            return False
+        return True
 
     async def on_call_tool(
         self, context: MiddlewareContext, call_next: CallNext
@@ -163,7 +205,7 @@ class GroundingGatekeeperMiddleware(Middleware):
                 for block in result.content:
                     if hasattr(block, "text"):
                         async with self._lock:
-                            nonce = self._issue_nonce()
+                            nonce = self._issue_nonce(identity)
                         block.text += _NONCE_FOOTER_TEMPLATE.format(nonce=nonce)
                         nonce_issued = True
                         break
@@ -206,7 +248,7 @@ class GroundingGatekeeperMiddleware(Middleware):
             if isinstance(nonce, str) and nonce:
                 nonce = self._sanitize_nonce(nonce)
                 async with self._lock:
-                    nonce_valid = self._validate_nonce(nonce)
+                    nonce_valid = self._validate_nonce(nonce, identity)
                 if nonce_valid:
                     suppressed = True
                     logger.info(

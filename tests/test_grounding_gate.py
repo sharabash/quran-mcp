@@ -49,24 +49,30 @@ def gate_a() -> GroundingGatekeeperMiddleware:
 
 
 class TestNonceIssuance:
+    _IDENTITY = "claude-cc:test-session"
+
     def test_nonce_has_gnd_prefix(self, gate):
-        nonce = gate._issue_nonce()
+        nonce = gate._issue_nonce(self._IDENTITY)
         assert nonce.startswith("gnd-")
 
     def test_nonce_is_string_of_expected_length(self, gate):
-        nonce = gate._issue_nonce()
+        nonce = gate._issue_nonce(self._IDENTITY)
         assert isinstance(nonce, str)
-        assert len(nonce) == 4 + 16  # "gnd-" + 8 bytes hex
+        assert len(nonce) == 4 + 32  # "gnd-" + 16 bytes hex
 
-    def test_issued_nonce_validates(self, gate):
-        nonce = gate._issue_nonce()
-        assert gate._validate_nonce(nonce) is True
+    def test_issued_nonce_validates_for_same_identity(self, gate):
+        nonce = gate._issue_nonce(self._IDENTITY)
+        assert gate._validate_nonce(nonce, self._IDENTITY) is True
+
+    def test_nonce_fails_for_different_identity(self, gate):
+        nonce = gate._issue_nonce(self._IDENTITY)
+        assert gate._validate_nonce(nonce, "openai-conv:other") is False
 
     def test_random_string_fails_validation(self, gate):
-        assert gate._validate_nonce("gnd-notreal1234567") is False
+        assert gate._validate_nonce("gnd-notreal1234567890abcdef12345678", self._IDENTITY) is False
 
     def test_empty_string_fails_validation(self, gate):
-        assert gate._validate_nonce("") is False
+        assert gate._validate_nonce("", self._IDENTITY) is False
 
 
 class TestNonceXmlStripping:
@@ -125,12 +131,14 @@ class TestAuthorityA:
 
 
 class TestLRUCapacity:
-    def test_oldest_nonce_evicted_after_max(self, gate):
-        first_nonce = gate._issue_nonce()
-        for _ in range(10_000):
-            gate._issue_nonce()
+    _IDENTITY = "claude-cc:lru-test"
 
-        assert gate._validate_nonce(first_nonce) is False
+    def test_oldest_nonce_evicted_after_max(self, gate):
+        first_nonce = gate._issue_nonce(self._IDENTITY)
+        for i in range(10_000):
+            gate._issue_nonce(f"claude-cc:lru-{i}")
+
+        assert gate._validate_nonce(first_nonce, self._IDENTITY) is False
         assert len(gate._valid_nonces) == 10_000
 
 
