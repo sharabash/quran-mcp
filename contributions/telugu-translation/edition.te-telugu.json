@@ -1,0 +1,14 @@
+{
+  "lang": "te",
+  "code": "te-telugu",
+  "name": "Telugu Quran Translation (Community Contribution)",
+  "author": "Muhammad Azeez ur Rahman",
+  "edition_id": "te-telugu",
+  "edition_type": "translation",
+  "source": "community-contribution",
+  "upstream_source": null,
+  "upstream_source_url": null,
+  "provenance_status": "provisional-internal",
+  "description": "Telugu Quran translation sourced from the community-provided corpus attributed to Muhammad Azeez ur Rahman, with transliteration metadata by Hafiz SM Rasool Sharfi.",
+  "avg_entry_tokens": null
+}
