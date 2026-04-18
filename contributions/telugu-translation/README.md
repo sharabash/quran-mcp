@@ -13,8 +13,6 @@ This contribution provides a Telugu transliteration and translation dataset in t
     - `metadata.transliteration_telugu` and `metadata.arabic` preserved from the source JSON
 - `edition.te-telugu.json`
   - Proposed edition metadata entry for `src/quran_mcp/data/editions.json`
-- `empty-ayahs-reference.txt`
-  - Intentionally empty in this update because all ayahs in the source have translation text
 
 ## Data quality notes
 
